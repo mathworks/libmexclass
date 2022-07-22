@@ -5,7 +5,6 @@ namespace proxy {
 	ID ProxyManager::manageProxy(std::shared_ptr<Proxy> proxy) {
 		const ID proxy_id = this->current_proxy_id;
 		this->proxy_map[proxy_id] = proxy;
-        std::cout << "Hello" << std::endl;
 		this->current_proxy_id++;
 		return proxy_id;
 	}
