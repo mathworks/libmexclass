@@ -15,7 +15,5 @@ class MexFunction : public matlab::mex::Function {
             logger->log(libmexclass::log::Level::Log, "test logging");
             logger->log(libmexclass::log::Level::Warning, "test warning");
             logger->log(libmexclass::log::Level::Error, "test error");
-
-
         }
 };

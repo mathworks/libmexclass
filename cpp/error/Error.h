@@ -8,7 +8,7 @@
 
 #include "log/Logger.h"
 
-// TODO: Add a message catalog with error IDs
+// TODO: Consider  separating error messages from code. 
 namespace libmexclass::error {
     class Error {
         private:

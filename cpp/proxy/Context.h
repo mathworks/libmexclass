@@ -17,7 +17,7 @@ namespace proxy {
         public:
         
         Context(libmexclass::mex::Arguments& inputs, libmexclass::mex::Arguments& outputs, std::shared_ptr<matlab::engine::MATLABEngine> matlab) : inputs{inputs}, outputs{outputs}, matlab{matlab} {
-            logger = std::make_shared<libmexclass::log::Logger>(matlab);
+            logger = libmexclass::log::Logger::getLogger(matlab);
             error = std::make_shared<libmexclass::error::Error>(matlab);
 
             const auto first_arg = inputs[0];
@@ -31,8 +31,6 @@ namespace proxy {
                 rows != 1 ||
                 columns != 1) {
                 error->error("The first argument must be a scalar string");
-                // matlab::data::ArrayFactory factory;
-                // matlab->feval(u"error", 0, std::vector<matlab::data::Array>({ factory.createScalar("The first argument must be a scalar string") }));
             }
 
             // Stub code that currently hardcodes any new context to use a "Create" action.

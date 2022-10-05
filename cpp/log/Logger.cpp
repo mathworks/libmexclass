@@ -6,14 +6,13 @@
 #include "Logger.h"
 
 namespace libmexclass::log {
-    Logger::Logger(std::shared_ptr<matlab::engine::MATLABEngine> matlab) : matlab{matlab}, factory{} {};
 
-    std::shared_ptr<Logger> Logger::getLogger(std::shared_ptr<matlab::engine::MATLABEngine> matlab) {
+    static std::shared_ptr<Logger> Logger::getLogger(std::shared_ptr<matlab::engine::MATLABEngine> matlab) {
         if (!instance) {
             instance = std::make_shared<Logger>(matlab);
-			return instance;
-		}
-		return instance;
+            return instance;
+        }
+        return instance;
     }
 
     void Logger::log(const Level level, const std::string& message) {
@@ -27,11 +26,6 @@ namespace libmexclass::log {
                 factory.createScalar(message) }));
                 break;
         case Level::Error:
-            matlab->feval(u"error", 0, std::vector<matlab::data::Array>({ 
-                factory.createScalar(message) }));
-                break;
-        case Level::Critical:
-            // TODO: what else should be done in critical error cases?
             matlab->feval(u"error", 0, std::vector<matlab::data::Array>({ 
                 factory.createScalar(message) }));
                 break;
