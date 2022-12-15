@@ -9,7 +9,7 @@ namespace libmexclass::log {
 
     std::shared_ptr<Logger> Logger::getLogger(std::shared_ptr<matlab::engine::MATLABEngine> matlab) {
         if (!instance) {
-            instance = std::make_shared<Logger>(matlab);
+            std::shared_ptr<Logger> instance(new Logger(matlab));
             return instance;
         }
         return instance;

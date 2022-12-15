@@ -20,8 +20,6 @@ namespace libmexclass::log {
             Logger(std::shared_ptr<matlab::engine::MATLABEngine> matlab) : matlab{matlab}, factory{} {};
 
         public:
-            // TODO: Why can't the constructor be private?
-
             static std::shared_ptr<Logger> getLogger(std::shared_ptr<matlab::engine::MATLABEngine> matlab);
             void log(const log::Level level, const std::string& message);
     };
