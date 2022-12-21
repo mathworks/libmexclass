@@ -7,7 +7,7 @@
 
 class CustomProxy : public libmexclass::proxy::Proxy {
     public:
-        CustomProxy() : custom{} {
+        CustomProxy(const libmexclass::proxy::FunctionArguments& constructor_arguments) {
             registerMethod(CustomProxy, Print);
             registerMethod(CustomProxy, Foo);
         }

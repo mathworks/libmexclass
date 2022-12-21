@@ -11,16 +11,10 @@ namespace libmexclass::action {
     class Create : public Action {
         public:
             Create(libmexclass::mex::State& state, std::shared_ptr<proxy::Factory> proxy_factory) : Action{state}, proxy_factory{proxy_factory} {
-                // TODO: Remove debug output.
-                std::cout << "[LOG::INFO] Constructor = action::Create ..." << std::endl;
-
                 // TODO: Implement input validation.
                 class_name = std::string(state.inputs[libmexclass::action::Create::CLASS_NAME_INDEX][0]);
                 // TODO: This should be a cell array, correct?
                 constructor_arguments = state.inputs[libmexclass::action::Create::CONSTRUCTOR_ARGUMENTS_INDEX];
-
-                // TODO: Remove debug output.
-                std::cout << "[LOG::INFO] action::Create | ClassName = " << this->class_name << std::endl;
             }
             virtual ~Create() {}
             virtual void execute() override;
