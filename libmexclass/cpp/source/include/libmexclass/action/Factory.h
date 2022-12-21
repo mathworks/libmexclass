@@ -12,8 +12,6 @@
 #include "MatlabDataArray.hpp"
 
 #include <memory>
-// TODO: Remove
-#include <iostream>
 
 namespace libmexclass::action {
 
@@ -30,19 +28,15 @@ namespace libmexclass::action {
             const auto action_type = type_factory.make_type(action_type_string);
             switch (action_type) {
                 case libmexclass::action::Type::Create:
-                    std::cout << "[LOG::INFO] makeAction -> Type::Create" << std::endl;
                     return std::make_unique<libmexclass::action::Create>(state, proxy_factory);
                     break;
                 case libmexclass::action::Type::Destroy:
-                    std::cout << "[LOG::INFO] makeAction -> Type::Destroy" << std::endl;
                     return std::make_unique<libmexclass::action::Destroy>(state);
                     break;
                 case libmexclass::action::Type::MethodCall:
-                    std::cout << "[LOG::INFO] makeAction -> Type::MethodCall" << std::endl;
                     return std::make_unique<libmexclass::action::MethodCall>(state);
                     break;
                 default: // Type::Unsupported
-                    std::cout << "[LOG::INFO] makeAction -> Type::Unsupported" << std::endl;
                     return std::make_unique<libmexclass::action::Unsupported>(state);
             }
         }

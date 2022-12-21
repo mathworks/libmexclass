@@ -7,6 +7,8 @@
 
 #include <memory>
 
+#define registerProxy(className) if (class_name.compare(#className) == 0) return std::make_shared<className>(constructor_arguments)
+
 namespace libmexclass::proxy {
 
     // Abstract interface defining a class that is able to make Proxy objects with a particular ClassName and ConstructorArguments.

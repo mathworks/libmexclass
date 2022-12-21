@@ -5,8 +5,6 @@ namespace libmexclass::proxy {
 	ID ProxyManager::manageProxy(std::shared_ptr<Proxy> proxy) {
 		const ID proxy_id = this->current_proxy_id;
 		this->proxy_map[proxy_id] = proxy;
-        // TODO: Remove
-        std::cout << "CALLING ProxyManager::manageProxy" << std::endl;
 		this->current_proxy_id++;
 		return proxy_id;
 	}

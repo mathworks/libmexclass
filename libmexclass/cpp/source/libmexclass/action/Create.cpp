@@ -9,9 +9,6 @@
 namespace libmexclass::action {
 
         void Create::execute() {
-            // TODO: Remove debug output.
-            std::cout << "[LOG::INFO] action::Create::execute()" << std::endl;
-
             // proxy::ProxyFactory will create an appropriate proxy::Proxy subclass based on the provided libmexclass::mex::State.
             std::shared_ptr<libmexclass::proxy::Proxy> proxy = proxy_factory->make_proxy(class_name, constructor_arguments);
 

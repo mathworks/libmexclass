@@ -45,9 +45,9 @@ set(MEX_GATEWAY_NAME gateway)
 set(MEX_GATEWAY_SOURCE ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/mex/mex_gateway_function.cpp)
 matlab_add_mex(NAME ${MEX_GATEWAY_NAME}
                SRC ${MEX_GATEWAY_SOURCE}
-                   ${CUSTOM_PROXY_FACTORY_DIR}/CustomProxy.cpp
+                   ${CUSTOM_PROXY_FACTORY_DIR}/Car.cpp
+                   ${CUSTOM_PROXY_FACTORY_DIR}/CarProxy.cpp
                    ${CUSTOM_PROXY_FACTORY_DIR}/CustomProxyFactory.cpp
-                   ${CUSTOM_PROXY_FACTORY_DIR}/Custom.cpp
                LINK_TO ${LIBMEXCLASS_LIBRARY_NAME})
 # Set compiler features to require C++17.
 target_compile_features(${MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
