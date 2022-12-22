@@ -52,7 +52,13 @@ ExternalProject_Add(
     INSTALL_COMMAND ""
 )
 
-# Set the instllation directory for libmexclass.
+# Get the source directory for libmexclass.
+ExternalProject_Get_Property(${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME} SOURCE_DIR)
+# Get the instllation directory for libmexclass.
 ExternalProject_Get_Property(${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME} BINARY_DIR)
+
+set(LIBMEXCLASS_MATLAB_SOURCES ${SOURCE_DIR}/../matlab/)
+
 # TODO: Only copy libmexclass.so and gateway.mexa64
-install(DIRECTORY ${BINARY_DIR} DESTINATION libmexclass)
+install(DIRECTORY ${BINARY_DIR}/ DESTINATION libmexclass)
+install(DIRECTORY ${LIBMEXCLASS_MATLAB_SOURCES} DESTINATION libmexclass)
