@@ -42,16 +42,15 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 
 # Create MEX gateway function target.
 set(MEX_GATEWAY_NAME gateway)
-set(MEX_GATEWAY_SOURCE ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/mex/mex_gateway_function.cpp)
+set(MEX_GATEWAY_SOURCES ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/mex/mex_gateway_function.cpp)
 matlab_add_mex(NAME ${MEX_GATEWAY_NAME}
-               SRC ${MEX_GATEWAY_SOURCE}
-                   ${CUSTOM_PROXY_FACTORY_DIR}/Car.cpp
-                   ${CUSTOM_PROXY_FACTORY_DIR}/CarProxy.cpp
-                   ${CUSTOM_PROXY_FACTORY_DIR}/CustomProxyFactory.cpp
+               SRC ${MEX_GATEWAY_SOURCES}
+                   ${CUSTOM_PROXY_FACTORY_SOURCES}
+                   ${CUSTOM_PROXY_SOURCES}
                LINK_TO ${LIBMEXCLASS_LIBRARY_NAME})
 # Set compiler features to require C++17.
 target_compile_features(${MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
 # Include directories (i.e. header files).
 target_include_directories(${MEX_GATEWAY_NAME}
-                           PRIVATE ${LIBMEXCLASS_INCLUDE_DIR}
-                                   ${CUSTOM_PROXY_FACTORY_DIR})
+    PRIVATE ${LIBMEXCLASS_INCLUDE_DIR}
+            ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR})
