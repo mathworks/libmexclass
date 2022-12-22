@@ -5,12 +5,27 @@ set(CLIENT_EXECUTABLE_NAME client)
 
 project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 
-set(CUSTOM_PROXY_FACTORY_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
 # TODO: Consider renaming this target to disambguate from the imported libmexclass target.
 set(LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME libmexclass)
 # TODO: Change to Git repository URL in production.
 set(LIBMEXCLASS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libmexclass/cpp)
+
+# ####################
+# Client Configuration
+# ####################
+
+set(CUSTOM_PROXY_FACTORY_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(CUSTOM_PROXY_FACTORY_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CUSTOM_PROXY_FACTORY_SOURCES
+    ${CUSTOM_PROXY_FACTORY_SOURCES_DIR}/CustomProxyFactory.cpp
+)
+
+set(CUSTOM_PROXY_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CUSTOM_PROXY_SOURCES
+    ${CUSTOM_PROXY_SOURCES_DIR}/Car.cpp
+    ${CUSTOM_PROXY_SOURCES_DIR}/CarProxy.cpp
+)
 
 # Add libmexclass as an external project.
 include(ExternalProject)
@@ -23,9 +38,16 @@ ExternalProject_Add(
     # Source directory for libmexclass.
     # TODO: This should be removed when using the Git repository URL.
     SOURCE_DIR ${LIBMEXCLASS_DIR}
-    # Pass in the client's CUSTOM_PROXY_FACTORY_DIR.
-    CMAKE_ARGS -D CUSTOM_PROXY_FACTORY_DIR=${CUSTOM_PROXY_FACTORY_DIR}
-               -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+    # Client's must supply the following information:
+    #
+    # 1. CUSTOM_PROXY_FACTORY_INCLUDE_DIR
+    # 2. CUSTOM_PROXY_FACTORY_SOURCES
+    # 3. CUSTOM_PROXY_SOURCES
+    #
+    CMAKE_CACHE_ARGS "-D CUSTOM_PROXY_FACTORY_INCLUDE_DIR:STRING=${CUSTOM_PROXY_FACTORY_INCLUDE_DIR}"
+                     "-D CUSTOM_PROXY_FACTORY_SOURCES:STRING=${CUSTOM_PROXY_FACTORY_SOURCES}"
+                     "-D CUSTOM_PROXY_SOURCES:STRING=${CUSTOM_PROXY_SOURCES}"
+                     "-D CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache"
     # TODO: What should the install step do?
     INSTALL_COMMAND ""
 )
