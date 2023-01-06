@@ -12,7 +12,8 @@ namespace libmexclass::action {
         public:
             Create(libmexclass::mex::State& state, std::shared_ptr<proxy::Factory> proxy_factory) : Action{state}, proxy_factory{proxy_factory} {
                 // TODO: Implement input validation.
-                class_name = std::string(state.inputs[libmexclass::action::Create::CLASS_NAME_INDEX][0]);
+                // TODO: Consider whether this needs to be UTF-16
+                class_name = matlab::engine::convertUTF16StringToUTF8String(state.inputs[libmexclass::action::Create::CLASS_NAME_INDEX][0]);
                 // TODO: This should be a cell array, correct?
                 constructor_arguments = state.inputs[libmexclass::action::Create::CONSTRUCTOR_ARGUMENTS_INDEX];
             }

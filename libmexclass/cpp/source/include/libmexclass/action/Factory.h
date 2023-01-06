@@ -22,8 +22,8 @@ namespace libmexclass::action {
         }
         std::unique_ptr<Action> makeAction(libmexclass::mex::State& state) {
             // TODO: Implement input validation and parsing logic.
-            // TODO: Check on string encoding.
-            const auto action_type_string = std::string(state.inputs[0][0]);
+            // TODO: Check on string encoding, consider whether it should be UTF-16
+            const auto action_type_string =  matlab::engine::convertUTF16StringToUTF8String(state.inputs[0][0]);
             const libmexclass::action::TypeFactory type_factory;
             const auto action_type = type_factory.make_type(action_type_string);
             switch (action_type) {

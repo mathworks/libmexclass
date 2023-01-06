@@ -12,7 +12,8 @@ namespace libmexclass::action {
         public:
             MethodCall(libmexclass::mex::State& state) : Action{state} {
                 proxy_id = std::uint64_t(state.inputs[libmexclass::action::MethodCall::PROXY_ID_INDEX][0]);
-                method_name = std::string(state.inputs[libmexclass::action::MethodCall::METHOD_NAME_INDEX][0]);
+                // TODO: Consider whether this should be UTF-16
+                method_name = matlab::engine::convertUTF16StringToUTF8String(state.inputs[libmexclass::action::MethodCall::METHOD_NAME_INDEX][0]);
                 method_arguments = state.inputs[libmexclass::action::MethodCall::METHOD_ARGUMENTS_INDEX];
             }
             virtual ~MethodCall() {}

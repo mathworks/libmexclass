@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.0.0)
 set(LIBMEXCLASS_PROJECT_NAME libmexclass)
 project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 # Find MATLAB.
 find_package(Matlab REQUIRED)
 
