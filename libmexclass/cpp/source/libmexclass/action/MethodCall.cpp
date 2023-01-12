@@ -7,16 +7,21 @@
 
 namespace libmexclass::action {
 
-        void MethodCall::execute() {
-            // TODO: Implement ID retrieval logic from MethodCall properties.
-            // Retrieve the appropriate polymorphic proxy::Proxy instance from the proxy::ProxyManager using the given proxy::ID.
-            std::shared_ptr<libmexclass::proxy::Proxy> proxy = libmexclass::proxy::ProxyManager::getProxyManager()->getProxy(proxy_id);
-            
-            // Invoke the appropriate method on the proxy::Proxy instance.
-            // Note: To assign/return outputs from a method call, proxy::Proxy instances can assign to state.outputs (which is a std::vector<matlab::data::Array>).
-            // TODO: Consider passing method_arguments to proxy instead. 
-            libmexclass::proxy::method::Method method{method_name, method_arguments, outputs, matlab};
-            proxy->invoke(method);
-        }
+void MethodCall::execute() {
+    // TODO: Implement ID retrieval logic from MethodCall properties.
+    // Retrieve the appropriate polymorphic proxy::Proxy instance from the
+    // proxy::ProxyManager using the given proxy::ID.
+    std::shared_ptr<libmexclass::proxy::Proxy> proxy =
+        libmexclass::proxy::ProxyManager::getProxy(proxy_id);
 
+    // Invoke the appropriate method on the proxy::Proxy instance.
+    // Note: To assign/return outputs from a method call, proxy::Proxy
+    // instances can assign to state.outputs ( which is a
+    // std::vector<matlab::data::Array>).
+    // TODO: Consider passing method_arguments to proxy instead.
+    libmexclass::proxy::method::Method method{method_name, method_arguments,
+                                              outputs, matlab};
+    proxy->invoke(method);
 }
+
+} // namespace libmexclass::action
