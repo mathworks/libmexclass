@@ -49,10 +49,12 @@ matlab_add_mex(NAME ${MEX_GATEWAY_NAME}
                SRC ${MEX_GATEWAY_SOURCES}
                    ${CUSTOM_PROXY_FACTORY_SOURCES}
                    ${CUSTOM_PROXY_SOURCES}
-               LINK_TO ${LIBMEXCLASS_LIBRARY_NAME})
+               LINK_TO ${LIBMEXCLASS_LIBRARY_NAME}
+                       ${CUSTOM_PROXY_LINK_LIBRARIES})
 # Set compiler features to require C++17.
 target_compile_features(${MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
 # Include directories (i.e. header files).
 target_include_directories(${MEX_GATEWAY_NAME}
     PRIVATE ${LIBMEXCLASS_INCLUDE_DIR}
-            ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR})
+            ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR}
+            ${CUSTOM_PROXY_INCLUDE_DIR})
