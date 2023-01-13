@@ -59,6 +59,6 @@ target_include_directories(${MEX_GATEWAY_NAME}
             ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR}
             ${CUSTOM_PROXY_INCLUDE_DIR})
 
-target_get_properties(MEX_INCLUDE_DIRS ${MEX_GATEWAY_NAME} INCLUDE_DIRECTORIES)
+get_target_property(MEX_INCLUDE_DIRS ${MEX_GATEWAY_NAME} INCLUDE_DIRECTORIES)
 
 message(status "****************** MEX_INCLUDE_DIRS: ${MEX_INCLUDE_DIRS}")
