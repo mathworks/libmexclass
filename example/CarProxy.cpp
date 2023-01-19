@@ -1,7 +1,7 @@
 #include "CarProxy.h"
 
 #include "MatlabDataArray.hpp"
-
+namespace libmexclass::example {
 void CarProxy::Accelerate(libmexclass::proxy::method::Context& context) {
     // car.Acclerate does not take any input arguments
     car.Accelerate();
@@ -78,3 +78,4 @@ void CarProxy::GetColor(libmexclass::proxy::method::Context& context) {
 void CarProxy::Print(libmexclass::proxy::method::Context& context) {
     car.Print();
 }
+} // namespace libmexclass::example

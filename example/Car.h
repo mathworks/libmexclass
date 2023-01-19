@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace libmexclass::example {
 class Car {
 
   public:
@@ -43,3 +44,4 @@ class Car {
     const static inline std::uint64_t ACCELERATION_INCREMENT = 10;
     const static inline std::uint64_t DECELERATION_INCREMENT = 5;
 };
+} // namespace libmexclass::example

@@ -1,7 +1,7 @@
 #include "Car.h"
 
 #include <iostream>
-
+namespace libmexclass::example {
 void Car::Accelerate() {
     speed += Car::ACCELERATION_INCREMENT;
 }
@@ -45,3 +45,4 @@ void Car::Print() const {
     std::cout << "Speed: " << speed << std::endl;
     std::cout << "Headlights: " << (headlights ? std::string("on") : std::string("off")) << std::endl;
 }
+} // namespace libmexclass::example

@@ -4,7 +4,7 @@
 #include "libmexclass/proxy/method/Context.h"
 
 #include "Car.h"
-
+namespace libmexclass::example {
 class CarProxy : public libmexclass::proxy::Proxy {
   public:
     CarProxy(const libmexclass::proxy::FunctionArguments& constructor_arguments)
@@ -41,11 +41,11 @@ class CarProxy : public libmexclass::proxy::Proxy {
 
     std::string convert(const libmexclass::proxy::FunctionArguments& constructor_arguments, std::uint64_t index) const {
         matlab::data::StringArray mda = constructor_arguments[index];
-        const std::string result = std::string(mda[0]);
-        return result;
+        return std::string(mda[0]);
     }
 
     // Note: Clients can replace this with whatever "raw" C++ Class they want
     // to proxy method calls to.
     Car car;
 };
+} // namespace libmexclass::example

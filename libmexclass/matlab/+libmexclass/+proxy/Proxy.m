@@ -5,20 +5,11 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot
 
     methods
         function obj = Proxy(varargin)
-            % Get the metaclass info for the concrete
-            % Proxy subclass that is being created.
-            % The classname is used to automatically select the
-            % corresponding C++ Proxy instance to create.
-            classInfo = metaclass(obj);
-            packageName = string(classInfo.ContainingPackage.Name);
-            classNameWithPackage = string(classInfo.Name);
-            proxyName = extractAfter(classNameWithPackage, packageName + ".");
-
             % Create the corresponding C++ Proxy instance and return it's
             % Proxy ID To be stored on the MATLAB Proxy object.
-            obj.ID = gateway("Create", proxyName, varargin);
+            obj.ID = gateway("Create", string(class(obj)), varargin);
         end
-        
+
         % Delete the proxy upon destruction.
         function delete(obj)
             % Delete the corresponding C++ Proxy instance when destroying
@@ -40,10 +31,10 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot
         function obj = dotAssign(obj,indexOp,varargin)
             [obj.AddedFields.(indexOp)] = varargin{:};
         end
-        
+
         function n = dotListLength(obj,indexOp,indexContext)
             n = listLength(obj.AddedFields,indexOp,indexContext);
         end
     end
-    
+
 end
