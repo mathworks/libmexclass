@@ -7,7 +7,18 @@
 
 #include <memory>
 
-#define registerProxy(className) if (class_name.compare(#className) == 0) return std::make_shared<className>(constructor_arguments)
+/*
+* \brief register a fully specified MATLAB Class with it's associated C++ class.
+* \param matlabClassName the name of the MATLAB class, e.g. myclass.MyClassProxy
+* \param cxxClassName the name of the associated C++ class, e.g. myclass::MyClassProxy
+*/
+#define REGISTER_PROXY(matlabClassName, cxxClassName) if (class_name.compare(#matlabClassName) == 0) return std::make_shared<cxxClassName>(constructor_arguments)
+/*
+* \brief Convenience for registering a MATLAB class with the same name as its associated C++ class
+* \param className e.g. MyClassProxy
+*/
+#define REGISTER_PROXY_SAME_NAME(className) REGISTER_PROXY(className, className)
+
 
 namespace libmexclass::proxy {
 
