@@ -1,4 +1,4 @@
-classdef Proxy < matlab.mixin.indexing.RedefinesDot
+classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
     properties
         ID uint64;
     end
@@ -10,11 +10,11 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot
             obj.ID = gateway("Create", string(class(obj)), varargin);
         end
 
-        % Delete the proxy upon destruction.
+        % Destroy the proxy upon destruction.
         function delete(obj)
-            % Delete the corresponding C++ Proxy instance when destroying
+            % Destroy the corresponding C++ Proxy instance when destroying
             % the MATLAB object.
-            gateway("Delete", obj.ID);
+            gateway("Destroy", obj.ID);
         end
     end
 
