@@ -3,11 +3,12 @@
 #include "libmexclass/proxy/Proxy.h"
 #include "libmexclass/proxy/method/Context.h"
 
-#include "Car.h"
-namespace libmexclass::example {
-class CarProxy : public libmexclass::proxy::Proxy {
+#include "../Car.h"
+
+namespace example::proxy {
+class Car : public libmexclass::proxy::Proxy {
   public:
-    CarProxy(const libmexclass::proxy::FunctionArguments& constructor_arguments)
+    Car(const libmexclass::proxy::FunctionArguments& constructor_arguments)
         : car{convert(constructor_arguments, 0), convert(constructor_arguments, 1), convert(constructor_arguments, 2)} {
         // Step 1. Unpack constructor arguments.
 
@@ -15,16 +16,16 @@ class CarProxy : public libmexclass::proxy::Proxy {
         // car = Car(make, model, color);
 
         // Step 3. Register methods.
-        registerMethod(CarProxy, Accelerate);
-        registerMethod(CarProxy, Decelerate);
-        registerMethod(CarProxy, Stop);
-        registerMethod(CarProxy, Headlights);
-        registerMethod(CarProxy, SetSpeed);
-        registerMethod(CarProxy, GetSpeed);
-        registerMethod(CarProxy, GetMake);
-        registerMethod(CarProxy, GetModel);
-        registerMethod(CarProxy, GetColor);
-        registerMethod(CarProxy, Print);
+        registerMethod(Car, Accelerate);
+        registerMethod(Car, Decelerate);
+        registerMethod(Car, Stop);
+        registerMethod(Car, Headlights);
+        registerMethod(Car, SetSpeed);
+        registerMethod(Car, GetSpeed);
+        registerMethod(Car, GetMake);
+        registerMethod(Car, GetModel);
+        registerMethod(Car, GetColor);
+        registerMethod(Car, Print);
     }
 
   private:
@@ -46,6 +47,6 @@ class CarProxy : public libmexclass::proxy::Proxy {
 
     // Note: Clients can replace this with whatever "raw" C++ Class they want
     // to proxy method calls to.
-    Car car;
+    example::Car car;
 };
-} // namespace libmexclass::example
+} // namespace example::proxy
