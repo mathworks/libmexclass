@@ -1,23 +1,24 @@
-#include "CarProxy.h"
+#include "Car.h"
 
 #include "MatlabDataArray.hpp"
-namespace libmexclass::example {
-void CarProxy::Accelerate(libmexclass::proxy::method::Context& context) {
+
+namespace example::proxy {
+void Car::Accelerate(libmexclass::proxy::method::Context& context) {
     // car.Acclerate does not take any input arguments
     car.Accelerate();
 }
 
-void CarProxy::Decelerate(libmexclass::proxy::method::Context& context) {
+void Car::Decelerate(libmexclass::proxy::method::Context& context) {
     // car.Decelerate does not take any input arguments
     car.Decelerate();
 }
 
-void CarProxy::Stop(libmexclass::proxy::method::Context& context) {
+void Car::Stop(libmexclass::proxy::method::Context& context) {
     // car.Stop does not take any input arguments
     car.Stop();
 }
 
-void CarProxy::Headlights(libmexclass::proxy::method::Context& context) {
+void Car::Headlights(libmexclass::proxy::method::Context& context) {
     // First, cast the first cell array element into a MDA TypedArray<bool> array.
     matlab::data::TypedArray<bool> state_mda = context.inputs[0];
     // Second, extract the first [0th] element from the MDA TypedArray and convert it into a boolean value.
@@ -26,7 +27,7 @@ void CarProxy::Headlights(libmexclass::proxy::method::Context& context) {
     car.Headlights(state);
 }
 
-void CarProxy::GetSpeed(libmexclass::proxy::method::Context& context) {
+void Car::GetSpeed(libmexclass::proxy::method::Context& context) {
     // First, get speed from Car class.
     const uint64_t speed = car.GetSpeed();
 
@@ -36,7 +37,7 @@ void CarProxy::GetSpeed(libmexclass::proxy::method::Context& context) {
     context.outputs[0] = speed_mda;
 }
 
-void CarProxy::SetSpeed(libmexclass::proxy::method::Context& context) {
+void Car::SetSpeed(libmexclass::proxy::method::Context& context) {
     // First, cast the first cell array element into a MDA TypedArray<uint64_t> array.
     matlab::data::TypedArray<uint64_t> state_mda = context.inputs[0];
     // Second, extract the first [0th] element from the MDA TypedArray and convert it into a uint64_t value.
@@ -45,7 +46,7 @@ void CarProxy::SetSpeed(libmexclass::proxy::method::Context& context) {
     car.SetSpeed(state);
 }
 
-void CarProxy::GetMake(libmexclass::proxy::method::Context& context) {
+void Car::GetMake(libmexclass::proxy::method::Context& context) {
     // First, get make from Car class.
     const std::string make = car.GetMake();
 
@@ -55,7 +56,7 @@ void CarProxy::GetMake(libmexclass::proxy::method::Context& context) {
     context.outputs[0] = make_mda;
 }
 
-void CarProxy::GetModel(libmexclass::proxy::method::Context& context) {
+void Car::GetModel(libmexclass::proxy::method::Context& context) {
     // First, get model from Car class.
     const std::string model = car.GetModel();
 
@@ -65,7 +66,7 @@ void CarProxy::GetModel(libmexclass::proxy::method::Context& context) {
     context.outputs[0] = model_mda;
 }
 
-void CarProxy::GetColor(libmexclass::proxy::method::Context& context) {
+void Car::GetColor(libmexclass::proxy::method::Context& context) {
     // First, get color from Car class.
     const std::string color = car.GetColor();
 
@@ -75,7 +76,7 @@ void CarProxy::GetColor(libmexclass::proxy::method::Context& context) {
     context.outputs[0] = color_mda;
 }
 
-void CarProxy::Print(libmexclass::proxy::method::Context& context) {
+void Car::Print(libmexclass::proxy::method::Context& context) {
     car.Print();
 }
-} // namespace libmexclass::example
+} // namespace example::proxy

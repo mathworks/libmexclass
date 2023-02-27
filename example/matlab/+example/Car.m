@@ -14,7 +14,7 @@ classdef Car
 
     methods
         function obj = Car(make, model, color)
-            obj.Proxy = example.detail.CarProxy(make, model, color);
+            obj.Proxy = libmexclass.proxy.Proxy("Name", "example.proxy.Car", "ConstructorArguments", {make, model, color});
         end
 
         function Accelerate(obj)

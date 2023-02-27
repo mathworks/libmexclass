@@ -24,7 +24,7 @@ set(CUSTOM_PROXY_FACTORY_SOURCES
 set(CUSTOM_PROXY_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CUSTOM_PROXY_SOURCES
     ${CUSTOM_PROXY_SOURCES_DIR}/Car.cpp
-    ${CUSTOM_PROXY_SOURCES_DIR}/CarProxy.cpp
+    ${CUSTOM_PROXY_SOURCES_DIR}/proxy/Car.cpp
 )
 
 # Add libmexclass as an external project.

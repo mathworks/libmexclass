@@ -1,13 +1,38 @@
 classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
+
     properties
-        ID uint64;
+        % C++ Proxy ID.
+        ID (1,1) uint64;
+        % C++ Proxy Name.
+        Name (1,1) string;
     end
 
     methods
-        function obj = Proxy(varargin)
-            % Create the corresponding C++ Proxy instance and return it's
-            % Proxy ID To be stored on the MATLAB Proxy object.
-            obj.ID = gateway("Create", string(class(obj)), varargin);
+
+        function obj = Proxy(options)
+            arguments
+                options.ID (1,1) uint64
+                options.Name (1,1) string
+                options.ConstructorArguments (1,:) cell
+            end
+
+            if ~isfield(options, "Name")
+                error("libmexclass:proxy:NoName", "The name of a registered C++ Proxy must be specified when constructing a Proxy instance.");
+            end
+
+            obj.Name = options.Name;
+
+            if isfield(options, "ID")
+                obj.ID = options.ID;
+            else
+                if ~isfield(options, "ConstructorArguments")
+                    error("libmexclass:proxy:NoConstructorArguments", """ConstructorArguments"" must be specified when constructing a new Proxy instance.");
+                else
+                    % Create the an instance of the specified C++ Proxy class and return its
+                    % Proxy ID To be stored on the MATLAB Proxy object.
+                    obj.ID = gateway("Create", obj.Name, options.ConstructorArguments);
+                end
+            end
         end
 
         % Destroy the proxy upon destruction.
