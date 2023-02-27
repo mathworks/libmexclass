@@ -5,8 +5,7 @@ set(CLIENT_EXECUTABLE_NAME client)
 
 project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 
-# TODO: Consider renaming this target to disambguate from the imported libmexclass target.
-set(LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME libmexclass)
+set(LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME libmexclassInstall)
 # TODO: Change to Git repository URL in production.
 set(LIBMEXCLASS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libmexclass/cpp)
 
@@ -58,6 +57,16 @@ ExternalProject_Get_Property(${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME} BINARY_
 
 set(LIBMEXCLASS_MATLAB_SOURCES ${SOURCE_DIR}/../matlab/)
 
-# TODO: Only copy libmexclass.so and gateway.mexa64
-install(DIRECTORY ${BINARY_DIR}/ DESTINATION libmexclass)
-install(DIRECTORY ${LIBMEXCLASS_MATLAB_SOURCES} DESTINATION libmexclass)
+# Copy this first so that ${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME}/+libmexclass/+proxy/ folder is there to which we copy necessary binaries in next step.
+install(DIRECTORY ${LIBMEXCLASS_MATLAB_SOURCES} DESTINATION ${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME})
+set(CMAKE_PACKAGED_LIBMEXCLASS_INSTALL_DIR "${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME}/+libmexclass/+proxy/")
+if(WIN32)
+	# On Windows, the Visual Studio build adds an additional "Release" folder to place the output binaries.
+	set(BINARY_DIR "${BINARY_DIR}/Release/")
+	list(APPEND INSTALL_BINARIES_LIST ${BINARY_DIR}/gateway.mexw64 ${BINARY_DIR}/mexclass.dll)
+	install(FILES ${INSTALL_BINARIES_LIST} DESTINATION ${CMAKE_PACKAGED_LIBMEXCLASS_INSTALL_DIR})
+else()
+	# install(DIRECTORY ${BINARY_DIR}/ DESTINATION libmexclass)
+	install(FILES ${BINARY_DIR}/gateway.mexa64 DESTINATION ${CMAKE_PACKAGED_LIBMEXCLASS_INSTALL_DIR})
+	install(FILES ${BINARY_DIR}/libmexclass.so DESTINATION ${CMAKE_PACKAGED_LIBMEXCLASS_INSTALL_DIR})
+endif()

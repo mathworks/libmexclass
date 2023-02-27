@@ -30,7 +30,7 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
                 else
                     % Create the an instance of the specified C++ Proxy class and return its
                     % Proxy ID To be stored on the MATLAB Proxy object.
-                    obj.ID = gateway("Create", obj.Name, options.ConstructorArguments);
+                    obj.ID = libmexclass.proxy.gateway("Create", obj.Name, options.ConstructorArguments);
                 end
             end
         end
@@ -39,7 +39,7 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
         function delete(obj)
             % Destroy the corresponding C++ Proxy instance when destroying
             % the MATLAB object.
-            gateway("Destroy", obj.ID);
+            libmexclass.proxy.gateway("Destroy", obj.ID);
         end
     end
 
@@ -49,7 +49,7 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
                 op1 = indexOp(1);
                 methodArgs = indexOp(2).Indices;
                 methodName = string(op1.Name);
-                [varargout{1:nargout}] = gateway("MethodCall", obj.ID, methodName, methodArgs);
+                [varargout{1:nargout}] = libmexclass.proxy.gateway("MethodCall", obj.ID, methodName, methodArgs);
             end
         end
 
