@@ -5,10 +5,8 @@ set(CLIENT_EXECUTABLE_NAME client)
 
 project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 
-# TODO: Issue #25: Consider renaming this target to disambguate from the imported libmexclass target.
+# TODO: Consider renaming this target to disambguate from the imported libmexclass target.
 set(LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME libmexclass)
-# TODO: Change to Git repository URL in production.
-set(LIBMEXCLASS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libmexclass/cpp)
 
 # ####################
 # Client Configuration
@@ -29,21 +27,19 @@ set(CUSTOM_PROXY_SOURCES
 
 # Add libmexclass as an external project.
 include(ExternalProject)
-# Clients must use the libmexclass/cpp/libmexclassInstall.cmake to complete the installation steps and package the binaries.
-set(LIBMEXCLASS_INSTALL_STEPS_FILE ${LIBMEXCLASS_DIR}/libmexclassInstall.cmake)
-# Clients must specify ${CMAKE_INSTALL_DIR} to which the packaged install will be placed.
-# Below example specifies ${CMAKE_INSTALL_DIR} as a relative path to ${CMAKE_INSTALL_PREFIX}. 
-# When building this example, if ${CMAKE_INSTALL_PREFIX} argument is not specified with build command, default value for the platform will be used.
-set(CMAKE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/libmexclass)
-ExternalProject_Add(	
+# GIT_TAG for libmexclass source from Git.
+# Note: Clients who don't want to depend on main (which may have breaking changes) can specify a specific commit using the LIBMEXCLASS_GIT_TAG argument with cmake command. By default source from the main branch will be used.
+set(LIBMEXCLASS_GIT_TAG main CACHE STRING "")
+message(STATUS "LIBMEXCLASS_GIT_TAG: ${LIBMEXCLASS_GIT_TAG}")
+ExternalProject_Add(
     # Name of the external project target.
     ${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME}
-    # Don't download anything. Instead, use the local libmexclass sources.
-    # TODO: This should be removed when using the Git repository URL.
-    DOWNLOAD_COMMAND ""
+    # TODO: Consider using SSH URL for the Git Repository when CI works without permission issues.
+    # GIT_REPOSITORY git@github.com:mathworks/libmexclass.git
+    GIT_REPOSITORY https://github.com/mathworks/libmexclass.git
+    GIT_TAG ${LIBMEXCLASS_GIT_TAG}
     # Source directory for libmexclass.
-    # TODO: This should be removed when using the Git repository URL.
-    SOURCE_DIR ${LIBMEXCLASS_DIR}
+    SOURCE_SUBDIR libmexclass/cpp
     # Clients must supply the following information:
     #
     # 1. CUSTOM_PROXY_FACTORY_INCLUDE_DIR
@@ -53,8 +49,13 @@ ExternalProject_Add(
     CMAKE_CACHE_ARGS "-D CUSTOM_PROXY_FACTORY_INCLUDE_DIR:STRING=${CUSTOM_PROXY_FACTORY_INCLUDE_DIR}"
                      "-D CUSTOM_PROXY_FACTORY_SOURCES:STRING=${CUSTOM_PROXY_FACTORY_SOURCES}"
                      "-D CUSTOM_PROXY_SOURCES:STRING=${CUSTOM_PROXY_SOURCES}"
-	# Execute LIBMEXCLASS_INSTALL_STEPS_FILE as a script.    
-    INSTALL_COMMAND ${CMAKE_COMMAND} -D CMAKE_INSTALL_DIR=${CMAKE_INSTALL_DIR} -P ${LIBMEXCLASS_INSTALL_STEPS_FILE}
+    # Clients must use the below command for installing the external project.
+    # "${CMAKE_COMMAND} --install ." will also work for CMake 3.15 onwards.
+    INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
 )
 
-install(CODE "MESSAGE(\"Completed install step for ${CLIENT_PROJECT_NAME}.\")")
+# Get the installation directory for libmexclass.
+ExternalProject_Get_Property(${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME} BINARY_DIR)
+
+# Copy only the packaged folder +libmexclass from the installation directory.
+install(DIRECTORY ${BINARY_DIR}/+libmexclass DESTINATION libmexclass)
