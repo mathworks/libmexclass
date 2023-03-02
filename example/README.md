@@ -13,7 +13,7 @@ $ cmake --build build --config Release --target install
 
 ```matlab
 CMAKE_INSTALL_PREFIX = fullfile("<cmake-install-prefix>");
-addpath(fullfile(CMAKE_INSTALL_PREFIX, "libmexclassInstall"));
+addpath(fullfile(CMAKE_INSTALL_PREFIX, "libmexclass"));
 
 LIBMEXCLASS_SOURCE_DIR = fullfile("<libmexclass-source-dir>");
 addpath(fullfile(LIBMEXCLASS_SOURCE_DIR, "example", "matlab"));

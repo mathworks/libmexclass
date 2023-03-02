@@ -17,7 +17,11 @@ if(WIN32)
 	set(ACTUAL_BINARY_DIR "${ACTUAL_BINARY_DIR}/Release/")
 	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_BINARY_DIR}/gateway.mexw64 ${ACTUAL_BINARY_DIR}/mexclass.dll)	
 elseif(APPLE)	
+<<<<<<< HEAD
 	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_BINARY_DIR}/gateway.mexmaci64 ${ACTUAL_BINARY_DIR}/libmexclass.dylib)
+=======
+	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_BINARY_DIR}/gateway.mexmaci64 ${ACTUAL_BINARY_DIR}/libmexclass.so)
+>>>>>>> Move libmexclass install steps to ExternalProject_Add INSTALL_COMMAND.
 elseif(UNIX AND NOT APPLE AND NOT CYGWIN)
 	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_BINARY_DIR}/gateway.mexa64 ${ACTUAL_BINARY_DIR}/libmexclass.so)
 endif()
