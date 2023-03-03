@@ -13,9 +13,10 @@ jobs:
             - name: Build Example
               run: |
                   cd example
+                  echo "LIBMEXCLASS_INSTALL_PREFIX=$LIBMEXCLASS_INSTALL_PREFIX" >> $GITHUB_ENV
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$LIBMEXCLASS_INSTALL_PREFIX"
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
               with:
-                  command: addpath(fullfile("$LIBMEXCLASS_INSTALL_PREFIX", "libmexclass")), addpath("example"), c = example.Car("A", "B", "C")
+                  command: addpath(fullfile("{{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath("example", "matlab"), c = example.Car("A", "B", "C")
