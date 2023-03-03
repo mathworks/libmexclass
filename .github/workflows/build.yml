@@ -5,9 +5,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Download libmexclass source code
-            - uses: actions/checkout@v3
+              uses: actions/checkout@v3
             - name: Install MATLAB
-            - uses: matlab-actions/setup-matlab
+              uses: matlab-actions/setup-matlab
             - name: Build Example
               run: |
                   cd example
