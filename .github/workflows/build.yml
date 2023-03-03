@@ -9,3 +9,5 @@ jobs:
               run: |
                   which cmake
                   which g++
+                  echo "$(cmake --version)"
+                  echo "$(g++ --version)"
