@@ -5,21 +5,19 @@ jobs:
         runs-on: ubuntu-latest
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
-            LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so.6.0.30"
+            SYSTEM_LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so.6.0.30"
             MATLAB_LIBSTDCPP6_PATH: "/usr/local/MATLAB/R2022b/sys/os/glnxa64"
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
-            - name: List library directory contents
-              run: |
-                  ls -alh /usr/lib/x86_64-linux-gnu
             - name: Install MATLAB
               uses: matlab-actions/setup-matlab@v1
+            - name: LD_PRELOAD with MATLAB
+              run: |
+                  LD_PRELOAD=${{ SYSTEM_LIBSTDCPP6_PATH }} matlab
             - name: Build Example
               run: |
                   cd example
-                  echo "LIBMEXCLASS_INSTALL_PREFIX=$LIBMEXCLASS_INSTALL_PREFIX" >> $GITHUB_ENV
-                  export LD_LIBRARY_PATH=${{ env.MATLAB_LIBSTDCPP6_PATH }}:$LD_LIBRARY_PATH
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$LIBMEXCLASS_INSTALL_PREFIX"
                   cmake --build build --config Release --target install
             - name: Run Example
