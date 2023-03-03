@@ -1,0 +1,27 @@
+name: "libmexclass"
+on: [push]
+jobs:
+    build-libmexclass:
+        runs-on: ubuntu-latest
+        env:
+            LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
+            SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
+        steps:
+            - name: Download libmexclass source code
+              uses: actions/checkout@v3
+            - name: Install MATLAB
+              uses: matlab-actions/setup-matlab@v1
+            - name: Build Example
+              run: |
+                  cd example
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }}
+                  cmake --build build --config Release --target install
+            - name: Run Example
+              uses: matlab-actions/run-command@v1
+              env:
+                  # The version of libstdc++ that is bundled with MATLAB is used when building MEX files.
+                  # This version of libstdc++ is incompatible with the system version of libstdc++.
+                  # As a workaround, set LD_PRELOAD to use the system version of libstdc++ with MATLAB.
+                  LD_PRELOAD: ${{ env.SYSTEM_LIBSTDCPP_PATH }}
+              with:
+                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
