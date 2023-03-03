@@ -4,13 +4,10 @@ jobs:
     build-libmexclass:
         runs-on: ubuntu-latest
         steps:
+            - name: Download libmexclass source code
             - uses: actions/checkout@v3
-            - name: Print environment
-              run: |
-                  which cmake
-                  which g++
-                  echo "$(cmake --version)"
-                  echo "$(g++ --version)"
+            - name: Install MATLAB
+            - uses: matlab-actions/setup-matlab
             - name: Build Example
               run: |
                   cd example
