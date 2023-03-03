@@ -11,5 +11,5 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE"/home/runner/work/install/libmexclass
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=/home/runner/work/install/libmexclass
                   cmake --build build --config Release --target install
