@@ -11,3 +11,8 @@ jobs:
                   which g++
                   echo "$(cmake --version)"
                   echo "$(g++ --version)"
+            - name: Build Example
+              run: |
+                  cd example
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=/install
+                  cmake --build build --config Release --target install
