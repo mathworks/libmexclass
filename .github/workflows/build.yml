@@ -3,6 +3,8 @@ on: [push]
 jobs:
     build-libmexclass:
         runs-on: ubuntu-latest
+        env:
+            LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -11,5 +13,6 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=/home/runner/work/install/libmexclass
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$LIBMEXCLASS_INSTALL_PREFIX"
                   cmake --build build --config Release --target install
+
