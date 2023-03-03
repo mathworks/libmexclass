@@ -20,9 +20,10 @@ jobs:
                   echo "LIBMEXCLASS_INSTALL_PREFIX=$LIBMEXCLASS_INSTALL_PREFIX" >> $GITHUB_ENV
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$LIBMEXCLASS_INSTALL_PREFIX"
                   cmake --build build --config Release --target install
+            - name: LD_PRELOAD system libstdc++
+              run: |
+                  export LD_PRELOAD="$LIBSTDCPP6_PATH"
             - name: Run Example
               uses: matlab-actions/run-command@v1
-              env:
-                  LD_PRELOAD: ${{ env.LIBSTDCPP6_PATH }}
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
