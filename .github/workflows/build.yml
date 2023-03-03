@@ -22,7 +22,7 @@ jobs:
                   cmake --build build --config Release --target install
             - name: LD_PRELOAD system libstdc++
               run: |
-                  export LD_PRELOAD="$LIBSTDCPP6_PATH"
+                  export LD_PRELOAD=${{ env.LIBSTDCPP6_PATH }}
             - name: Run Example
               uses: matlab-actions/run-command@v1
               with:
