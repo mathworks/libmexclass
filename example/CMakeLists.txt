@@ -30,7 +30,9 @@ set(CUSTOM_PROXY_SOURCES
 # Add libmexclass as an external project.
 include(ExternalProject)
 # Clients must use the libmexclass/cpp/libmexclassInstall.cmake to complete the installation steps and package the binaries.
-set(LIBMEXCLASS_INSTALL_STEPS_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../libmexclass/cpp/libmexclassInstall.cmake)
+set(LIBMEXCLASS_INSTALL_STEPS_FILE ${LIBMEXCLASS_DIR}/libmexclassInstall.cmake)
+# Clients must specify ${CMAKE_INSTALL_DIR} to which the packaged install will be placed.
+set(CMAKE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/libmexclass)
 ExternalProject_Add(	
     # Name of the external project target.
     ${LIBMEXCLASS_EXTERNAL_PROJECT_TARGET_NAME}
@@ -50,7 +52,7 @@ ExternalProject_Add(
                      "-D CUSTOM_PROXY_FACTORY_SOURCES:STRING=${CUSTOM_PROXY_FACTORY_SOURCES}"
                      "-D CUSTOM_PROXY_SOURCES:STRING=${CUSTOM_PROXY_SOURCES}"
 	# Execute LIBMEXCLASS_INSTALL_STEPS_FILE as a script.    
-	INSTALL_COMMAND ${CMAKE_COMMAND} -D CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -P ${LIBMEXCLASS_INSTALL_STEPS_FILE}
+	INSTALL_COMMAND ${CMAKE_COMMAND} -D CMAKE_INSTALL_DIR=${CMAKE_INSTALL_DIR} -P ${LIBMEXCLASS_INSTALL_STEPS_FILE}
 )
 
 install(CODE "MESSAGE(\"Completed install step for ${CLIENT_PROJECT_NAME}.\")")
