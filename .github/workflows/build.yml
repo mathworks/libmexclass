@@ -6,6 +6,7 @@ jobs:
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
             LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so.6.0.30"
+            MATLAB_LIBSTDCPP6_PATH: "/usr/local/MATLAB/R2022b/sys/os/glnxa64"
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -18,11 +19,9 @@ jobs:
               run: |
                   cd example
                   echo "LIBMEXCLASS_INSTALL_PREFIX=$LIBMEXCLASS_INSTALL_PREFIX" >> $GITHUB_ENV
+                  export LD_LIBRARY_PATH=${{ env.MATLAB_LIBSTDCPP6_PATH }}:$LD_LIBRARY_PATH
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$LIBMEXCLASS_INSTALL_PREFIX"
                   cmake --build build --config Release --target install
-            - name: LD_PRELOAD system libstdc++
-              run: |
-                  export LD_PRELOAD=${{ env.LIBSTDCPP6_PATH }}
             - name: Run Example
               uses: matlab-actions/run-command@v1
               with:
