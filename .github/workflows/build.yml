@@ -19,4 +19,4 @@ jobs:
             - name: Run Example
               uses: matlab-actions/run-command@v1
               with:
-                  command: addpath(fullfile("{{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath("example", "matlab"), c = example.Car("A", "B", "C")
+                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath("example", "matlab"), c = example.Car("A", "B", "C")
