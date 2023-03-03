@@ -5,14 +5,8 @@ jobs:
         runs-on: ubuntu-latest
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
-            SYSTEM_LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so.6.0.30"
-            MATLAB_LIBSTDCPP6_PATH: "/usr/local/MATLAB/R2022b/sys/os/glnxa64"
+            SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
         steps:
-            - name: List system libraries
-              run: |
-                  ls -alh /usr/lib/x86_64-linux-gnu 
-                  echo "LD_PRELOAD = $LD_PRELOAD"
-                  ls -alh /usr/lib/x86_64-linux-gnu/libstdc++.so.6
             - name: Download libmexclass source code
               uses: actions/checkout@v3
             - name: Install MATLAB
@@ -20,11 +14,11 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX="$LIBMEXCLASS_INSTALL_PREFIX"
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }}
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
               env:
-                  LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+                  LD_PRELOAD: ${{ env.SYSTEM_LIBSTDCPP_PATH }} # Required to work around incompatibility with libstdc++ version used when building MEX files.
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
