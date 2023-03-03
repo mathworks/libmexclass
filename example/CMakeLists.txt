@@ -32,6 +32,8 @@ include(ExternalProject)
 # Clients must use the libmexclass/cpp/libmexclassInstall.cmake to complete the installation steps and package the binaries.
 set(LIBMEXCLASS_INSTALL_STEPS_FILE ${LIBMEXCLASS_DIR}/libmexclassInstall.cmake)
 # Clients must specify ${CMAKE_INSTALL_DIR} to which the packaged install will be placed.
+# Below example specifies ${CMAKE_INSTALL_DIR} as a relative path to ${CMAKE_INSTALL_PREFIX}. 
+# When building this example, if ${CMAKE_INSTALL_PREFIX} argument is not specified with build command, default value for the platform will be used.
 set(CMAKE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/libmexclass)
 ExternalProject_Add(	
     # Name of the external project target.
