@@ -12,7 +12,7 @@ jobs:
               run: |
                   ls -alh /usr/lib/x86_64-linux-gnu 
                   echo "LD_PRELOAD = $LD_PRELOAD"
-                  ls -alh ${{ env.SYSTEM_LIBSTDCPP6_PATH }}
+                  ls -alh $/usr/lib/x86_64-linux-gnu/libstdc++.so.6
             - name: Download libmexclass source code
               uses: actions/checkout@v3
             - name: Install MATLAB
