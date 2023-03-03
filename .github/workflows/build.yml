@@ -1,0 +1,11 @@
+name: "libmexclass"
+on: [push]
+jobs:
+    build-libmexclass:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Print environment
+              run: |
+                  which cmake
+                  which g++
