@@ -19,10 +19,7 @@ jobs:
               uses: matlab-actions/setup-matlab@v1
             - name: LD_PRELOAD with MATLAB
               run: |
-                  ls -alh ${{ env.SYSTEM_LIBSTDCPP6_PATH }}
-                  echo "LD_PRELOAD = $LD_PRELOAD"
-                  unset LD_PRELOAD
-                  LD_PRELOAD=${{ env.SYSTEM_LIBSTDCPP6_PATH }} matlab
+                  LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 matlab
             - name: Build Example
               run: |
                   cd example
