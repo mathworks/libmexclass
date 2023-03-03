@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
-            LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so"
+            LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so.6.0.30"
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
