@@ -5,6 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
+            LIBSTDCPP6_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++6.so.6"
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -18,5 +19,7 @@ jobs:
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
+              env:
+                  LD_PRELOAD: ${{ env.LIBSTDCPP6_PATH }}
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
