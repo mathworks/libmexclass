@@ -6,6 +6,7 @@ jobs:
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
             SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
+            GIT_TAG: "b66f375"
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -14,7 +15,7 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }}
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D GIT_TAG=${{ env.GIT_TAG }}
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
