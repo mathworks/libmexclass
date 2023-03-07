@@ -59,23 +59,24 @@ target_include_directories(${MEX_GATEWAY_NAME}
             ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR}
             ${CUSTOM_PROXY_INCLUDE_DIR})
 
-# ####################################	
+# ####################################
 # Necessary variables for installation
 # ####################################
 
-message(STATUS "LIBMEXCLASS_LIBRARY_NAME: ${LIBMEXCLASS_LIBRARY_NAME}")	
-message(STATUS "CUSTOM_PROXY_LINK_LIBRARIES: ${CUSTOM_PROXY_LINK_LIBRARIES}")			
+message(STATUS "LIBMEXCLASS_LIBRARY_NAME: ${LIBMEXCLASS_LIBRARY_NAME}")
+message(STATUS "CUSTOM_PROXY_LINK_LIBRARIES: ${CUSTOM_PROXY_LINK_LIBRARIES}")
 
 set(ACTUAL_LIBMEXCLASS_BINARIES_DIR ${CMAKE_CURRENT_BINARY_DIR})
 # TODO: Get the binary names and extensions using Matlab_MEX_EXTENSION in CMake FindMatlab.
 if(WIN32)
-	# On Windows, the Visual Studio build adds an additional "Release" folder to place the output binaries.
-	set(ACTUAL_LIBMEXCLASS_BINARIES_DIR "${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/Release/")
-	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/gateway.mexw64 ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/mexclass.dll)	
-elseif(APPLE)	
-	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/gateway.mexmaci64 ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/libmexclass.dylib)
+    # On Windows, the Visual Studio build adds an additional "Release" folder to place the output binaries.
+    # TODO: Use cmake-generator-expressions to figure out the actual folder.
+    set(ACTUAL_LIBMEXCLASS_BINARIES_DIR "${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/Release/")
+    list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/gateway.mexw64 ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/mexclass.dll)
+elseif(APPLE)
+    list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/gateway.mexmaci64 ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/libmexclass.dylib)
 elseif(UNIX AND NOT APPLE AND NOT CYGWIN)
-	list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/gateway.mexa64 ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/libmexclass.so)
+    list(APPEND INSTALL_BINARIES_LIST ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/gateway.mexa64 ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}/libmexclass.so)
 endif()
 message(STATUS "ACTUAL_LIBMEXCLASS_BINARIES_DIR: ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}")
 
