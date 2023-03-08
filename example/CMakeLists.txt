@@ -25,6 +25,8 @@ set(CUSTOM_PROXY_SOURCES
     ${CUSTOM_PROXY_SOURCES_DIR}/proxy/Car.cpp
 )
 
+set(CUSTOM_PROXY_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/proxy)
+
 # Add libmexclass as an external project.
 include(ExternalProject)
 # GIT_TAG for libmexclass source from Git.
@@ -48,6 +50,7 @@ ExternalProject_Add(
     #
     CMAKE_CACHE_ARGS "-D CUSTOM_PROXY_FACTORY_INCLUDE_DIR:STRING=${CUSTOM_PROXY_FACTORY_INCLUDE_DIR}"
                      "-D CUSTOM_PROXY_FACTORY_SOURCES:STRING=${CUSTOM_PROXY_FACTORY_SOURCES}"
+                     "-D CUSTOM_PROXY_INCLUDE_DIR:STRING=${CUSTOM_PROXY_INCLUDE_DIR}"
                      "-D CUSTOM_PROXY_SOURCES:STRING=${CUSTOM_PROXY_SOURCES}"
     # Clients must use the below command for installing the external project.
     # "${CMAKE_COMMAND} --install ." will also work for CMake 3.15 onwards.
