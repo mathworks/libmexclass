@@ -9,7 +9,7 @@
 #include <unordered_map>
 
 // Macro used for registering methods as callable on oncrete Proxy subclasses.
-#define registerMethod(class, method) methods[#method] = std::bind(&class::method, this, std::placeholders::_1)
+#define REGISTER_METHOD(class, method) methods[#method] = std::bind(&class::method, this, std::placeholders::_1)
 
 // TODO: Consider if its possible to make use of this templated method instead of a macro.
 /*

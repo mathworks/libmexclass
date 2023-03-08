@@ -16,16 +16,16 @@ class Car : public libmexclass::proxy::Proxy {
         // car = Car(make, model, color);
 
         // Step 3. Register methods.
-        registerMethod(Car, Accelerate);
-        registerMethod(Car, Decelerate);
-        registerMethod(Car, Stop);
-        registerMethod(Car, Headlights);
-        registerMethod(Car, SetSpeed);
-        registerMethod(Car, GetSpeed);
-        registerMethod(Car, GetMake);
-        registerMethod(Car, GetModel);
-        registerMethod(Car, GetColor);
-        registerMethod(Car, Print);
+        REGISTER_METHOD(Car, Accelerate);
+        REGISTER_METHOD(Car, Decelerate);
+        REGISTER_METHOD(Car, Stop);
+        REGISTER_METHOD(Car, Headlights);
+        REGISTER_METHOD(Car, SetSpeed);
+        REGISTER_METHOD(Car, GetSpeed);
+        REGISTER_METHOD(Car, GetMake);
+        REGISTER_METHOD(Car, GetModel);
+        REGISTER_METHOD(Car, GetColor);
+        REGISTER_METHOD(Car, Print);
     }
 
   private:
