@@ -12,7 +12,7 @@
 * \param name the name that a MATLAB Proxy instance will use to connect with the registered C++ Proxy subclass
 * \param cppClass the name of the C++ Proxy subclass to register
 */
-#define registerProxy(name, cppClass) if (class_name.compare(#name) == 0) return std::make_shared<cppClass>(constructor_arguments)
+#define REGISTER_PROXY(name, cppClass) if (class_name.compare(#name) == 0) return std::make_shared<cppClass>(constructor_arguments)
 
 namespace libmexclass::proxy {
 
