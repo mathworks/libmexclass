@@ -23,7 +23,7 @@
 //
 // **NOTE** <proxy-constructor-args should be a cell array.
 //
-// >> <proxy-id> = gateway("Create", <proxy-name>, <proxy-constructor-args>)
+// >> <proxy-id> = libmexclass.proxy.gateway("Create", <proxy-name>, <proxy-constructor-args>)
 //
 // --------------------------------------------------------------------
 //
@@ -33,7 +33,7 @@
 //
 // **NOTE** <method-args> should be a cell array.
 //
-// >> <proxy-method-outputs> = gateway("MethodCall", <proxy-id>, <proxy-method-name>, <proxy-method-args>)
+// >> <proxy-method-outputs> = libmexclass.proxy.gateway("MethodCall", <proxy-id>, <proxy-method-name>, <proxy-method-args>)
 //
 // --------------------------------------------------------------------
 // 
@@ -41,7 +41,7 @@
 // action::Destroy 
 // ====================
 //
-// >> <proxy-destroy-status> = gateway("Destroy", "<proxy-id>")
+// >> <proxy-destroy-status> = libmexclass.proxy.gateway("Destroy", "<proxy-id>")
 //
 // ==================
 
