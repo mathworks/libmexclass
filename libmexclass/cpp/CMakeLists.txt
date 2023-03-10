@@ -81,6 +81,13 @@ matlab_add_mex(NAME ${MEX_GATEWAY_NAME}
                SRC ${MEX_GATEWAY_SOURCES}
                LINK_TO ${LIBMEXCLASS_LIBRARY_NAME}
                        ${CLIENT_LIBRARY_NAME})
+
+message(STATUS "CUSTOM_PROXY_FACTORY_HEADER_FILENAME: ${CUSTOM_PROXY_FACTORY_HEADER_FILENAME}")
+message(STATUS "CUSTOM_PROXY_FACTORY_CLASS_NAME: ${CUSTOM_PROXY_FACTORY_CLASS_NAME}")
+
+target_compile_definitions(${MEX_GATEWAY_NAME} PRIVATE CUSTOM_PROXY_FACTORY_HEADER_FILENAME="${CUSTOM_PROXY_FACTORY_HEADER_FILENAME}")
+target_compile_definitions(${MEX_GATEWAY_NAME} PRIVATE CUSTOM_PROXY_FACTORY_CLASS_NAME=${CUSTOM_PROXY_FACTORY_CLASS_NAME})
+
 # Set compiler features to require C++17.
 target_compile_features(${MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
 # Include directories (i.e. header files).
@@ -88,6 +95,9 @@ target_include_directories(${MEX_GATEWAY_NAME}
                            PRIVATE ${LIBMEXCLASS_INCLUDE_DIR}
                                    ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR})
 
+
+get_target_property(COMPILE_DEFINITIONS gateway COMPILE_DEFINITIONS)
+message(STATUS "COMPILE_DEFINITIONS: ${COMPILE_DEFINITIONS}")
 # ######################
 # Installation Variables
 # ######################
