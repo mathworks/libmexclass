@@ -52,7 +52,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 
 # Create libmexclassclient shared library target.
 set(CLIENT_LIBRARY_NAME mexclassclient)
-add_library(${CLIENT_LIBRARY_NAME} SHARED ${CUSTOM_PROXY_SOURCES})
+add_library(${CLIENT_LIBRARY_NAME} SHARED ${CUSTOM_PROXY_FACTORY_SOURCES} ${CUSTOM_PROXY_SOURCES})
 
 # Set compiler features to require C++17.
 target_compile_features(${CLIENT_LIBRARY_NAME} PRIVATE cxx_std_17)
@@ -60,6 +60,7 @@ target_compile_features(${CLIENT_LIBRARY_NAME} PRIVATE cxx_std_17)
 # Include directories (i.e. header files).
 target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
 target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
+target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR})
 target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${CUSTOM_PROXY_INCLUDE_DIR})
 
 # Link against libmexclass shared library.
@@ -78,7 +79,6 @@ set(MEX_GATEWAY_NAME gateway)
 set(MEX_GATEWAY_SOURCES ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/mex/mex_gateway_function.cpp)
 matlab_add_mex(NAME ${MEX_GATEWAY_NAME}
                SRC ${MEX_GATEWAY_SOURCES}
-                   ${CUSTOM_PROXY_FACTORY_SOURCES}
                LINK_TO ${LIBMEXCLASS_LIBRARY_NAME}
                        ${CLIENT_LIBRARY_NAME})
 # Set compiler features to require C++17.
