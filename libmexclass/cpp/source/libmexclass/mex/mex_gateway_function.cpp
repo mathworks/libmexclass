@@ -4,9 +4,7 @@
 #include "libmexclass/mex/State.h"
 #include "libmexclass/proxy/Factory.h"
 
-// TODO: Consider making the directory a preprocessor definition based on the client's CMakeLists.txt
-// #include "CUSTOM_PROXY_FACTORY_DIR/CustomProxyFactory.h"
-#include "CustomProxyFactory.h"
+#include CUSTOM_PROXY_FACTORY_HEADER_FILENAME
 
 #include "mex.hpp"
 #include "mexAdapter.hpp"
@@ -61,7 +59,7 @@ class MexFunction : public matlab::mex::Function {
 
         // Create a polymorphic proxy::Factory instance.
         // NOTE: Clients provide the implementation for CustomProxyFactory.
-        std::shared_ptr<proxy::Factory> proxy_factory = std::make_shared<CustomProxyFactory>();
+        std::shared_ptr<proxy::Factory> proxy_factory = std::make_shared<CUSTOM_PROXY_FACTORY_CLASS_NAME>();
 
         // Create an action::Factory.
         action::Factory action_factory{proxy_factory};
