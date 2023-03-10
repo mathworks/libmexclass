@@ -2,9 +2,9 @@
 
 #include "libmexclass/proxy/Factory.h"
 
-class CustomProxyFactory : public libmexclass::proxy::Factory {
+class CarProxyFactory : public libmexclass::proxy::Factory {
   public:
-    CustomProxyFactory() {}
+    CarProxyFactory() {}
     virtual std::shared_ptr<libmexclass::proxy::Proxy>
     make_proxy(const libmexclass::proxy::ClassName& class_name,
                const libmexclass::proxy::FunctionArguments& constructor_arguments);
