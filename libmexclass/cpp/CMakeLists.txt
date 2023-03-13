@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+# Set policy to allow setting Matlab_ROOT
+cmake_policy(SET CMP0074 NEW)
+
 # Project metadata.
 set(LIBMEXCLASS_PROJECT_NAME libmexclass)
 project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
