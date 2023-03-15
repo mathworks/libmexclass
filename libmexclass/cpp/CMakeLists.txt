@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+# CMake policy CM0074 must be set explicitly by any client project 
+# that wants to use find_package with a <PACKAGE>_ROOT variable. 
+# Therefore, we set this policy to enable support for the Matlab_ROOT
+# flag with find_package(Matlab)
+cmake_policy(SET CMP0074 NEW)
+
 # Project metadata.
 set(LIBMEXCLASS_PROJECT_NAME libmexclass)
 project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
