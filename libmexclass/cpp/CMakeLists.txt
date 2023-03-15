@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.0)
 
-# Set policy to allow setting Matlab_ROOT
+# CMake policy CM0074 must be set explicitly by any client project 
+# that wants to use find_package with a <PACKAGE>_ROOT variable. 
+# Therefore, we set this policy to enable support for the Matlab_ROOT
+# flag with find_package(Matlab)
 cmake_policy(SET CMP0074 NEW)
 
 # Project metadata.
@@ -129,7 +132,7 @@ elseif(UNIX AND NOT APPLE AND NOT CYGWIN)
 endif()
 message(STATUS "ACTUAL_LIBMEXCLASS_BINARIES_DIR: ${ACTUAL_LIBMEXCLASS_BINARIES_DIR}")
 
-set(LIBMEXCLASS_MATLAB_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/../libmexclass/libmexclass/matlab/+libmexclass/")
+set(LIBMEXCLASS_MATLAB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../matlab/+libmexclass/")
 message(STATUS "LIBMEXCLASS_MATLAB_SOURCES: ${LIBMEXCLASS_MATLAB_SOURCES}")
 
 set(CMAKE_PACKAGED_LIBMEXCLASS_INSTALL_ROOT_DIR "${CMAKE_CURRENT_BINARY_DIR}/+libmexclass")
