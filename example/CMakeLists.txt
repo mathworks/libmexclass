@@ -60,3 +60,5 @@ libmexclass_add_mex_gateway(
 )
 
 install(TARGETS mexclass ${LIBMEXCLASS_CLIENT_LIBRARY_NAME} ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} DESTINATION +libmexclass/+proxy)
+get_target_property(MATLAB_SOURCE_DIR mexclassmatlab MATLAB_SOURCES)
+install(DIRECTORY ${MATLAB_SOURCE_DIR})

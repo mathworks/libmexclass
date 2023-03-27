@@ -58,7 +58,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 
 add_custom_target(mexclassmatlab)
 define_property(TARGET mexclassmatlab PROPERTY MATLAB_SOURCES)
-set_property(TARGET mexclassmatlab PROPERTY MATLAB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../matlab")
+set_property(TARGET mexclassmatlab PROPERTY MATLAB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../matlab/+libmexclass")
 
 # #################
 # libmexclassclient
