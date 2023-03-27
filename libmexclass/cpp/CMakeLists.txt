@@ -67,7 +67,7 @@ macro(libmexclass_add_client_library)
     add_library(${LIBMEXCLASS_CLIENT_LIB_NAME} SHARED ${LIBMEXCLASS_CLIENT_LIB_SOURCES})
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIB_INCLUDE_DIRS})
 
-    target_get_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
+    get_target_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
 
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
