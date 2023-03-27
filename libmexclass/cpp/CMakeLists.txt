@@ -90,6 +90,7 @@ macro(libmexclass_add_mex_gateway)
 
     matlab_add_mex(NAME ${LIBMEXCLASS_MEX_GATEWAY_NAME}
                    SRC ${LIBMEXCLASS_MEX_GATEWAY_SOURCES}
+                   OUTPUT_NAME "gateway"
                    LINK_TO mexclass
                            ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIBRARY})
     # Set compiler features to require C++17.
