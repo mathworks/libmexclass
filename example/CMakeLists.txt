@@ -27,6 +27,8 @@ set(CUSTOM_PROXY_SOURCES
     ${CUSTOM_PROXY_SOURCES_DIR}/proxy/Car.cpp
 )
 
+find_package(Matlab REQUIRED)
+
 # Add libmexclass using FetchContent.
 include(FetchContent)
 set(LIBMEXCLASS_FETCH_CONTENT_NAME libmexclass)
