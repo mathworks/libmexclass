@@ -99,4 +99,7 @@ macro(libmexclass_add_mex_gateway)
     # TODO: Set target_include_directories to include LIBMEXCLASS headers and client proxy lib headers.
     get_target_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
+    # TODO: Decide whether to automatically add client library include directories.
+    get_target_property(LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIBRARY} INCLUDE_DIRECTORIES)
+    target_include_directories(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS})
 endmacro()
