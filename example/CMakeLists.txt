@@ -9,6 +9,9 @@ project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 # Client Configuration
 # ####################
 
+# Note: Clients must call find_package(Matlab REQUIRED) to ensure
+#       that the appropriate MATLAB-related CMake variables
+#       are available for use by libmexclass.
 find_package(Matlab REQUIRED)
 
 # Add libmexclass using FetchContent.
