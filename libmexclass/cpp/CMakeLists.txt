@@ -48,6 +48,8 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
 # Link against MATLAB Data Array shared library.
 target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
 
+set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
+
 # TODO: Use Imported targets. This requires a newer version of CMake.
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::mex)
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::MatlabDataArray)
@@ -87,6 +89,7 @@ macro(libmexclass_add_client_library)
     # Link against libmexclass shared library.
     target_link_libraries(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE mexclass)
     # TODO: Should we link against custom link libraries here explicitly?
+    set_target_properties(${LIBMEXCLASS_CLIENT_LIB_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
 endmacro()
 
 # ###########
@@ -115,6 +118,7 @@ macro(libmexclass_add_mex_gateway)
     # TODO: Decide whether to automatically add client library include directories.
     get_target_property(LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIBRARY} INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS})
+    set_target_properties(${LIBMEXCLASS_MEX_GATEWAY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
 endmacro()
 
 # ############
