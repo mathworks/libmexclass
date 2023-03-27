@@ -58,7 +58,7 @@ namespace libmexclass::mex {
 
         // Create a polymorphic proxy::Factory instance.
         // NOTE: Clients provide the implementation for CustomProxyFactory.
-        std::shared_ptr<proxy::Factory> proxy_factory = std::make_shared<CUSTOM_PROXY_FACTORY_CLASS_NAME>();
+        std::shared_ptr<proxy::Factory> proxy_factory = std::make_shared<ProxyFactory>();
 
         // Create an action::Factory.
         action::Factory action_factory{proxy_factory};
