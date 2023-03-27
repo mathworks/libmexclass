@@ -67,5 +67,5 @@ set(LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES ${CMAKE_SOURCE_DIR}/mex/gateway.cpp)
 
 matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
                SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
-               LINK_TO mexclass
-                       ${LIBMEXCLASS_CLIENT_LIBRARY_NAME})
+               LINK_TO ${LIBMEXCLASS_CLIENT_LIBRARY_NAME}
+                       mexclass)
