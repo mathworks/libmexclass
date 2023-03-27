@@ -116,3 +116,21 @@ macro(libmexclass_add_mex_gateway)
     get_target_property(LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIBRARY} INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS})
 endmacro()
+
+# ############
+# Installation
+# ############
+
+macro(libmexclass_install_client)
+    set(options)
+    set(oneValueArgs NAME CLIENT_PROXY_LIBRARY_NAME CLIENT_MEX_GATEWAY_NAME)
+    set(multiValueArgs SOURCES)
+    cmake_parse_arguments(LIBMEXCLASS_INSTALL "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    install(TARGETS mexclass
+                    ${LIBMEXCLASS_INSTALL_CLIENT_PROXY_LIBRARY_NAME}
+                    ${LIBMEXCLASS_INSTALL_CLIENT_MEX_GATEWAY_NAME}
+            DESTINATION +libmexclass/+proxy)
+    get_target_property(MATLAB_SOURCE_DIR mexclassmatlab MATLAB_SOURCES)
+    install(DIRECTORY ${MATLAB_SOURCE_DIR} DESTINATION ".")
+endmacro()
