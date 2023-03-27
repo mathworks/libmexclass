@@ -48,7 +48,7 @@ libmexclass_add_client_library(
     SOURCES ${LIBMEXCLASS_CLIENT_LIBRARY_SOURCES}
     INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS}
 )
-target_link_libraries(${LIBMEXCLASS_CLIENT_LIBRARY_NAME} mexclass)
+target_link_libraries(${LIBMEXCLASS_CLIENT_LIBRARY_NAME} PRIVATE mexclass)
 target_compile_features(${LIBMEXCLASS_CLIENT_LIBRARY_NAME} PRIVATE cxx_std_17)
 
 set(LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME "gateway")
