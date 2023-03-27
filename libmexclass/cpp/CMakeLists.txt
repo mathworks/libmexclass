@@ -63,7 +63,7 @@ macro(libmexclass_add_client_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    add_library(${LIBMEXCLASS_CLIENT_LIB_NAME} name SHARED ${LIBMEXCLASS_CLIENT_LIB_SOURCES})
+    add_library(${LIBMEXCLASS_CLIENT_LIB_NAME} SHARED ${LIBMEXCLASS_CLIENT_LIB_SOURCES})
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIB_INCLUDE_DIRS})
 
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
