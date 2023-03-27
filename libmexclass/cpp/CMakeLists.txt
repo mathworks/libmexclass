@@ -40,6 +40,7 @@ target_compile_features(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE cxx_std_17)
 
 # Include directories (i.e. header files).
 set(LIBMEXCLASS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/include)
+message(STATUS "LIBMEXCLASS_INCLUDE_DIR = ${LIBMEXCLASS_INCLUDE_DIR}")
 target_include_directories(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
 target_include_directories(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
 
