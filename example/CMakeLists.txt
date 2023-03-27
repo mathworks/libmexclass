@@ -44,4 +44,20 @@ FetchContent_Declare(
     # Source directory for libmexclass.
     SOURCE_SUBDIR libmexclass/cpp
 )
-FetchContent_MakeAvailable(${LIBMEXCLASS_FETCH_CONTENT_NAME})
+FetchContent_MakeAvailable(
+    ${LIBMEXCLASS_FETCH_CONTENT_NAME}
+)
+
+set(LIBMEXCLASS_CLIENT_LIBRARY_NAME "example")
+set(LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS ${CMAKE_SOURCE_DIR})
+set(LIBMEXCLASS_CLIENT_LIBRARY_SOURCES
+    ${CMAKE_SOURCE_DIR}/CarProxyFactory.cpp
+    ${CMAKE_SOURCE_DIR}/Car.cpp
+    ${CMAKE_SOURCE_DIR}/proxy/Car.cpp
+)
+
+libmexclass_add_client_library(
+    NAME ${LIBMEXCLASS_CLIENT_LIBRARY_NAME}
+    SOURCES ${LIBMEXCLASS_CLIENT_LIBRARY_SOURCES}
+    INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS}
+)

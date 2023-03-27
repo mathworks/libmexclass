@@ -59,12 +59,12 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 macro(libmexclass_add_client_library)
     # TODO: Add required argument logic.
     set(options)
-    set(oneValueArgs NAME INCLUDE_DIR)
-    set(multiValueArgs SOURCES)
+    set(oneValueArgs NAME)
+    set(multiValueArgs SOURCES INCLUDE_DIRS)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     add_library(${LIBMEXCLASS_CLIENT_LIB_NAME} name SHARED ${LIBMEXCLASS_CLIENT_LIB_SOURCES})
-    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIB_INCLUDE_DIR})
+    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIB_INCLUDE_DIRS})
 
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
     target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
