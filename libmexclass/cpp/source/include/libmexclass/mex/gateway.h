@@ -48,7 +48,7 @@ namespace libmexclass::mex {
 // This is the main MEX function gateway.
 // This uses a rough approximation of the "Proxy" Design Pattern to handle dispatching to appropriate object method calls.
     template<typename ProxyFactory>
-    inline void gateway(matlab::mex::Arguments inputs, matlab::mex::Arguments outputs, Matlab matlab) {
+    inline void gateway(matlab::mex::ArgumentList inputs, matlab::mex::ArgumentList outputs, Matlab matlab) {
         // Wrap the inputs and outputs.
         mex::Arguments output_arguments{outputs.begin()};
         mex::Arguments input_arguments{inputs.begin()};
