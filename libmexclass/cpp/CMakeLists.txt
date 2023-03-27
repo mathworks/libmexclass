@@ -56,53 +56,45 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 # libmexclassclient
 # #################
 
-# Create libmexclassclient shared library target.
-set(CLIENT_LIBRARY_NAME mexclassclient)
-add_library(${CLIENT_LIBRARY_NAME} SHARED ${CUSTOM_PROXY_FACTORY_SOURCES} ${CUSTOM_PROXY_SOURCES})
+macro(libmexclass_add_client_library)
+    # TODO: Add required argument logic.
+    set(options)
+    set(oneValueArgs NAME INCLUDE_DIR)
+    set(multiValueArgs SOURCES)
+    cmake_parse_arguments(LIBMEXCLASS_CLIENT_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-# Set compiler features to require C++17.
-target_compile_features(${CLIENT_LIBRARY_NAME} PRIVATE cxx_std_17)
+    add_library(${LIBMEXCLASS_CLIENT_LIB_NAME} name SHARED ${LIBMEXCLASS_CLIENT_LIB_SOURCES})
+    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIB_INCLUDE_DIR})
 
-# Include directories (i.e. header files).
-target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
-target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
-target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR})
-target_include_directories(${CLIENT_LIBRARY_NAME} PRIVATE ${CUSTOM_PROXY_INCLUDE_DIR})
+    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
+    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
 
-# Link against libmexclass shared library.
-target_link_libraries(${CLIENT_LIBRARY_NAME} PRIVATE mexclass)
-# Link against MATLAB Data Array shared library.
-target_link_libraries(${CLIENT_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
-# Link against custom proxy link libraries.
-target_link_libraries(${CLIENT_LIBRARY_NAME} PRIVATE ${CUSTOM_PROXY_LINK_LIBRARIES})
+    # Link against libmexclass shared library.
+    target_link_libraries(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE mexclass)
+    # TODO: Should we link against custom link libraries here explicitly?
+endmacro()
 
 # ###########
 # MEX gateway
 # ###########
 
-# Create MEX gateway function target.
-set(MEX_GATEWAY_NAME gateway)
-set(MEX_GATEWAY_SOURCES ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/mex/mex_gateway_function.cpp)
-matlab_add_mex(NAME ${MEX_GATEWAY_NAME}
-               SRC ${MEX_GATEWAY_SOURCES}
-               LINK_TO ${LIBMEXCLASS_LIBRARY_NAME}
-                       ${CLIENT_LIBRARY_NAME})
+macro(libmexclass_add_mex_gateway)
+    # TODO: Add required argument logic.
+    set(options)
+    set(oneValueArgs NAME CLIENT_LIBRARY)
+    set(multiValueArgs SOURCES)
+    cmake_parse_arguments(LIBMEXCLASS_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-target_compile_definitions(${MEX_GATEWAY_NAME} PRIVATE CUSTOM_PROXY_FACTORY_HEADER_FILENAME="${CUSTOM_PROXY_FACTORY_HEADER_FILENAME}")
-target_compile_definitions(${MEX_GATEWAY_NAME} PRIVATE CUSTOM_PROXY_FACTORY_CLASS_NAME=${CUSTOM_PROXY_FACTORY_CLASS_NAME})
-
-# Set compiler features to require C++17.
-target_compile_features(${MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
-# Include directories (i.e. header files).
-target_include_directories(${MEX_GATEWAY_NAME}
-                           PRIVATE ${LIBMEXCLASS_INCLUDE_DIR}
-                                   ${CUSTOM_PROXY_FACTORY_INCLUDE_DIR})
-
-get_target_property(COMPILE_DEFINITIONS gateway COMPILE_DEFINITIONS)
-
-message(STATUS "CUSTOM_PROXY_FACTORY_HEADER_FILENAME: ${CUSTOM_PROXY_FACTORY_HEADER_FILENAME}")
-message(STATUS "CUSTOM_PROXY_FACTORY_CLASS_NAME: ${CUSTOM_PROXY_FACTORY_CLASS_NAME}")
-message(STATUS "MEX gateway COMPILE_DEFINITIONS: ${COMPILE_DEFINITIONS}")
+    matlab_add_mex(NAME ${LIBMEXCLASS_MEX_GATEWAY_NAME}
+                   SRC ${LIBMEXCLASS_MEX_GATEWAY_SOURCES}
+                   LINK_TO libmexclass
+                           ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIB)
+    # Set compiler features to require C++17.
+    target_compile_features(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
+    # Include directories (i.e. header files).
+    # TODO: Consider ways of automatically using target properties to add headers to target_include_directories for client_lib.
+    # TODO: Set target_include_directories to include LIBMEXCLASS headers and client proxy lib headers.
+endmacro()
 
 # ######################
 # Installation Variables
