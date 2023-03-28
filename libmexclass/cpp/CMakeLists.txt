@@ -81,6 +81,8 @@ macro(libmexclass_client_add_proxy_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
+    find_package(Matlab REQUIRED)
+
     add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
     target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
 
@@ -106,6 +108,8 @@ macro(libmexclass_client_add_mex_gateway)
     set(oneValueArgs NAME CLIENT_PROXY_LIBRARY)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    find_package(Matlab REQUIRED)
 
     matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
                    SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
