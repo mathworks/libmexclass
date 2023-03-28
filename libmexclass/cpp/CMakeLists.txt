@@ -65,75 +65,78 @@ define_property(
     BRIEF_DOCS "Location of libmexclass MATLAB sources"
     FULL_DOCS "The location of the libmexclass MATLAB sources (i.e. the location of the +libmexclass directory)."
 )
-set_property(TARGET mexclassmatlab PROPERTY MATLAB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../matlab/+libmexclass")
+set_property(
+    TARGET mexclassmatlab
+    PROPERTY MATLAB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../matlab/+libmexclass"
+)
 
 # #################
 # libmexclassclient
 # #################
 
-macro(libmexclass_add_client_library)
+macro(libmexclass_client_add_proxy_library)
     # TODO: Add required argument logic.
     set(options)
     set(oneValueArgs NAME)
     set(multiValueArgs SOURCES INCLUDE_DIRS)
-    cmake_parse_arguments(LIBMEXCLASS_CLIENT_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    add_library(${LIBMEXCLASS_CLIENT_LIB_NAME} SHARED ${LIBMEXCLASS_CLIENT_LIB_SOURCES})
-    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIB_INCLUDE_DIRS})
+    add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
+    target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
 
     get_target_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
 
-    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
-    target_include_directories(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
+    target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
+    target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
 
     # Link against libmexclass shared library.
-    target_link_libraries(${LIBMEXCLASS_CLIENT_LIB_NAME} PRIVATE mexclass)
+    target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE mexclass)
+    # Set RPATH to $ORIGIN to make the library relocatable.
+    set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
     # TODO: Should we link against custom link libraries here explicitly?
-    set_target_properties(${LIBMEXCLASS_CLIENT_LIB_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
 endmacro()
 
 # ###########
 # MEX gateway
 # ###########
 
-macro(libmexclass_add_mex_gateway)
+macro(libmexclass_client_add_mex_gateway)
     # TODO: Add required argument logic.
     set(options)
-    set(oneValueArgs NAME CLIENT_LIBRARY)
+    set(oneValueArgs NAME CLIENT_PROXY_LIBRARY)
     set(multiValueArgs SOURCES)
-    cmake_parse_arguments(LIBMEXCLASS_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    matlab_add_mex(NAME ${LIBMEXCLASS_MEX_GATEWAY_NAME}
-                   SRC ${LIBMEXCLASS_MEX_GATEWAY_SOURCES}
+    matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
+                   SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
                    OUTPUT_NAME "gateway"
                    LINK_TO mexclass
-                           ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIBRARY})
+                           ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY})
     # Set compiler features to require C++17.
-    target_compile_features(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
+    target_compile_features(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
     # Include directories (i.e. header files).
-    # TODO: Consider ways of automatically using target properties to add headers to target_include_directories for client_lib.
-    # TODO: Set target_include_directories to include LIBMEXCLASS headers and client proxy lib headers.
     get_target_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
-    target_include_directories(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
+    target_include_directories(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
     # TODO: Decide whether to automatically add client library include directories.
-    get_target_property(LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_MEX_GATEWAY_CLIENT_LIBRARY} INCLUDE_DIRECTORIES)
-    target_include_directories(${LIBMEXCLASS_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS})
-    set_target_properties(${LIBMEXCLASS_MEX_GATEWAY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
+    get_target_property(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY} INCLUDE_DIRECTORIES)
+    target_include_directories(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
+    # Set RPATH to $ORIGIN to make the library relocatable.
+    set_target_properties(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
 endmacro()
 
 # ############
 # Installation
 # ############
 
-macro(libmexclass_install_client)
+macro(libmexclass_client_install)
     set(options)
     set(oneValueArgs NAME CLIENT_PROXY_LIBRARY_NAME CLIENT_MEX_GATEWAY_NAME)
     set(multiValueArgs SOURCES)
-    cmake_parse_arguments(LIBMEXCLASS_INSTALL "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(LIBMEXCLASS_CLIENT_INSTALL "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     install(TARGETS mexclass
-                    ${LIBMEXCLASS_INSTALL_CLIENT_PROXY_LIBRARY_NAME}
-                    ${LIBMEXCLASS_INSTALL_CLIENT_MEX_GATEWAY_NAME}
+                    ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME}
+                    ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_MEX_GATEWAY_NAME}
             DESTINATION +libmexclass/+proxy)
     get_target_property(MATLAB_SOURCE_DIR mexclassmatlab MATLAB_SOURCES)
     install(DIRECTORY ${MATLAB_SOURCE_DIR} DESTINATION ".")
