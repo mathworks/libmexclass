@@ -49,7 +49,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 
 if (APPLE)
 	set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH @loader_path)
-else
+else()
 	set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
 endif()
 
