@@ -5,9 +5,6 @@ set(CLIENT_EXECUTABLE_NAME client)
 
 project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 
-# Avoid LINK error for "example.lib" on Windows as the ".lib" import library won't be created with the exported shared library symbols.
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
 # ####################
 # Client Configuration
 # ####################
@@ -47,8 +44,6 @@ libmexclass_client_add_proxy_library(
     INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_LIBRARY_INCLUDE_DIRS}
 )
 target_compile_features(${LIBMEXCLASS_CLIENT_LIBRARY_NAME} PRIVATE cxx_std_17)
-# Building on Windows needs to include the additional dependency: "<matlabroot>\extern\lib\win64\microsoft\libMatlabDataArray.lib".
-target_link_libraries(${LIBMEXCLASS_CLIENT_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
 
 set(LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME "gateway")
 set(LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES ${CMAKE_SOURCE_DIR}/mex/gateway.cpp)

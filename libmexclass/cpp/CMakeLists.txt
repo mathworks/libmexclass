@@ -10,8 +10,6 @@ cmake_policy(SET CMP0074 NEW)
 set(LIBMEXCLASS_PROJECT_NAME libmexclass)
 project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
 # Find MATLAB.
 find_package(Matlab REQUIRED)
 
@@ -34,6 +32,7 @@ set(LIBMEXCLASS_SOURCES
 # Create libmexclass shared library target.
 set(LIBMEXCLASS_LIBRARY_NAME mexclass)
 add_library(${LIBMEXCLASS_LIBRARY_NAME} SHARED ${LIBMEXCLASS_SOURCES})
+set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # Set compiler features to require C++17.
 target_compile_features(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE cxx_std_17)
@@ -84,6 +83,7 @@ macro(libmexclass_client_add_proxy_library)
     find_package(Matlab REQUIRED)
 
     add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
+    set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
     target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
 
     get_target_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
@@ -93,6 +93,8 @@ macro(libmexclass_client_add_proxy_library)
 
     # Link against libmexclass shared library.
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE mexclass)
+    # Link against MATLAB Data Array shared library.
+    target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
     # Set RPATH to $ORIGIN to make the library relocatable.
     set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
     # TODO: Should we link against custom link libraries here explicitly?
