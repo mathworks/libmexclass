@@ -49,6 +49,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIB
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH @loader_path)
+	message(STATUS "Inside Darwin.")
 else()
 	set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
 endif()
