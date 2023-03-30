@@ -69,7 +69,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
 # Link against MATLAB Data Array shared library.
 target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
 
-target_set_rpath_relocatable(${LIBMEXCLASS_LIBRARY_NAME})
+target_set_rpath_relocatable(NAME ${LIBMEXCLASS_LIBRARY_NAME})
 
 # TODO: Use Imported targets. This requires a newer version of CMake.
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::mex)
@@ -118,7 +118,7 @@ macro(libmexclass_client_add_proxy_library)
     # Link against MATLAB Data Array shared library.
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
 
-    target_set_rpath_relocatable(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME})
+    target_set_rpath_relocatable(NAME ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME})
     # TODO: Should we link against custom link libraries here explicitly?
 endmacro()
 
@@ -149,7 +149,7 @@ macro(libmexclass_client_add_mex_gateway)
     get_target_property(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY} INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
 
-    target_set_rpath_relocatable(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME})
+    target_set_rpath_relocatable(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME})
 endmacro()
 
 # ############
