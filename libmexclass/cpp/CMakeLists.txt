@@ -21,8 +21,11 @@ function(target_set_rpath_relocatable)
     set(oneValueArgs NAME)
     set(multiValueArgs)
     cmake_parse_arguments(LIBMEXCLASS_TARGET_SET_RPATH "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    
+    message(STATUS "Setting library rpath)
 
     if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        message(STATUS "Setting @loader_path")
         set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "@loader_path")
     else()
         set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
