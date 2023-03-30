@@ -26,4 +26,4 @@ jobs:
                   # As a workaround, set LD_PRELOAD to use the system version of libstdc++ with MATLAB.
                   LD_PRELOAD: ${{ env.SYSTEM_LIBSTDCPP_PATH }}
               with:
-                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
+                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
