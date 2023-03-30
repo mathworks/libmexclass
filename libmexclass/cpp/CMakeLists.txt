@@ -10,6 +10,25 @@ cmake_policy(SET CMP0074 NEW)
 set(LIBMEXCLASS_PROJECT_NAME libmexclass)
 project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
 
+# #############
+# Helper Macros
+# #############
+
+# Set the given target's RPATH on Linux and macOS.
+macro(target_set_rpath_relocatable)
+    # TODO: Add required argument logic.
+    set(options)
+    set(oneValueArgs NAME)
+    set(multiValueArgs)
+    cmake_parse_arguments(LIBMEXCLASS_TARGET_SET_RPATH "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    if(APPLE)
+        set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "@loader_path")
+    else()
+        set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
+    endif()
+endmacro()
+
 # Find MATLAB.
 find_package(Matlab REQUIRED)
 
@@ -47,13 +66,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
 # Link against MATLAB Data Array shared library.
 target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH "@loader_path")
-else()
-	set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
-endif()
-
-message(STATUS "INSTALL_RPATH: ${INSTALL_RPATH}")
+target_set_rpath_relocatable(${LIBMEXCLASS_LIBRARY_NAME})
 
 # TODO: Use Imported targets. This requires a newer version of CMake.
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::mex)
@@ -101,13 +114,8 @@ macro(libmexclass_client_add_proxy_library)
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE mexclass)
     # Link against MATLAB Data Array shared library.
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
-    # Set RPATH to $ORIGIN to make the library relocatable.
-    # set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES INSTALL_RPATH "@loader_path")
-else()
-    set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
-endif()
+
+    target_set_rpath_relocatable(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME})
     # TODO: Should we link against custom link libraries here explicitly?
 endmacro()
 
@@ -137,13 +145,8 @@ macro(libmexclass_client_add_mex_gateway)
     # TODO: Decide whether to automatically add client library include directories.
     get_target_property(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY} INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
-    # Set RPATH to $ORIGIN to make the library relocatable.
-    # set_target_properties(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set_target_properties(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PROPERTIES INSTALL_RPATH "@loader_path")
-else()
-    set_target_properties(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PROPERTIES INSTALL_RPATH $ORIGIN)
-endif()
+
+    target_set_rpath_relocatable(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME})
 endmacro()
 
 # ############
