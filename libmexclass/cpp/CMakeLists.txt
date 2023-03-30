@@ -10,12 +10,12 @@ cmake_policy(SET CMP0074 NEW)
 set(LIBMEXCLASS_PROJECT_NAME libmexclass)
 project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
 
-# #############
-# Helper Macros
-# #############
+# ################
+# Helper Functions
+# ################
 
 # Set the given target's RPATH on Linux and macOS.
-macro(target_set_rpath_relocatable)
+function(target_set_rpath_relocatable)
     # TODO: Add required argument logic.
     set(options)
     set(oneValueArgs NAME)
@@ -27,7 +27,7 @@ macro(target_set_rpath_relocatable)
     else()
         set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
     endif()
-endmacro()
+endfunction()
 
 # Find MATLAB.
 find_package(Matlab REQUIRED)
