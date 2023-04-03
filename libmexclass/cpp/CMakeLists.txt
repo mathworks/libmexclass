@@ -96,7 +96,7 @@ macro(libmexclass_client_add_proxy_library)
     # TODO: Add required argument logic.
     set(options)
     set(oneValueArgs NAME)
-    set(multiValueArgs SOURCES INCLUDE_DIRS)
+    set(multiValueArgs SOURCES INCLUDE_DIRS LINK_LIBRARIES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     find_package(Matlab REQUIRED)
@@ -114,9 +114,29 @@ macro(libmexclass_client_add_proxy_library)
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE mexclass)
     # Link against MATLAB Data Array shared library.
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
+    
+    define_property(
+        TARGET
+        PROPERTY LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES
+        BRIEF_DOCS "Additional link libraries for client Proxy library"
+        FULL_DOCS "Target names of additional shared libraries to link against the libmexclass client Proxy library."
+    )
+
+    if(DEFINED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
+        foreach(LINK_LIBRARY ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
+            target_get_property(TARGET_INCLUDE_DIRECTORIES ${LINK_LIBRARY} INCLUDE_DIRECTORIES)
+            target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_INCLUDE_DIRECTORIES}))
+            target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
+        endforeach()
+
+
+        set_property(
+            TARGET ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME}
+            PROPERTY LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES} 
+        )
+    endif()
 
     target_set_rpath_relocatable(NAME ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME})
-    # TODO: Should we link against custom link libraries here explicitly?
 endmacro()
 
 # ###########
@@ -163,6 +183,11 @@ macro(libmexclass_client_install)
                     ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME}
                     ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_MEX_GATEWAY_NAME}
             DESTINATION +libmexclass/+proxy)
+
     get_target_property(MATLAB_SOURCE_DIR mexclassmatlab MATLAB_SOURCES)
     install(DIRECTORY ${MATLAB_SOURCE_DIR} DESTINATION ".")
+
+    get_target_property(LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME} LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
+    install(TARGETS ${LINK_LIBRARIES}
+            DESTINATION +libmexclass/+proxy)
 endmacro()
