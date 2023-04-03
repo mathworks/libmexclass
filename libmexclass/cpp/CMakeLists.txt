@@ -188,6 +188,8 @@ macro(libmexclass_client_install)
     install(DIRECTORY ${MATLAB_SOURCE_DIR} DESTINATION ".")
 
     get_target_property(LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME} LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
-    install(TARGETS ${LINK_LIBRARIES}
-            DESTINATION +libmexclass/+proxy)
+    if(DEFINED ${LINK_LIBRARIES})
+        install(TARGETS ${LINK_LIBRARIES}
+                DESTINATION +libmexclass/+proxy)
+    endif()
 endmacro()
