@@ -122,7 +122,7 @@ macro(libmexclass_client_add_proxy_library)
         FULL_DOCS "Target names of additional shared libraries to link against the libmexclass client Proxy library."
     )
 
-    if(DEFINED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
+    if(DEFINED LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
         message(STATUS "Inside for loop")
         foreach(LINK_LIBRARY ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
             message(STATUS "FOR LOOP LINK_LIBRARY: ${LINK_LIBRARY}")
