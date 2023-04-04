@@ -123,7 +123,9 @@ macro(libmexclass_client_add_proxy_library)
     )
 
     if(DEFINED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
+        message(STATUS "Inside for loop")
         foreach(LINK_LIBRARY ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
+            message(STATUS "FOR LOOP LINK_LIBRARY: ${LINK_LIBRARY}")
             target_get_property(TARGET_INCLUDE_DIRECTORIES ${LINK_LIBRARY} INCLUDE_DIRECTORIES)
             target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_INCLUDE_DIRECTORIES})
             target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
@@ -134,6 +136,7 @@ macro(libmexclass_client_add_proxy_library)
             TARGET ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME}
             PROPERTY LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES} 
         )
+        message(STATUS "Set custom property.")
     endif()
 
     target_set_rpath_relocatable(NAME ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME})
