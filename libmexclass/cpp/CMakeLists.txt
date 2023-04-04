@@ -193,7 +193,7 @@ macro(libmexclass_client_install)
     get_target_property(LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME} LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
     message("INSTALLATION LINK_LIBRARIES: ${LINK_LIBRARIES}")
     if(DEFINED ${LINK_LIBRARIES})
-        install(TARGETS ${LINK_LIBRARIES}
+        install(IMPORTED_RUNTIME_ARTIFACTS ${LINK_LIBRARIES}
                 DESTINATION +libmexclass/+proxy)
     endif()
 endmacro()
