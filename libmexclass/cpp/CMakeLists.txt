@@ -14,6 +14,15 @@ project(${LIBMEXCLASS_PROJECT_NAME} VERSION 0.1.0)
 # Helper Functions
 # ################
 
+# Install the runtime libraries of an IMPORTED target.
+function(install_imported_target)
+    # TODO: Add required argument logic.
+    set(options)
+    set(oneValueArgs NAME DESTINATION)
+    set(multiValueArgs)
+    cmake_parse_arguments(LIBMEXCLASS_INSTALL_IMPORTED_TARGET "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+endfunction()
+
 # Set the given target's RPATH on Linux and macOS.
 function(target_set_rpath_relocatable)
     # TODO: Add required argument logic.
@@ -189,7 +198,13 @@ macro(libmexclass_client_install)
 
     get_target_property(LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME} LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
     if(DEFINED ${LINK_LIBRARIES})
-        install(IMPORTED_RUNTIME_ARTIFACTS ${LINK_LIBRARIES}
-                DESTINATION +libmexclass/+proxy)
+        foreach(LINK_LIBRARY ${LINK_LIBRARIES})
+            get_target_property(LINK_LIBRARY_IS_IMPORTED ${LINK_LIBRARY} IMPORTED)
+            if(${LINK_LIBRARY_IS_IMPORTED})
+                install_imported_target(NAME ${LINK_LIBRARY} DESTINATION +libmexclass/+proxy)
+            else()
+                install(TARGETS ${LINK_LIBRARY} DESTINATION +libmexclass/+proxy)
+            endif()
+        endforeach()
     endif()
 endmacro()
