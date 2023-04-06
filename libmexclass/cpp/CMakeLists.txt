@@ -123,9 +123,7 @@ macro(libmexclass_client_add_proxy_library)
     )
 
     if(DEFINED LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
-        message(STATUS "Inside for loop")
         foreach(LINK_LIBRARY ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
-            message(STATUS "FOR LOOP LINK_LIBRARY: ${LINK_LIBRARY}")
             get_target_property(TARGET_INCLUDE_DIRECTORIES ${LINK_LIBRARY} INTERFACE_INCLUDE_DIRECTORIES)
             target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_INCLUDE_DIRECTORIES})
             target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
@@ -136,7 +134,6 @@ macro(libmexclass_client_add_proxy_library)
             TARGET ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME}
             PROPERTY LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES} 
         )
-        message(STATUS "Set custom property.")
     endif()
 
     target_set_rpath_relocatable(NAME ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME})
@@ -191,7 +188,6 @@ macro(libmexclass_client_install)
     install(DIRECTORY ${MATLAB_SOURCE_DIR} DESTINATION ".")
 
     get_target_property(LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME} LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES)
-    message("INSTALLATION LINK_LIBRARIES: ${LINK_LIBRARIES}")
     if(DEFINED ${LINK_LIBRARIES})
         install(IMPORTED_RUNTIME_ARTIFACTS ${LINK_LIBRARIES}
                 DESTINATION +libmexclass/+proxy)
