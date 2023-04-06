@@ -30,8 +30,8 @@ function(install_imported_target)
     install(CODE "
         message(STATUS \"Copying runtime libraries\")
         file(COPY ${RUNTIME_LIBRARY} DESTINATION ${RUNTIME_LIBRARY_TEMP_FOLDER} FOLLOW_SYMLINK_CHAIN)
-        install(DIRECTORY ${RUNTIME_LIBRARY_TEMP_FOLDER}/ DESTINATION +libmexclass/+proxy)
     ")
+    install(DIRECTORY ${RUNTIME_LIBRARY_TEMP_FOLDER}/ DESTINATION +libmexclass/+proxy)
 endfunction()
 
 # Set the given target's RPATH on Linux and macOS.
