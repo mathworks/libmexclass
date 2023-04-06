@@ -57,4 +57,5 @@ libmexclass_client_add_mex_gateway(
 libmexclass_client_install(
     CLIENT_PROXY_LIBRARY_NAME ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME}
     CLIENT_MEX_GATEWAY_NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
+    DESTINATION "."
 )
