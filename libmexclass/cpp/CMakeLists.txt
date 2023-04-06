@@ -31,6 +31,7 @@ function(install_imported_target)
         DESTINATION ${LIBMEXCLASS_INSTALL_IMPORTED_TARGET_DESTINATION}
         FILES_MATCHING
         REGEX ${RUNTIME_LIBRARY_REGEX}
+        REGEX "^(${RUNTIME_LIBRARY_REGEX})" EXCLUDE
     )
 endfunction()
 
