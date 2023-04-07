@@ -10,7 +10,7 @@
 
 ```shell
 $ rm -Rf build
-$ cmake -S . -B build -D CMAKE_INSTALL_PREFIX=<install-prefix> -D LIBMEXCLASS_GIT_TAG=<git-tag>
+$ cmake -S . -B build -D CMAKE_INSTALL_PREFIX=<install-prefix> -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=<git-tag>
 $ cmake --build build --config Release --target install
 ```
 
