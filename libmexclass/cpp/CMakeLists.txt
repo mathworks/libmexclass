@@ -149,7 +149,6 @@ macro(libmexclass_client_add_proxy_library)
             target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
         endforeach()
 
-
         set_property(
             TARGET ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME}
             PROPERTY LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES} 
