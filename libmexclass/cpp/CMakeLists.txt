@@ -198,10 +198,13 @@ macro(libmexclass_client_install)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_INSTALL "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
+    set(LIBMEXCLASS_PROXY_PACKAGE_DIRECTORY "+libmexclass/+proxy")
+    set(LIBMEXCLASS_CLIENT_INSTALL_PROXY_PACKAGE_DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_DESTINATION}/${LIBMEXCLASS_PROXY_PACKAGE_DIRECTORY})
+
     install(TARGETS mexclass
                     ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_PROXY_LIBRARY_NAME}
                     ${LIBMEXCLASS_CLIENT_INSTALL_CLIENT_MEX_GATEWAY_NAME}
-            DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_DESTINATION}/+libmexclass/+proxy)
+            DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_PROXY_PACKAGE_DESTINATION})
 
     get_target_property(MATLAB_SOURCE_DIR mexclassmatlab MATLAB_SOURCES)
     install(DIRECTORY ${MATLAB_SOURCE_DIR} DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_DESTINATION})
@@ -211,9 +214,9 @@ macro(libmexclass_client_install)
         foreach(LINK_LIBRARY ${LINK_LIBRARIES})
             get_target_property(LINK_LIBRARY_IS_IMPORTED ${LINK_LIBRARY} IMPORTED)
             if(${LINK_LIBRARY_IS_IMPORTED})
-                install_imported_target(NAME ${LINK_LIBRARY} DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_DESTINATION}/+libmexclass/+proxy)
+                install_imported_target(NAME ${LINK_LIBRARY} DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_PROXY_PACKAGE_DESTINATION})
             else()
-                install(TARGETS ${LINK_LIBRARY} DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_DESTINATION}/+libmexclass/+proxy)
+                install(TARGETS ${LINK_LIBRARY} DESTINATION ${LIBMEXCLASS_CLIENT_INSTALL_PROXY_PACKAGE_DESTINATION})
             endif()
         endforeach()
     endif()
