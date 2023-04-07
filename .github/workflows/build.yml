@@ -16,7 +16,7 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_GIT_TAG=${{ env.LIBMEXCLASS_GIT_TAG }}
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ env.LIBMEXCLASS_GIT_TAG }}
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
@@ -26,4 +26,4 @@ jobs:
                   # As a workaround, set LD_PRELOAD to use the system version of libstdc++ with MATLAB.
                   LD_PRELOAD: ${{ env.SYSTEM_LIBSTDCPP_PATH }}
               with:
-                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}", "libmexclass")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
+                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")

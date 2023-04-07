@@ -1,14 +1,16 @@
+#pragma once
+
 #include "libmexclass/action/Action.h"
 #include "libmexclass/action/Factory.h"
 #include "libmexclass/mex/Arguments.h"
+#include "libmexclass/mex/Matlab.h"
 #include "libmexclass/mex/State.h"
 #include "libmexclass/proxy/Factory.h"
-
-#include CUSTOM_PROXY_FACTORY_HEADER_FILENAME
 
 #include "mex.hpp"
 #include "mexAdapter.hpp"
 
+namespace libmexclass::mex {
 // =======================================
 // MEX Gateway Function Supported Syntaxes
 // =======================================
@@ -45,21 +47,18 @@
 
 // This is the main MEX function gateway.
 // This uses a rough approximation of the "Proxy" Design Pattern to handle dispatching to appropriate object method calls.
-class MexFunction : public matlab::mex::Function {
-    public:
-    void operator()(matlab::mex::ArgumentList outputs, matlab::mex::ArgumentList inputs) {
-        using namespace libmexclass;
-
+    template<typename ProxyFactory>
+    inline void gateway(matlab::mex::ArgumentList inputs, matlab::mex::ArgumentList outputs, Matlab matlab) {
         // Wrap the inputs and outputs.
         mex::Arguments output_arguments{outputs.begin()};
         mex::Arguments input_arguments{inputs.begin()};
 
         // Store the inputs, outputs, and MATLAB Engine pointer in a libmexclass::mex::State instance.
-        mex::State state{input_arguments, output_arguments, getEngine()};
+        mex::State state{input_arguments, output_arguments, matlab};
 
         // Create a polymorphic proxy::Factory instance.
         // NOTE: Clients provide the implementation for CustomProxyFactory.
-        std::shared_ptr<proxy::Factory> proxy_factory = std::make_shared<CUSTOM_PROXY_FACTORY_CLASS_NAME>();
+        std::shared_ptr<proxy::Factory> proxy_factory = std::make_shared<ProxyFactory>();
 
         // Create an action::Factory.
         action::Factory action_factory{proxy_factory};
@@ -70,4 +69,4 @@ class MexFunction : public matlab::mex::Function {
         // Execute the Action.
         action->execute();
     }
-};
+}
