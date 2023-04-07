@@ -50,14 +50,16 @@ set(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES
 )
 
 # Create the libmexclass client Proxy library target.
+#
+# NOTE: Additional libraries to link the client
+#       Proxy library against can be specified
+#       using the LINK_LIBRARIES argument to
+#       libmexclass_client_add_proxy_library.
+
 libmexclass_client_add_proxy_library(
     NAME ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME}
     SOURCES ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES}
     INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS}
-    # NOTE: Additional libraries to link the client
-    #       Proxy library against can be specified
-    #       using the LINK_LIBRARIES argument to
-    #       libmexclass_client_add_proxy_library.
 )
 
 # NOTE: Clients can modify the client Proxy library target
