@@ -146,7 +146,9 @@ macro(libmexclass_client_add_proxy_library)
         foreach(LINK_LIBRARY ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_LINK_LIBRARIES})
             get_target_property(TARGET_INCLUDE_DIRECTORIES ${LINK_LIBRARY} INTERFACE_INCLUDE_DIRECTORIES)
             target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_INCLUDE_DIRECTORIES})
-            target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
+            get_target_property(TARGET_IMPORTED_IMPLIB ${LINK_LIBRARY} IMPORTED_IMPLIB)
+            message(STATUS "TARGET_IMPORTED_IMPLIB = ${TARGET_IMPORTED_IMPLIB}")
+            target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_IMPORTED_IMPLIB})
         endforeach()
 
         set_property(
