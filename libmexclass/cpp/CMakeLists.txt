@@ -152,7 +152,12 @@ macro(libmexclass_client_add_proxy_library)
             
             get_target_property(TARGET_INCLUDE_DIRECTORIES ${LINK_LIBRARY} INTERFACE_INCLUDE_DIRECTORIES)
             target_include_directories(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_INCLUDE_DIRECTORIES})
-            target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
+            if(WIN32)
+                get_target_property(TARGET_IMPORTED_IMPLIB ${LINK_LIBRARY} IMPORTED_IMPLIB)
+                target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${TARGET_IMPORTED_IMPLIB})
+            else()
+                target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${LINK_LIBRARY})
+            endif()
         endforeach()
 
         set_property(
