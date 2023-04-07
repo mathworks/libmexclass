@@ -165,7 +165,7 @@ endmacro()
 macro(libmexclass_client_add_mex_gateway)
     # TODO: Add required argument logic.
     set(options)
-    set(oneValueArgs NAME CLIENT_PROXY_LIBRARY)
+    set(oneValueArgs NAME CLIENT_PROXY_LIBRARY_NAME)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -175,14 +175,14 @@ macro(libmexclass_client_add_mex_gateway)
                    SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
                    OUTPUT_NAME "gateway"
                    LINK_TO mexclass
-                           ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY})
+                           ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY_NAME})
     # Set compiler features to require C++17.
     target_compile_features(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE cxx_std_17)
     # Include directories (i.e. header files).
     get_target_property(LIBMEXCLASS_INCLUDE_DIRS mexclass INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIRS})
     # TODO: Decide whether to automatically add client library include directories.
-    get_target_property(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY} INCLUDE_DIRECTORIES)
+    get_target_property(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_CLIENT_PROXY_LIBRARY_NAME} INCLUDE_DIRECTORIES)
     target_include_directories(${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME} PRIVATE ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS})
 
     target_set_rpath_relocatable(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME})
