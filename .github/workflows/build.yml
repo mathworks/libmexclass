@@ -61,6 +61,7 @@ jobs:
             - name: Build Example
               run: |
                   cd example
+                  echo "LIBMEXCLASS_INSTALL_PREFIX= ${{ env.LIBMEXCLASS_GIT_TAG }}"
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ env.LIBMEXCLASS_GIT_TAG }}
                   cmake --build build --config Release --target install
             - name: Run Example
