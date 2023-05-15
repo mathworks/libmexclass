@@ -7,7 +7,7 @@ jobs:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
             SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
-            LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
+            LIBMEXCLASS_GIT_TAG: ${{ env.GITHUB_SHA }}
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -32,7 +32,7 @@ jobs:
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "~/install"
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
-            LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
+            LIBMEXCLASS_GIT_TAG: ${{ env.GITHUB_SHA }}
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
         env:
             LIBMEXCLASS_INSTALL_PREFIX: ${{ vars.RUNNER_TEMP }}/install
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
-            LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
+            LIBMEXCLASS_GIT_TAG: ${{ env.GITHUB_SHA }}
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
