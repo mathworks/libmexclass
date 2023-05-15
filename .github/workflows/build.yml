@@ -6,8 +6,6 @@ jobs:
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
             SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
-            # Use the commit SHA that triggered the workflow to run the example on latest changes.
-            LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -16,7 +14,7 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ env.LIBMEXCLASS_GIT_TAG }}
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
@@ -31,8 +29,6 @@ jobs:
         runs-on: macos-latest
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "~/install"
-            # Use the commit SHA that triggered the workflow to run the example on latest changes.
-            LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
         steps:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
@@ -41,7 +37,28 @@ jobs:
             - name: Build Example
               run: |
                   cd example
-                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ env.LIBMEXCLASS_GIT_TAG }}
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
+                  cmake --build build --config Release --target install
+            - name: Run Example
+              uses: matlab-actions/run-command@v1
+              with:
+                  command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
+    windows:
+        runs-on: windows-latest
+        env:
+            LIBMEXCLASS_INSTALL_PREFIX: ${{ vars.RUNNER_TEMP }}/install
+            # Use the commit SHA that triggered the workflow to run the example on latest changes.
+            LIBMEXCLASS_GIT_TAG: ${{ vars.GITHUB_SHA }}
+        steps:
+            - name: Download libmexclass source code
+              uses: actions/checkout@v3
+            - name: Install MATLAB
+              uses: matlab-actions/setup-matlab@v1
+            - name: Build Example
+              run: |
+                  cd example
+                  echo "LIBMEXCLASS_INSTALL_PREFIX= ${{ env.LIBMEXCLASS_GIT_TAG }}"
+                  cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
                   cmake --build build --config Release --target install
             - name: Run Example
               uses: matlab-actions/run-command@v1
