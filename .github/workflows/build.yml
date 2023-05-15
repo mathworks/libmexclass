@@ -30,7 +30,7 @@ jobs:
     mac:
         runs-on: macos-latest
         env:
-            LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
+            LIBMEXCLASS_INSTALL_PREFIX: "~/install"
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
             LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
         steps:
