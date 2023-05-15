@@ -50,7 +50,7 @@ jobs:
     windows:
         runs-on: windows-latest
         env:
-            LIBMEXCLASS_INSTALL_PREFIX: "${{ env.RUNNER_TEMP }}/install"
+            LIBMEXCLASS_INSTALL_PREFIX: ${{ env.RUNNER_TEMP }}/install
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
             LIBMEXCLASS_GIT_TAG: $(git rev-parse --short "$GITHUB_SHA")
         steps:
