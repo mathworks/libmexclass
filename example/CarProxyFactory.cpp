@@ -2,10 +2,10 @@
 
 #include "proxy/Car.h"
 
-std::shared_ptr<libmexclass::proxy::Proxy>
-CarProxyFactory::make_proxy(const libmexclass::proxy::ClassName& class_name,
+libmexclass::proxy::MakeProxyResult CarProxyFactory::make_proxy(const libmexclass::proxy::ClassName& class_name,
                             const libmexclass::proxy::FunctionArguments& constructor_arguments) {
 
     REGISTER_PROXY(example.proxy.Car, example::proxy::Car);
-    return nullptr;
+
+    return libmexclass::error::Error{"libmexclass:proxy:factory:failed", "Failed to make proxy"};
 }
