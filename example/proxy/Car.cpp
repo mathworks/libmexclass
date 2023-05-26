@@ -87,13 +87,13 @@ void Car::Print(libmexclass::proxy::method::Context& context) {
 }
 
 namespace {
-    std::string convert(const libmexclass::proxy::FunctionArguments& constructor_arguments, std::uint64_t index) const {
+    std::string convert(const libmexclass::proxy::FunctionArguments& constructor_arguments, std::uint64_t index) {
         matlab::data::StringArray mda = constructor_arguments[index];
         return std::string(mda[0]);
     }
 }
 
-void MakeCarResult Car::make(const libmexclass::proxy::FunctionArguments& constructor_arguments) {
+MakeProxyResult Car::make(const libmexclass::proxy::FunctionArguments& constructor_arguments) {
     const std::string make  = convert(constructor_arguments, 0);
     const std::string model = convert(constructor_arguments, 1);
     const std::string color = convert(constructor_arguments, 2);
