@@ -41,7 +41,7 @@ void Car::SetSpeed(libmexclass::proxy::method::Context& context) {
     // First, cast the first cell array element into a MDA TypedArray<uint64_t> array.
     matlab::data::TypedArray<uint64_t> speed_mda = context.inputs[0];
     // Second, extract the first [0th] element from the MDA TypedArray and convert it into a uint64_t value.
-    const std::uint64_t speed = uint64_t(state_mda[0]);
+    const std::uint64_t speed = uint64_t(speed_mda[0]);
     if (speed > 100) {
         context.error = libmexclass::error::Error{"Car:Speed:TooFast", "Slow down!!"};
         return;
