@@ -4,8 +4,8 @@
 
 namespace libmexclass::error {
     struct Error {
-        const std::string id;
-        const std::string message;
+        std::string id;
+        std::string message;
     };
 
     class ErrorBuilder {
