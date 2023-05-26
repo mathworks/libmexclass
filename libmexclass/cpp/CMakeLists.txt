@@ -66,6 +66,7 @@ set(LIBMEXCLASS_SOURCES
     ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/action/MethodCall.cpp
     ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/proxy/Proxy.cpp
     ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/proxy/ProxyManager.cpp
+    ${LIBMEXCLASS_SOURCE_DIR}/libmexclass/error/Error.cpp
 )
 
 # Create libmexclass shared library target.
