@@ -2,6 +2,7 @@
 
 #include "libmexclass/proxy/Proxy.h"
 #include "libmexclass/proxy/method/Context.h"
+#include "libmexclass/proxy/error/Result.h"
 
 #include "../Car.h"
 
@@ -34,7 +35,7 @@ class Car : public libmexclass::proxy::Proxy {
 
     using MakeProxyResult = std::variant<std::shared_ptr<libmexclass::proxy::Proxy>, libmexclass::error::Error>;
     
-    static libmexclass::proxy::MakeProxyResult make(const libmexclass::proxy::FunctionArguments& constructor_arguments);
+    static libmexclass::error::Result<std::shared_ptr<libmexclass::proxy::Proxy>> make(const libmexclass::proxy::FunctionArguments& constructor_arguments);
 
   private:
     void Accelerate(libmexclass::proxy::method::Context& context);

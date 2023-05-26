@@ -28,7 +28,7 @@ namespace libmexclass::proxy {
 //            virtual std::shared_ptr<Proxy> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
 //
         
-        virtual error::Result<std::shared_ptr<Proxy> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
+        virtual error::Result<std::shared_ptr<Proxy>> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
     };
 
 }
