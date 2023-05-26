@@ -68,8 +68,8 @@ namespace libmexclass::mex {
         std::unique_ptr<action::Action> action = action_factory.makeAction(state);
         
         // Execute the Action.
-        std::optional<error::Error> mayb_error = action->execute();
-        if (mayb_error) {
+        std::optional<error::Error> maybe_error = action->execute();
+        if (maybe_error) {
             matlab::dataArrayFactory factory;
 
             auto error = maybe_error.value();
