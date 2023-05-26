@@ -70,7 +70,7 @@ namespace libmexclass::mex {
         // Execute the Action.
         std::optional<error::Error> maybe_error = action->execute();
         if (maybe_error) {
-            matlab::dataArrayFactory factory;
+            matlab::data::ArrayFactory factory;
 
             auto error = maybe_error.value();
             matlab::data::StructArray errorStruct = factory.createStructArray({1, 1}, {"identifier", "message"});
