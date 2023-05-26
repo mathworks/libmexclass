@@ -93,7 +93,7 @@ namespace {
     }
 }
 
-MakeProxyResult Car::make(const libmexclass::proxy::FunctionArguments& constructor_arguments) {
+libmexclass::proxy::MakeProxyResult Car::make(const libmexclass::proxy::FunctionArguments& constructor_arguments) {
     const std::string make  = convert(constructor_arguments, 0);
     const std::string model = convert(constructor_arguments, 1);
     const std::string color = convert(constructor_arguments, 2);
