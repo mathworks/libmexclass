@@ -16,7 +16,7 @@
 */
 //#define REGISTER_PROXY(name, cppClass) if (class_name.compare(#name) == 0) return std::make_shared<cppClass>(constructor_arguments)
 
-#define REGISTER_PROXY2(name, cppClass) if (class_name.compare(#name) == 0) return cppClass::make(constructor_arguments)
+#define REGISTER_PROXY(name, cppClass) if (class_name.compare(#name) == 0) return cppClass::make(constructor_arguments)
 
 namespace libmexclass::proxy {
 
