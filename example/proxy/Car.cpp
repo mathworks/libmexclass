@@ -101,7 +101,7 @@ MakeProxyResult Car::make(const libmexclass::proxy::FunctionArguments& construct
     if (make.empty() || model.empty() || color.empty()) {
         return libmexclass::error::Error{"libmexclass:example:Car:EmptyInputs", "Inputs make, modle, and color must be nonempty"};
     }
-    return std::make_shared_ptr<Car>(make, modle, color);
+    return std::make_shared_ptr<example::proxy::Car>(make, model, color);
 }
 
 } // namespace example::proxy
