@@ -8,7 +8,7 @@
 
 namespace libmexclass::action {
 
-void Create::execute() {
+std::optional<libmexclass::error::Error> Create::execute() {
     // proxy::ProxyFactory will create an appropriate proxy::Proxy subclass
     // based on the provided libmexclass::mex::State.
     std::shared_ptr<libmexclass::proxy::Proxy> proxy =
@@ -21,6 +21,8 @@ void Create::execute() {
     matlab::data::ArrayFactory factory;
     auto id_array = factory.createScalar<libmexclass::proxy::ID>(id);
     outputs[0] = id_array;
+   
+    return std::nullopt;
 }
 
 } // namespace libmexclass::action

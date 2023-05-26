@@ -6,6 +6,7 @@
 #include "libmexclass/mex/Matlab.h"
 #include "libmexclass/mex/State.h"
 #include "libmexclass/proxy/Factory.h"
+#include "libmexclass/error/Error.h"
 
 #include "mex.hpp"
 #include "mexAdapter.hpp"
@@ -67,6 +68,14 @@ namespace libmexclass::mex {
         std::unique_ptr<action::Action> action = action_factory.makeAction(state);
         
         // Execute the Action.
-        action->execute();
+        std::optional<error::Error> error = action->execute();
+        if (error) {
+            matlab::dataArrayFactory factory;
+
+            matlab::data::StructArray errorStruct = factory.createStructArray({1, 1}, {"identifier", "message"});
+            errorStruct[0]["identifier"] = factory.createScalar<matlab::data::String>(error.id);
+            errorStruct[0]["message"] = factory.createScalar<matlab::data::String>(error.message);
+            matlab->feval(u"error", 0, std::vector<Array>({errorStruct}));
+        }
     }
 }

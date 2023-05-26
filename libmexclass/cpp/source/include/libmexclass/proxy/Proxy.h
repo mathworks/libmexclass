@@ -4,6 +4,7 @@
 #include "libmexclass/proxy/method/Name.h"
 #include "libmexclass/proxy/method/Method.h"
 #include "libmexclass/proxy/method/Object.h"
+#include "libmexclass/error/Error.h"
 
 #include <functional>
 #include <unordered_map>
@@ -24,7 +25,7 @@ namespace libmexclass::proxy {
 	class Proxy {
 		public:
             Proxy() : methods{} { }
-			void invoke(libmexclass::proxy::method::Method& method);
+			std::optional<libmexclass::error::Error> invoke(libmexclass::proxy::method::Method& method);
         protected:
             std::unordered_map<libmexclass::proxy::method::Name, libmexclass::proxy::method::Object> methods;
 	};
