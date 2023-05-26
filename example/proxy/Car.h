@@ -32,6 +32,8 @@ class Car : public libmexclass::proxy::Proxy {
         REGISTER_METHOD(Car, Print);
     }
 
+    using MakeProxyResult = std::variant<std::shared_ptr<libmexclass::proxy::Proxy, libmexclass::error::Error>;
+    
     static MakeProxyResult make(const libmexclass::proxy::FunctionArguments& constructor_arguments);
 
   private:
