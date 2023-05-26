@@ -9,7 +9,7 @@ namespace libmexclass::action {
             Unsupported(libmexclass::mex::State& state) : Action{state} {
             }
             virtual ~Unsupported() {}
-            virtual void execute() override;
+            virtual std::optional<libmexclass::error::Error> execute() override;
     };
     
 }

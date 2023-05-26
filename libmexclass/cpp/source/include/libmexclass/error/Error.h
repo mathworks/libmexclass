@@ -3,9 +3,6 @@
 #include <string>
 
 namespace libmexclass::error {
-
-    using string_t = std::basic_string<char16_t>;
-
     struct Error {
         const string_t id;
         const string_t msg;
@@ -13,9 +10,9 @@ namespace libmexclass::error {
 
     class ErrorBuilder {
     public:
-        ErrorBuilder& id(const string_t& error_id);
+        ErrorBuilder& id(const std::string& error_id);
 
-        ErrorBuilder& message(const string_t& error_message);
+        ErrorBuilder& message(const std::string& error_message);
 
         Error build() const;
 

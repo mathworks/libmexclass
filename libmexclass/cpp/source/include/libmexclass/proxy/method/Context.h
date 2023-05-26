@@ -13,7 +13,7 @@ namespace libmexclass::proxy::method {
         const libmexclass::proxy::method::Inputs inputs;
         libmexclass::proxy::method::Outputs outputs;
         const libmexclass::proxy::method::Matlab matlab;
-        std::optional<libmexclass::proxy::Error> error;
+        std::optional<libmexclass::error::Error> error;
     };
 
 }

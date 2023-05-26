@@ -2,12 +2,12 @@
 
 namespace libmexclass::error {
 
-    ErrorBuilder& ErrorBuilder::id(const string_t& error_id) {
+    ErrorBuilder& ErrorBuilder::id(const std::string& error_id) {
         id_ = error_id;
         return *this;
     }
 
-    ErrorBuilder& ErrorBuilder::message(const string_t& error_message) {
+    ErrorBuilder& ErrorBuilder::message(const std::string& error_message) {
         message_ = error_message;
         return *this;
     }
