@@ -39,11 +39,17 @@ void Car::GetSpeed(libmexclass::proxy::method::Context& context) {
 
 void Car::SetSpeed(libmexclass::proxy::method::Context& context) {
     // First, cast the first cell array element into a MDA TypedArray<uint64_t> array.
-    matlab::data::TypedArray<uint64_t> state_mda = context.inputs[0];
+    matlab::data::TypedArray<uint64_t> speed_mda = context.inputs[0];
     // Second, extract the first [0th] element from the MDA TypedArray and convert it into a uint64_t value.
-    const std::uint64_t state = uint64_t(state_mda[0]);
+    const std::uint64_t speed = uint64_t(state_mda[0]);
+    if (state > 100) {
+        context.error = libmexclass::error::Error{"Car:Speed:TooFast", "Slow down!!"};
+        return;
+    }
+    
+    
     // Third, pass the unwrapped native C++ int64_t value to the raw C++ object Headlights() method.
-    car.SetSpeed(state);
+    car.SetSpeed(speed);
 }
 
 void Car::GetMake(libmexclass::proxy::method::Context& context) {
