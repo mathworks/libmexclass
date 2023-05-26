@@ -2,7 +2,7 @@
 
 #include "libmexclass/proxy/Proxy.h"
 #include "libmexclass/proxy/method/Context.h"
-#include "libmexclass/proxy/error/Result.h"
+#include "libmexclass/error/Result.h"
 
 #include "../Car.h"
 
