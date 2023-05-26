@@ -22,5 +22,5 @@ namespace libmexclass::error {
     private:
         string_t id_;
         string_t message_;
-    }
+    };
 }

@@ -3,7 +3,7 @@
 namespace libmexclass::error {
 
     ErrorBuilder& ErrorBuilder::id(const string_t& error_id) {
-        id_ = message_id;
+        id_ = error_id;
     }
 
     ErrorBuilder& ErrorBuilder::message(const string_t& error_message) {
