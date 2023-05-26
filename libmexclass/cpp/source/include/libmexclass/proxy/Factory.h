@@ -4,7 +4,7 @@
 #include "libmexclass/proxy/FunctionArguments.h"
 #include "libmexclass/mex/State.h"
 #include "libmexclass/proxy/Proxy.h"
-#include "libmexclass/error/Error.h"
+#include "libmexclass/error/Result.h"
 
 #include <memory>
 #include <variant>
@@ -20,7 +20,6 @@
 
 namespace libmexclass::proxy {
 
-    using MakeProxyResult = std::variant<std::shared_ptr<Proxy>, libmexclass::error::Error>;
 
     // Abstract interface defining a class that is able to make Proxy objects with a particular ClassName and ConstructorArguments.
     // This interface uses the "Factory" design pattern.
@@ -29,7 +28,7 @@ namespace libmexclass::proxy {
 //            virtual std::shared_ptr<Proxy> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
 //
         
-        virtual MakeProxyResult make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
+        virtual error::Result<std::shared_ptr<Proxy> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
     };
 
 }

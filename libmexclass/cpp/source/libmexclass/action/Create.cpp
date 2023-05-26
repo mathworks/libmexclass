@@ -13,8 +13,7 @@ std::optional<libmexclass::error::Error> Create::execute() {
     
     // proxy::ProxyFactory will create an appropriate proxy::Proxy subclass
     // based on the provided libmexclass::mex::State.
-    proxy::MakeProxyResult maybe_proxy = proxy_factory->make_proxy(class_name, constructor_arguments);
-
+    error::Result maybe_proxy = proxy_factory->make_proxy(class_name, constructor_arguments);
     
     if (std::holds_alternative<libmexclass::error::Error>(maybe_proxy)) {
         return std::get<libmexclass::error::Error>(maybe_proxy);
