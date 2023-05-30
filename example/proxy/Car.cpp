@@ -99,7 +99,7 @@ libmexclass::error::Result<std::shared_ptr<libmexclass::proxy::Proxy>> Car::make
     const std::string color = convert(constructor_arguments, 2);
     
     if (make.empty() || model.empty() || color.empty()) {
-        return libmexclass::error::Error{"libmexclass:example:Car:EmptyInputs", "Inputs make, modle, and color must be nonempty"};
+        return libmexclass::error::Error{"libmexclass:example:Car:EmptyInputs", "Inputs make, model, and color must be nonempty"};
     }
     return std::make_shared<example::proxy::Car>(make, model, color);
 }
