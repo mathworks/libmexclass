@@ -13,8 +13,9 @@
 * \brief register a C++ Proxy subclass so that a MATLAB Proxy instance can connect with it
 * \param name the name that a MATLAB Proxy instance will use to connect with the registered C++ Proxy subclass
 * \param cppClass the name of the C++ Proxy subclass to register
+* \note The C++ Proxy class must define a static make function with the following signature:
+*       libmexclass::error::Result<std::shared_ptr<cppClass>> make(libmexclass::proxy::FunctionArguments&).
 */
-//#define REGISTER_PROXY(name, cppClass) if (class_name.compare(#name) == 0) return std::make_shared<cppClass>(constructor_arguments)
 
 #define REGISTER_PROXY(name, cppClass) if (class_name.compare(#name) == 0) return cppClass::make(constructor_arguments)
 
@@ -25,9 +26,6 @@ namespace libmexclass::proxy {
     // This interface uses the "Factory" design pattern.
     class Factory {
         public:
-//            virtual std::shared_ptr<Proxy> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
-//
-        
         virtual error::Result<std::shared_ptr<Proxy>> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
     };
 
