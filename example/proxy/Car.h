@@ -2,11 +2,8 @@
 
 #include "libmexclass/proxy/Proxy.h"
 #include "libmexclass/proxy/method/Context.h"
-#include "libmexclass/error/Result.h"
 
 #include "../Car.h"
-
-#include <variant>
 
 namespace example::proxy {
 
@@ -32,10 +29,8 @@ class Car : public libmexclass::proxy::Proxy {
         REGISTER_METHOD(Car, GetColor);
         REGISTER_METHOD(Car, Print);
     }
-
-    using MakeProxyResult = std::variant<std::shared_ptr<libmexclass::proxy::Proxy>, libmexclass::error::Error>;
     
-    static libmexclass::error::Result<std::shared_ptr<libmexclass::proxy::Proxy>> make(const libmexclass::proxy::FunctionArguments& constructor_arguments);
+    static libmexclass::proxy::MakeResult make(const libmexclass::proxy::FunctionArguments& constructor_arguments);
 
   private:
     void Accelerate(libmexclass::proxy::method::Context& context);

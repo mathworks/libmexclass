@@ -9,17 +9,16 @@
 namespace libmexclass::action {
 
 std::optional<libmexclass::error::Error> Create::execute() {
-    using proxy_shared_ptr = std::shared_ptr<libmexclass::proxy::Proxy>;
-    
+
     // proxy::ProxyFactory will create an appropriate proxy::Proxy subclass
     // based on the provided libmexclass::mex::State.
-    error::Result<proxy_shared_ptr> maybe_proxy = proxy_factory->make_proxy(class_name, constructor_arguments);
+    libmexclass::proxy::MakeResult maybe_proxy = proxy_factory->make_proxy(class_name, constructor_arguments);
     
     if (std::holds_alternative<libmexclass::error::Error>(maybe_proxy)) {
         return std::get<libmexclass::error::Error>(maybe_proxy);
     }
 
-    proxy_shared_ptr proxy = std::get<proxy_shared_ptr>(std::move(maybe_proxy));
+    auto proxy = std::get<std::shared_ptr<libmexclass::proxy::Proxy>>(std::move(maybe_proxy));
 
     // Assign the proxy::ID returned by the ProxyManager to the outputs[] MDA.
     libmexclass::proxy::ID id =

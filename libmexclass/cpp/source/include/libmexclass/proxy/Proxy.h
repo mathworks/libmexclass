@@ -6,6 +6,8 @@
 #include "libmexclass/proxy/method/Object.h"
 #include "libmexclass/error/Error.h"
 
+#include <variant>
+#include <optional>
 #include <functional>
 #include <unordered_map>
 
@@ -22,6 +24,7 @@
 */ 
 
 namespace libmexclass::proxy {
+
 	class Proxy {
 		public:
             Proxy() : methods{} { }
@@ -29,4 +32,6 @@ namespace libmexclass::proxy {
         protected:
             std::unordered_map<libmexclass::proxy::method::Name, libmexclass::proxy::method::Object> methods;
 	};
+
+    using MakeResult = std::varaint<libmexclass::proxy::Proxy, libmexclass::error::Error>;
 }
