@@ -4,7 +4,6 @@
 #include "libmexclass/proxy/FunctionArguments.h"
 #include "libmexclass/mex/State.h"
 #include "libmexclass/proxy/Proxy.h"
-#include "libmexclass/error/Result.h"
 
 #include <memory>
 #include <variant>
