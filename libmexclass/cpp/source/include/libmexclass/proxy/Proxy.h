@@ -33,5 +33,5 @@ namespace libmexclass::proxy {
             std::unordered_map<libmexclass::proxy::method::Name, libmexclass::proxy::method::Object> methods;
 	};
 
-    using MakeResult = std::variant<libmexclass::proxy::Proxy, libmexclass::error::Error>;
+    using MakeResult = std::variant<std::shared_ptr<libmexclass::proxy::Proxy>, libmexclass::error::Error>;
 }
