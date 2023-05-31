@@ -6,7 +6,6 @@
 #include "libmexclass/proxy/Proxy.h"
 
 #include <memory>
-#include <variant>
 
 /*
 * \brief register a C++ Proxy subclass so that a MATLAB Proxy instance can connect with it
@@ -25,7 +24,7 @@ namespace libmexclass::proxy {
     // This interface uses the "Factory" design pattern.
     class Factory {
         public:
-        virtual error::Result<std::shared_ptr<Proxy>> make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
+        virtual libmexclass::proxy::MakeResult make_proxy(const libmexclass::proxy::ClassName& class_name, const libmexclass::proxy::FunctionArguments& constructor_arguments) = 0;
     };
 
 }
