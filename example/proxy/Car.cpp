@@ -86,11 +86,9 @@ void Car::Print(libmexclass::proxy::method::Context& context) {
     car.Print();
 }
 
-namespace {
-    std::string convert(const libmexclass::proxy::FunctionArguments& constructor_arguments, std::uint64_t index) {
-        matlab::data::StringArray mda = constructor_arguments[index];
-        return std::string(mda[0]);
-    }
+std::string convert(const libmexclass::proxy::FunctionArguments& constructor_arguments, std::uint64_t index) {
+    matlab::data::StringArray mda = constructor_arguments[index];
+    return std::string(mda[0]);
 }
 
 libmexclass::error::Result<std::shared_ptr<libmexclass::proxy::Proxy>> Car::make(const libmexclass::proxy::FunctionArguments& constructor_arguments) {
