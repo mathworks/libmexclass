@@ -17,7 +17,7 @@ namespace libmexclass::action {
                 method_arguments = state.inputs[libmexclass::action::MethodCall::METHOD_ARGUMENTS_INDEX];
             }
             virtual ~MethodCall() {}
-            virtual void execute() override;
+            virtual std::optional<libmexclass::error::Error> execute() override;
         private:
             libmexclass::proxy::ID proxy_id;
             libmexclass::proxy::method::Name method_name;

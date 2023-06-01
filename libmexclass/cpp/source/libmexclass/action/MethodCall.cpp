@@ -7,7 +7,7 @@
 
 namespace libmexclass::action {
 
-void MethodCall::execute() {
+std::optional<libmexclass::error::Error> MethodCall::execute() {
     // TODO: Implement ID retrieval logic from MethodCall properties.
     // Retrieve the appropriate polymorphic proxy::Proxy instance from the
     // proxy::ProxyManager using the given proxy::ID.
@@ -22,6 +22,9 @@ void MethodCall::execute() {
     libmexclass::proxy::method::Method method{method_name, method_arguments,
                                               outputs, matlab};
     proxy->invoke(method);
+    
+    // return an error if one exists. Otherwise returns a nullopt.
+    return method.context.error;
 }
 
 } // namespace libmexclass::action

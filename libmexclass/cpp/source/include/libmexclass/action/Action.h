@@ -1,6 +1,9 @@
 #pragma once
 
 #include "libmexclass/mex/State.h"
+#include "libmexclass/error/Error.h"
+
+#include <optional>
 
 namespace libmexclass::action {
 
@@ -13,7 +16,8 @@ namespace libmexclass::action {
             public:
                 Action(libmexclass::mex::State& state) : outputs{state.outputs}, matlab{state.matlab} { }
                 virtual ~Action() {}
-                virtual void execute() = 0;
+                virtual std::optional<libmexclass::error::Error> execute() = 0;
+
             protected:
                 libmexclass::mex::Arguments& outputs;
                 libmexclass::mex::Matlab matlab;

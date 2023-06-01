@@ -13,7 +13,7 @@ namespace libmexclass::action {
                 proxy_id = std::uint64_t(state.inputs[libmexclass::action::Destroy::PROXY_ID_INDEX][0]);
             }
             virtual ~Destroy() {}
-            virtual void execute() override;
+                virtual std::optional<libmexclass::error::Error> execute() override;
         private:
             libmexclass::proxy::ID proxy_id;
 

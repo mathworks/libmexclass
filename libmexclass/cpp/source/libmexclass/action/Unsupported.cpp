@@ -4,10 +4,7 @@
 
 namespace libmexclass::action {
 
-        void Unsupported::execute() {
-//             matlab::data::ArrayFactory factory;
-//             state.matlab->feval(u"error", 0,
-//                              std::vector<matlab::data::Array>({ factory.createScalar("The specified action is unsupported.") }));
+        std::optional<libmexclass::error::Error> Unsupported::execute() {
+            return libmexclass::error::Error{"libmexclass:action:UnsupportedAction", "The specified action is unsupported"};
         }
-
 }

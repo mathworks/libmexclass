@@ -6,10 +6,12 @@
 #include "../Car.h"
 
 namespace example::proxy {
+
 class Car : public libmexclass::proxy::Proxy {
   public:
-    Car(const libmexclass::proxy::FunctionArguments& constructor_arguments)
-        : car{convert(constructor_arguments, 0), convert(constructor_arguments, 1), convert(constructor_arguments, 2)} {
+    Car(const std::string& make, const std::string& model, const std::string& color)
+        : car{make, model, color} {
+        
         // Step 1. Unpack constructor arguments.
 
         // Step 2. Initiliaze "raw" C++ object.
@@ -27,6 +29,8 @@ class Car : public libmexclass::proxy::Proxy {
         REGISTER_METHOD(Car, GetColor);
         REGISTER_METHOD(Car, Print);
     }
+    
+    static libmexclass::proxy::MakeResult make(const libmexclass::proxy::FunctionArguments& constructor_arguments);
 
   private:
     void Accelerate(libmexclass::proxy::method::Context& context);
@@ -39,11 +43,6 @@ class Car : public libmexclass::proxy::Proxy {
     void GetModel(libmexclass::proxy::method::Context& context);
     void GetColor(libmexclass::proxy::method::Context& context);
     void Print(libmexclass::proxy::method::Context& context);
-
-    std::string convert(const libmexclass::proxy::FunctionArguments& constructor_arguments, std::uint64_t index) const {
-        matlab::data::StringArray mda = constructor_arguments[index];
-        return std::string(mda[0]);
-    }
 
     // Note: Clients can replace this with whatever "raw" C++ Class they want
     // to proxy method calls to.

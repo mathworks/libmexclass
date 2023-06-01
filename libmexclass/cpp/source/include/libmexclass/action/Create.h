@@ -18,7 +18,7 @@ namespace libmexclass::action {
                 constructor_arguments = state.inputs[libmexclass::action::Create::CONSTRUCTOR_ARGUMENTS_INDEX];
             }
             virtual ~Create() {}
-            virtual void execute() override;
+            virtual std::optional<libmexclass::error::Error> execute() override;
 
         private:
             std::shared_ptr<proxy::Factory> proxy_factory;
