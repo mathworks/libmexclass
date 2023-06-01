@@ -73,9 +73,12 @@ namespace libmexclass::mex {
             matlab::data::ArrayFactory factory;
 
             auto error = maybe_error.value();
+            auto id = matlab::engine::convertUTF8StringToUTF16String(error.id);
+            auto message = matlab::engine::convertUTF8StringToUTF16String(error.message);
+            
             matlab::data::StructArray errorStruct = factory.createStructArray({1, 1}, {"identifier", "message"});
-            errorStruct[0]["identifier"] = factory.createScalar(matlab::engine::convertUTF16StringToUTF8String(error.id));
-            errorStruct[0]["message"] = factory.createScalar(matlab::engine::convertUTF16StringToUTF8String(error.message));
+            errorStruct[0]["identifier"] = factory.createScalar(id);
+            errorStruct[0]["message"] = factory.createScalar(message);
             matlab->feval(u"error", 0, std::vector<matlab::data::Array>({errorStruct}));
         }
     }
