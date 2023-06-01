@@ -11,7 +11,7 @@ namespace libmexclass::error {
             : id{error_id}
             , message{error_message} {}
         
-        Error(const Error& error) {
+        Error(const Error& error)
             : id{error.id}
             , message{error.message} {}
     };
