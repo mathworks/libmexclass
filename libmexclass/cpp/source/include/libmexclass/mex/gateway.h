@@ -81,7 +81,7 @@ namespace libmexclass::mex {
 //            errorStruct[0]["message"] = factory.createScalar(message);
 //            matlab->feval(u"error", 0, std::vector<matlab::data::Array>({errorStruct}));
             
-            matlab->feval(u"error", 0, std::vector<matlab::data::Array>({"error happened."}));
+            matlab->feval(u"error", 0, std::vector<matlab::data::Array>({factor.createScalar("ERROR!")}));
         }
     }
 }
