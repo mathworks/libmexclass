@@ -38,8 +38,8 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
         % Destroy the proxy upon destruction.
         function delete(obj)
             % Destroy the corresponding C++ Proxy instance when destroying
-            % the MATLAB object.ID may be empty if an error occured during
-            % construction. If so, do not call Destory.
+            % the MATLAB object. ID may be empty if an error occured during
+            % construction. If so, do not call destroy.
             if ~isempty(obj.ID)
                 libmexclass.proxy.gateway("Destroy", obj.ID);
             end
