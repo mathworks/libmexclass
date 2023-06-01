@@ -3,17 +3,24 @@
 #include <string>
 
 namespace libmexclass::error {
-    struct Error {
-        const std::string id;
-        const std::string message;
-        
+
+    class Error {
+    public:
         Error(const std::string& error_id, const std::string& error_message)
-            : id{error_id}
-            , message{error_message} {}
-        
-        Error(const Error& error)
-            : id{error.id}
-            , message{error.message} {}
+            : id_{error_id}
+            , message_{error_message} {}
+
+        const std::string& id() {
+            return id_;
+        }
+
+        const std::string& message() {
+            return message_;
+        }
+
+    private:
+        std::string id_;
+        std::string message_;
     };
 
     class ErrorBuilder {
