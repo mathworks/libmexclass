@@ -10,6 +10,10 @@ namespace libmexclass::error {
         Error(const std::string& error_id, const std::string& error_message)
             : id{error_id}
             , message{error_message} {}
+        
+        Error(const Error& error) {
+            : id{error.id}
+            , message{error.message} {}
     };
 
     class ErrorBuilder {
