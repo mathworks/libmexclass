@@ -2,7 +2,7 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
 
     properties
         % C++ Proxy ID.
-        ID (1,1) uint64;
+        ID uint64 = uint64.empty(0, 1);
         % C++ Proxy Name.
         Name (1,1) string;
     end
@@ -20,9 +20,10 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
                 error("libmexclass:proxy:NoName", "The name of a registered C++ Proxy must be specified when constructing a Proxy instance.");
             end
 
+            obj.Name = options.Name;
+
             if isfield(options, "ID")
                 obj.ID = options.ID;
-                obj.Name = options.Name;
             else
                 if ~isfield(options, "ConstructorArguments")
                     error("libmexclass:proxy:NoConstructorArguments", """ConstructorArguments"" must be specified when constructing a new Proxy instance.");
@@ -30,10 +31,6 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
                     % Create the an instance of the specified C++ Proxy class and return its
                     % Proxy ID To be stored on the MATLAB Proxy object.
                     obj.ID = libmexclass.proxy.gateway("Create", options.Name, options.ConstructorArguments);
-                   
-                    % Only set Name after the Create call. This ensures delete()
-                    % is not invoked if the Create throws an error.
-                    obj.Name = options.Name;
                 end
             end
         end
@@ -41,8 +38,11 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
         % Destroy the proxy upon destruction.
         function delete(obj)
             % Destroy the corresponding C++ Proxy instance when destroying
-            % the MATLAB object.
-            libmexclass.proxy.gateway("Destroy", obj.ID);
+            % the MATLAB object.ID may be empty if an error occured during
+            % construction. If so, do not call Destory.
+            if ~isempty(obj.ID)
+                libmexclass.proxy.gateway("Destroy", obj.ID);
+            end
         end
     end
 
