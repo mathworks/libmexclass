@@ -50,6 +50,7 @@ function(target_set_rpath_relocatable)
 endfunction()
 
 # Find MATLAB.
+set(MATLAB_FIND_DEBUG "on")
 find_package(Matlab REQUIRED)
 
 # ###########
