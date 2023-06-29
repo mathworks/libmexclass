@@ -12,8 +12,14 @@ void ProxyManager::unmanageProxy(ID id) {
     ProxyManager::singleton.proxy_map.erase(id);
 }
 
-std::shared_ptr<Proxy> ProxyManager::getProxy(ID id) {
-    return ProxyManager::singleton.proxy_map[id];
+ProxyResult ProxyManager::getProxy(ID id) {
+    auto proxy_key_value = ProxyManager::singleton.proxy_map.at(id);
+    if (proxy_key_value->first != ProxyManager::singleton.proxy_map.end()) {
+        return proxy_key_value->second;
+    } else {
+        const std::string msg = "Unknown Proxy ID: " + std::to_string(id);
+        return libmexclass::error::Error{"libmexclass:proxy:UnknownID", msg};
+    }
 }
 
 ProxyManager ProxyManager::singleton{};

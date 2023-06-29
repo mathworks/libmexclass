@@ -2,11 +2,16 @@
 
 #include "libmexclass/proxy/ID.h"
 #include "libmexclass/proxy/Proxy.h"
+#include "libmexclass/error/Error.h"
 
 #include <memory>
 #include <unordered_map>
+#include <variant>
 
 namespace libmexclass::proxy {
+
+using ProxyResult = std::variant<std::shared_ptr<Proxy>, libmexclass::error::Error>;
+
 // ProxyMangager
 // Manages Proxy instances by placing them inside of a map which maps unique IDs
 // to Proxy instances. NOTE: ProxyManager uses the "Singleton" design pattern to
@@ -15,7 +20,7 @@ class ProxyManager {
   public:
     static ID manageProxy(const std::shared_ptr<Proxy> &proxy);
     static void unmanageProxy(ID id);
-    static std::shared_ptr<Proxy> getProxy(ID id);
+    static ProxyResult getProxy(ID id);
 
   private:
     static ProxyManager singleton;
