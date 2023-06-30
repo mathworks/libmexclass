@@ -21,27 +21,8 @@ class ProxyManager {
     static ID manageProxy(const std::shared_ptr<Proxy> &proxy);
     static void unmanageProxy(ID id);
     static ProxyResult getProxy(ID id);
-    
-    
-    
-    template <typename T = libmexclass::proxy::Proxy>
-    static std::shared_ptr<T> getProxy(ID id) {
-        auto proxy_key_value = ProxyManager::singleton.proxy_map.find(id);
-        if (proxy_key_value == ProxyManager::singleton.proxy_map.end()) {
-            return nullptr;
-        }
-        auto typed_proxy = std::dynamic_pointer_cast<T>(proxy_key_value->second);
-        return typed_proxy;
-    }
-    
-    template <>
-    static std::shared_ptr<libmexclass::proxy::Proxy> getProxy(ID id) {
-        auto proxy_key_value = ProxyManager::singleton.proxy_map.find(id);
-        if (proxy_key_value == ProxyManager::singleton.proxy_map.end()) {
-            return nullptr;
-        }
-        return proxy_key_value->second;
-    }
+
+    static std::shared_ptr<Proxy> getProxy(ID id);
 
   private:
     static ProxyManager singleton;
