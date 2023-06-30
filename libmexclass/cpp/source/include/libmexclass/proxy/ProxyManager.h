@@ -32,7 +32,7 @@ class ProxyManager {
 
         auto typed_proxy = std::dynamic_pointer_cast<T>(proxy);
         if (!typed_proxy) {
-            std::string msg = "Unable to cast proxy to " + T::class_name;
+            std::string msg = "Failed to cast proxy to expected type";
             return libmexclass::error::Error{"libmexclass:proxy:InvalidProxyType", msg};
         }
 
