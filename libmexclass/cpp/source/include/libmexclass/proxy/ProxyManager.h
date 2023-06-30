@@ -23,7 +23,7 @@ class ProxyManager {
     static std::shared_ptr<Proxy> getProxy(ID id);
 
     template <typename T>
-    static ProxyResult getTypedProxy(ID id) {
+    static ProxyResult<T> getTypedProxy(ID id) {
         auto proxy = libmexclass::proxy::ProxyManager::getProxy(id);
         if (!proxy) {
             std::string msg = "Invalid Proxy ID: " + std::to_string(id);
