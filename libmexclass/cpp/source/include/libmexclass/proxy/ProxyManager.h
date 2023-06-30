@@ -11,7 +11,7 @@
 namespace libmexclass::proxy {
 
 template <typename T>
-using ProxyResult<T> = std::variant<std::shared_ptr<T>, libmexclass::error::Error>;
+using ProxyResult = std::variant<std::shared_ptr<T>, libmexclass::error::Error>;
 
 // ProxyMangager
 // Manages Proxy instances by placing them inside of a map which maps unique IDs
