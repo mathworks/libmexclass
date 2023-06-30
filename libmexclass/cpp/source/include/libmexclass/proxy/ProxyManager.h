@@ -43,7 +43,7 @@ ProxyResult getProxy(ID id) {
     // TODO: update getProxy to return a "result"
     auto proxy = libmexclass::proxy::ProxyManager::getProxy(id);
     if (!proxy) {
-        std::string msg = "Invalid Proxy ID: " + std::string(id);
+        std::string msg = "Invalid Proxy ID: " + std::to_string(id);
         return libmexclass::error::Error{"libmexclass:proxy:InvalidID", msg};
     }
 
