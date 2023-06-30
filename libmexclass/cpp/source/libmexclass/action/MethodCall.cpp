@@ -11,11 +11,10 @@ std::optional<libmexclass::error::Error> MethodCall::execute() {
     // TODO: Implement ID retrieval logic from MethodCall properties.
     // Retrieve the appropriate polymorphic proxy::Proxy instance from the
     // proxy::ProxyManager using the given proxy::ID.
-    libmexclass::proxy::ProxyResult maybe_proxy =
-        libmexclass::proxy::ProxyManager::getProxy(proxy_id);
+    auto proxy = libmexclass::proxy::ProxyManager::getProxy(proxy_id);
 
-    if (std::holds_alternative<libmexclass::error::Error>(maybe_proxy)) {
-        return std::get<libmexclass::error::Error>(maybe_proxy);
+    if (!proxy) {
+        return libmexclass::error::Error{"libmexclass:proxy:UnknownProxyID", "Unknown proxy ID " + std::to_string(proxy_id)};
     }
 
     auto proxy = std::get<std::shared_ptr<libmexclass::proxy::Proxy>>(std::move(maybe_proxy));
