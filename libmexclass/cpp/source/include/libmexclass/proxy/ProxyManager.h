@@ -22,6 +22,23 @@ class ProxyManager {
     static void unmanageProxy(ID id);
     static std::shared_ptr<Proxy> getProxy(ID id);
 
+    template <typename T>
+    static ProxyResult getTypedProxy(ID id) {
+        auto proxy = libmexclass::proxy::ProxyManager::getProxy(id);
+        if (!proxy) {
+            std::string msg = "Invalid Proxy ID: " + std::to_string(id);
+            return libmexclass::error::Error{"libmexclass:proxy:InvalidID", msg};
+        }
+
+        auto typed_proxy = std::dynamic_pointer_cast<T>(proxy);
+        if (!typed_proxy) {
+            std::string msg = "Unable to cast proxy to " + T::class_name;
+            return libmexclass::error::Error{"libmexclass:proxy:InvalidProxyType", msg};
+        }
+
+        return typed_proxy;
+    }
+
   private:
     static ProxyManager singleton;
     // The internal map used to associate Proxy instances with unique IDs.
@@ -36,22 +53,5 @@ class ProxyManager {
     //    increment it.
     ID current_proxy_id = 0;
 };
-
-template <typename T>
-ProxyResult getProxy(ID id) {
-
-    // TODO: update getProxy to return a "result"
-    auto proxy = libmexclass::proxy::ProxyManager::getProxy(id);
-    if (!proxy) {
-        std::string msg = "Invalid Proxy ID: " + std::to_string(id);
-        return libmexclass::error::Error{"libmexclass:proxy:InvalidID", msg};
-    }
-
-    auto typed_proxy = std::dynamic_pointer_cast<T>(proxy);
-    if (!typed_proxy) {
-        std::string msg = "Unable to cast proxy to " + T::class_name;
-        return libmexclass::error::Error{"libmexclass:proxy:InvalidProxyType", msg};
-    }
-}
 
 } // namespace libmexclass::proxy
