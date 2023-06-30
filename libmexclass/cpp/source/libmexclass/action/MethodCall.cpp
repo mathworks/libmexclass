@@ -17,8 +17,6 @@ std::optional<libmexclass::error::Error> MethodCall::execute() {
         return libmexclass::error::Error{"libmexclass:proxy:UnknownProxyID", "Unknown proxy ID " + std::to_string(proxy_id)};
     }
 
-    auto proxy = std::get<std::shared_ptr<libmexclass::proxy::Proxy>>(std::move(maybe_proxy));
-
     // Invoke the appropriate method on the proxy::Proxy instance.
     // Note: To assign/return outputs from a method call, proxy::Proxy
     // instances can assign to state.outputs ( which is a

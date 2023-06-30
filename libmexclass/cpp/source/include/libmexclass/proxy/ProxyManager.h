@@ -40,7 +40,7 @@ class ProxyManager {
         if (proxy_key_value == ProxyManager::singleton.proxy_map.end()) {
             return nullptr;
         }
-        auto proxy_key_value->second;
+        return proxy_key_value->second;
     }
 
   private:
