@@ -20,8 +20,6 @@ class ProxyManager {
   public:
     static ID manageProxy(const std::shared_ptr<Proxy> &proxy);
     static void unmanageProxy(ID id);
-    static ProxyResult getProxy(ID id);
-
     static std::shared_ptr<Proxy> getProxy(ID id);
 
   private:
