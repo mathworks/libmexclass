@@ -1,4 +1,4 @@
-classdef ProxyID < matlab.mixin.Scalar
+classdef Identifier < matlab.mixin.Scalar
 
     properties(SetAccess=private, GetAccess=public)
         % C++ Proxy ID.
@@ -6,7 +6,7 @@ classdef ProxyID < matlab.mixin.Scalar
     end
 
     methods
-        function obj = ProxyID(id)
+        function obj = Identifier(id)
             if nargin == 1
                 validateattributes(id, {'numeric'}, ...
                     {'scalar', 'nonnegative', 'integer'});
