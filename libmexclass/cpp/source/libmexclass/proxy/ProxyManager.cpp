@@ -13,7 +13,12 @@ void ProxyManager::unmanageProxy(ID id) {
 }
 
 std::shared_ptr<Proxy> ProxyManager::getProxy(ID id) {
-    return ProxyManager::singleton.proxy_map[id];
+    auto proxy_key_value = ProxyManager::singleton.proxy_map.find(id);
+    if (proxy_key_value != ProxyManager::singleton.proxy_map.end()) {
+        return proxy_key_value->second;
+    } else {
+        return nullptr;
+    }
 }
 
 ProxyManager ProxyManager::singleton{};

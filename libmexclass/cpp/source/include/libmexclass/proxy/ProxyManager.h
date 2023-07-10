@@ -2,11 +2,17 @@
 
 #include "libmexclass/proxy/ID.h"
 #include "libmexclass/proxy/Proxy.h"
+#include "libmexclass/error/Error.h"
 
 #include <memory>
 #include <unordered_map>
+#include <variant>
 
 namespace libmexclass::proxy {
+
+template <typename T>
+using ProxyResult = std::variant<std::shared_ptr<T>, libmexclass::error::Error>;
+
 // ProxyMangager
 // Manages Proxy instances by placing them inside of a map which maps unique IDs
 // to Proxy instances. NOTE: ProxyManager uses the "Singleton" design pattern to
@@ -16,6 +22,23 @@ class ProxyManager {
     static ID manageProxy(const std::shared_ptr<Proxy> &proxy);
     static void unmanageProxy(ID id);
     static std::shared_ptr<Proxy> getProxy(ID id);
+
+    template <typename T>
+    static ProxyResult<T> getTypedProxy(ID id) {
+        auto proxy = libmexclass::proxy::ProxyManager::getProxy(id);
+        if (!proxy) {
+            std::string msg = "Invalid Proxy ID: " + std::to_string(id);
+            return libmexclass::error::Error{"libmexclass:proxy:InvalidID", msg};
+        }
+
+        auto typed_proxy = std::dynamic_pointer_cast<T>(proxy);
+        if (!typed_proxy) {
+            std::string msg = "Failed to cast proxy to expected type";
+            return libmexclass::error::Error{"libmexclass:proxy:InvalidProxyType", msg};
+        }
+
+        return typed_proxy;
+    }
 
   private:
     static ProxyManager singleton;
@@ -31,4 +54,5 @@ class ProxyManager {
     //    increment it.
     ID current_proxy_id = 0;
 };
+
 } // namespace libmexclass::proxy

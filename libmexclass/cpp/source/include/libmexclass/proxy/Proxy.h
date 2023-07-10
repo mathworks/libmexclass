@@ -28,6 +28,9 @@ namespace libmexclass::proxy {
 	class Proxy {
 		public:
             Proxy() : methods{} { }
+
+            virtual ~Proxy() {}
+
 			std::optional<libmexclass::error::Error> invoke(libmexclass::proxy::method::Method& method);
         protected:
             std::unordered_map<libmexclass::proxy::method::Name, libmexclass::proxy::method::Object> methods;
