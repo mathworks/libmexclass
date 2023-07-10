@@ -1,18 +1,22 @@
 classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
 
-    properties
+    properties(SetAccess=private, GetAccess=public)
         % C++ Proxy ID.
-        ID uint64 = uint64.empty(0, 1);
+        Identifier(1, 1) libmexclass.proxy.Identifier;
         % C++ Proxy Name.
         Name (1,1) string;
+    end
+
+    properties(Dependent)
+        ID
     end
 
     methods
 
         function obj = Proxy(options)
             arguments
-                options.ID (1,1) uint64
-                options.Name (1,1) string
+                options.ID (1,1) libmexclass.proxy.Identifier {mustBeNonmissing}
+                options.Name (1,1) string {mustBeNonmissing}
                 options.ConstructorArguments (1,:) cell
             end
 
@@ -23,14 +27,14 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
             obj.Name = options.Name;
 
             if isfield(options, "ID")
-                obj.ID = options.ID;
+                obj.Identifier = options.ID;
             else
                 if ~isfield(options, "ConstructorArguments")
                     error("libmexclass:proxy:NoConstructorArguments", """ConstructorArguments"" must be specified when constructing a new Proxy instance.");
                 else
                     % Create the an instance of the specified C++ Proxy class and return its
                     % Proxy ID To be stored on the MATLAB Proxy object.
-                    obj.ID = libmexclass.proxy.gateway("Create", options.Name, options.ConstructorArguments);
+                    obj.Identifier = libmexclass.proxy.gateway("Create", options.Name, options.ConstructorArguments);
                 end
             end
         end
@@ -40,9 +44,13 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
             % Destroy the corresponding C++ Proxy instance when destroying
             % the MATLAB object. ID may be empty if an error occured during
             % construction. If so, do not call destroy.
-            if ~isempty(obj.ID)
+            if ~ismissing(obj.Identifier)
                 libmexclass.proxy.gateway("Destroy", obj.ID);
             end
+        end
+
+        function id = get.ID(obj)
+            id = obj.Identifier.ID;
         end
     end
 
@@ -64,5 +72,4 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
             n = listLength(obj.AddedFields,indexOp,indexContext);
         end
     end
-
 end
