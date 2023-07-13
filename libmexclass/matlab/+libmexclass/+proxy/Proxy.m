@@ -82,7 +82,7 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
                 arg
             end
             id = libmexclass.proxy.gateway("Create", name, arg);
-            proxy = libmexclass.proxy.Proxy(name=name, ID=id);
+            proxy = libmexclass.proxy.Proxy(Name=name, ID=id);
         end
     end
 end
