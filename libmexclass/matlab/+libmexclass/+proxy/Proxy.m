@@ -72,4 +72,17 @@ classdef Proxy < matlab.mixin.indexing.RedefinesDot & handle
             n = listLength(obj.AddedFields,indexOp,indexContext);
         end
     end
+
+    methods(Static, Access = public)
+        function proxy = create(name, arg)
+            arguments
+                name(1, 1) string {mustBeNonmissing}
+            end
+            arguments(Repeating)
+                arg
+            end
+            id = libmexclass.proxy.gateway("Create", name, arg);
+            proxy = libmexclass.proxy.Proxy(name=name, ID=id);
+        end
+    end
 end
