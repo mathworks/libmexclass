@@ -49,8 +49,13 @@ function(target_set_rpath_relocatable)
     endif()
 endfunction()
 
+set(MATLAB_ADDITIONAL_VERSIONS
+    "R2023b=23.2")
+
 # Find MATLAB.
 find_package(Matlab REQUIRED)
+
+message(STATUS "Matlab_ROOT_DIR is ${Matlab_ROOT_DIR})
 
 # ###########
 # libmexclass
