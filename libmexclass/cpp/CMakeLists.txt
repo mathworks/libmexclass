@@ -55,7 +55,7 @@ set(MATLAB_ADDITIONAL_VERSIONS
 # Find MATLAB.
 find_package(Matlab REQUIRED)
 
-message(STATUS "Matlab_ROOT_DIR is ${Matlab_ROOT_DIR})
+message(STATUS "Matlab_ROOT_DIR is ${Matlab_ROOT_DIR}")
 
 # ###########
 # libmexclass
