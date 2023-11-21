@@ -15,7 +15,9 @@ jobs:
               with:
                   release: R2023b
             - name: Build Example
+              shell: cmd
               run: |
+                  call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
                   cd example
                   echo "LIBMEXCLASS_INSTALL_PREFIX= ${{ env.LIBMEXCLASS_GIT_TAG }}"
                   cmake -S . -B build -G Ninja -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
