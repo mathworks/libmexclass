@@ -49,8 +49,8 @@ function(target_set_rpath_relocatable)
     endif()
 endfunction()
 
-set(MATLAB_ADDITIONAL_VERSIONS
-    "R2023b=23.2")
+#set(MATLAB_ADDITIONAL_VERSIONS
+#    "R2023b=23.2")
 set(Matlab_ROOT_DIR "C:/Program Files/MATLAB/R2023b")
 # Find MATLAB.
 find_package(Matlab REQUIRED)
