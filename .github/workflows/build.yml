@@ -13,7 +13,7 @@ jobs:
             - name: Install MATLAB
               uses: matlab-actions/setup-matlab@v1
               with:
-                  release: R2023a
+                  release: R2023b
             - name: Build Example
               shell: cmd
               run: |
