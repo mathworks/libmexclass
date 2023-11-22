@@ -13,11 +13,8 @@ set(MATLAB_ADDITIONAL_VERSIONS
 set(Matlab_ROOT_DIR "C:/Program Files/MATLAB/R2023b")
 find_package(Matlab REQUIRED)
 message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
-if(NOT DEFINED Matlab_VERSION_STRING)
-  set(Matlab_VERSION_STRING "23.2")
-  message(STATUS "HERE!!!")
-  message(STATUS "Matlab_VERSION_STRING (after set) = ${Matlab_VERSION_STRING}")
-endif()
+set(Matlab_VERSION_STRING "23.2")
+message(STATUS "Matlab_VERSION_STRING (after set) = ${Matlab_VERSION_STRING}")
 
 
 # ######################################
