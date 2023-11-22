@@ -16,6 +16,7 @@ message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
 if(NOT DEFINED ${Matlab_VERSION_STRING})
   set(${Matlab_VERSION_STRING} "23.2")
 endif()
+message(STATUS "Matlab_VERSION_STRING (after set) = ${Matlab_VERSION_STRING}")
 
 
 # ######################################
