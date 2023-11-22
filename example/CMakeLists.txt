@@ -12,6 +12,7 @@ set(MATLAB_ADDITIONAL_VERSIONS
     "R2023b=23.2")
 set(Matlab_ROOT_DIR "C:/Program Files/MATLAB/R2023b")
 find_package(Matlab REQUIRED)
+message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
 
 # ######################################
 # libmexclass FetchContent Configuration
