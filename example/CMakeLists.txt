@@ -11,6 +11,7 @@ project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 set(MATLAB_ADDITIONAL_VERSIONS
     "R2023b=23.2")
 set(Matlab_ROOT_DIR "C:/Program Files/MATLAB/R2023b")
+find_package(Matlab REQUIRED)
 
 # ######################################
 # libmexclass FetchContent Configuration
