@@ -55,7 +55,8 @@ endfunction()
 # Find MATLAB.
 #find_package(Matlab REQUIRED)
 
-list(PREPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+list(PREPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+message(STATUS "Print ${CMAKE_SOURCE_DIR}/cmake")
 include(MatlabConfigure)
 MatlabConfigure()
 
