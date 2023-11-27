@@ -17,6 +17,7 @@ macro(MatlabPrintVariables)
   message(STATUS "Matlab_BINARIES_DIR = ${Matlab_BINARIES_DIR}")
   message(STATUS "Matlab_EXTERN_LIBRARY_DIR = ${Matlab_EXTERN_LIBRARY_DIR}")
   message(STATUS "Matlab_EXTERN_BINARIES_DIR = ${Matlab_EXTERN_BINARIES_DIR}")
+  message(STATUS "DONE")
 endmacro()
 
 macro(MatlabConfigure)
