@@ -24,7 +24,7 @@ set(LIBMEXCLASS_FETCH_CONTENT_GIT_REPOSITORY "https://github.com/mathworks/libme
 # Note: Clients who don't want to depend on main (which may have breaking changes)
 #       can specify a specific Git commit using the LIBMEXCLASS_GIT_TAG argument.
 #       By default, the main branch will be used.
-set(LIBMEXCLASS_FETCH_CONTENT_GIT_TAG print_matlab_vars CACHE STRING "")
+set(LIBMEXCLASS_FETCH_CONTENT_GIT_TAG main CACHE STRING "")
 # Source directory for libmexclass.
 set(LIBMEXCLASS_FETCH_CONTENT_SOURCE_SUBDIR "libmexclass/cpp")
 
