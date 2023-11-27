@@ -7,7 +7,8 @@ cmake_minimum_required(VERSION 3.0.0)
 set(CLIENT_PROJECT_NAME example)
 project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 
-set(Matlab_ADDITIONAL_VERSIONS "R2023b=23.2")
+#set(Matlab_ADDITIONAL_VERSIONS "R2023b=23.2")
+set(MATLAB_RELEASE_VERSION "23.2")
 
 # ######################################
 # libmexclass FetchContent Configuration
