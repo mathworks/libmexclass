@@ -109,7 +109,6 @@ macro(MatlabConfigureVariables)
 
   set(Matlab_HAS_CPP_API 1)
 
-  ${CMAKE_SHARED_LIBRARY_SUFFIX}
   set(Matlab_ENGINE_LIBRARY "${Matlab_ROOT_DIR}/extern/bin/glnxa64/libMatlabEngine${CMAKE_SHARED_LIBRARY_SUFFIX}")
   set(Matlab_DATAARRAY_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libMatlabDataArray${CMAKE_SHARED_LIBRARY_SUFFIX}")
   set(Matlab_MEX_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libmex${CMAKE_SHARED_LIBRARY_SUFFIX}")
@@ -124,7 +123,7 @@ macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
   message(STATUS "CMAKE_SHARED_LIBRARY_SUFFIX = ${CMAKE_SHARED_LIBRARY_SUFFIX}")
-  
+
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
 
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
