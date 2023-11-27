@@ -125,6 +125,9 @@ macro(MatlabConfigure)
     string(SUBSTRING ${VERSION_INFO_TEXT} ${START_POS_ADJUSTED} ${LENGTH} VERSION_SUBSTRING)
     message(STATUS "VERSION_SUBSTRING = ${VERSION_SUBSTRING}")
 
+    string(REGEXP MATCH "^[0-9]+[.][0-9]+" MATCHED ${VERSION_SUBSTRING})
+    message(STATUS "MATCHED = ${MATCHED}")
+
     if (NOT DEFINED MATLAB_RELEASE_VERSION)
       # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
       # find_package(Matlab) fails to derive the version from the root 
