@@ -108,6 +108,11 @@ macro(MatlabConfigure)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
 
+    set(VERSION_INFO_FILENAME "${Matlab_ROOT_DIR}/VersionInfo.xml")
+    file(READ ${VERSION_INFO_FILENAME} VERSION_INFO_TEXT)
+    message(STATUS "File content:")
+    message(STATUS "${VERSION_INFO_TEXT}")
+
     if (NOT DEFINED MATLAB_RELEASE_VERSION)
       # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
       # find_package(Matlab) fails to derive the version from the root 

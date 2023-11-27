@@ -8,6 +8,8 @@ set(CLIENT_PROJECT_NAME example)
 project(${CLIENT_PROJECT_NAME} VERSION 0.1.0)
 
 #set(Matlab_ADDITIONAL_VERSIONS "R2023b=23.2")
+# To workaround find_package(MATLAB) sporadically failing
+# to set Matlab_VERSION_STRING
 set(MATLAB_RELEASE_VERSION "23.2")
 
 # ######################################
