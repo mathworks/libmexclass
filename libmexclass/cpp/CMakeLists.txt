@@ -110,6 +110,7 @@ endmacro()
 #list(PREPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 #message(STATUS "Print ${CMAKE_SOURCE_DIR}/cmake")
 #include(MatlabConfigure)
+message(STATUS "Top level CMakeLists.txt")
 MatlabConfigure()
 
 message(STATUS "Matlab_ROOT_DIR is ${Matlab_ROOT_DIR}")
@@ -182,8 +183,8 @@ macro(libmexclass_client_add_proxy_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS LINK_LIBRARIES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    MatlabPrintVariables()
-    #find_package(Matlab REQUIRED)
+    message(STATUS "Within libmexclass_client_add_mex_gateway")
+    MatlabConfigure()
 
     add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
     set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -232,7 +233,8 @@ macro(libmexclass_client_add_mex_gateway)
     set(oneValueArgs NAME CLIENT_PROXY_LIBRARY_NAME)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-    MatlabPrintVariables()
+    message(STATUS "Within libmexclass_client_add_mex_gateway")
+    MatlabConfigure()
     #find_package(Matlab REQUIRED)
 
     matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
