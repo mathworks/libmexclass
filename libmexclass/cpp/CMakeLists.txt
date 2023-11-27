@@ -49,15 +49,67 @@ function(target_set_rpath_relocatable)
     endif()
 endfunction()
 
+macro(MatlabPrintVariables)
+  message(STATUS "Matlab_ROOT_DIR = ${Matlab_ROOT_DIR}")
+  message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
+  message(STATUS "Matlab_MAIN_PROGRAM = ${Matlab_MAIN_PROGRAM}")
+  message(STATUS "Matlab_MX_LIBRARY = ${Matlab_MEX_LIBRARY}")
+  message(STATUS "Matlab_MEX_LIBRARY = ${Matlab_MEX_LIBRARY}")
+  message(STATUS "Matlab_ENG_LIBRARY = ${Matlab_ENG_LIBRARY}")
+  message(STATUS "Matlab_ENGINE_LIBRARY = ${Matlab_ENGINE_LIBRARY}")
+  message(STATUS "Matlab_DATAARRAY_LIBRARY = ${Matlab_DATAARRAY_LIBRARY}")
+  message(STATUS "Matlab_MAT_LIBRARY = ${Matlab_MAT_LIBRARY}")
+  message(STATUS "MEX_API_MACRO = ${MEX_API_MACRO}")  
+  message(STATUS "Matlab_MEX_COMPILER = ${Matlab_MEX_COMPILER}")
+  message(STATUS "Matlab_HAS_CPP_API = ${Matlab_HAS_CPP_API}")
+  message(STATUS "Matlab_MEX_EXTENSION = ${Matlab_MEX_EXTENSION}")
+  message(STATUS "MEX_VERSION_FILE = ${MEX_VERSION_FILE}")
+  message(STATUS "Matlab_INCLUDE_DIRS = ${Matlab_INCLUDE_DIRS}")
+  message(STATUS "Matlab_BINARIES_DIR = ${Matlab_BINARIES_DIR}")
+  message(STATUS "Matlab_EXTERN_LIBRARY_DIR = ${Matlab_EXTERN_LIBRARY_DIR}")
+  message(STATUS "Matlab_EXTERN_BINARIES_DIR = ${Matlab_EXTERN_BINARIES_DIR}")
+endmacro()
+
+macro(MatlabConfigure)
+  find_package(Matlab REQUIRED)
+  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+    message(STATUS "Matlab_VERSION_STRING is unknown")
+
+    if (NOT DEFINED MATLAB_RELEASE_VERSION)
+      # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
+      # find_package(Matlab) fails to derive the version from the root 
+      # directory. 
+      # 
+      # TODO: Add macro that derives the release version from VersionInfo.xml.
+      message(FATAL_ERROR "Must supply MATLAB_RELEASE_VERSION")
+    endif()
+    message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
+
+    set(Matlab_VERSION_STRING "${MATLAB_RELEASE_VERSION}")
+    set(Matlab_ENGINE_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabEngine.lib")
+    set(Matlab_DATAARRAY_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabDataArray.lib")
+    set(Matlab_MEX_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libmex.lib")
+    set(Matlab_HAS_CPP_API 1)
+    set(Matlab_MX_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libmex.lib")
+    set(Matlab_EXTERN_LIBRARY_DIR "${Matlab_ROOT_DIR}/extern/lib/win64")
+    set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
+    set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/win64")
+    set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/win64")
+    # Print Matlab-specific variables after set
+    MatlabPrintVariables()
+  endif()
+
+endmacro()
+
 #set(MATLAB_ADDITIONAL_VERSIONS
 #    "R2023b=23.2")
 #set(Matlab_ROOT_DIR "C:/Program Files/MATLAB/R2023b")
 # Find MATLAB.
 #find_package(Matlab REQUIRED)
 
-list(PREPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-message(STATUS "Print ${CMAKE_SOURCE_DIR}/cmake")
-include(MatlabConfigure)
+#list(PREPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+#message(STATUS "Print ${CMAKE_SOURCE_DIR}/cmake")
+#include(MatlabConfigure)
 MatlabConfigure()
 
 message(STATUS "Matlab_ROOT_DIR is ${Matlab_ROOT_DIR}")
