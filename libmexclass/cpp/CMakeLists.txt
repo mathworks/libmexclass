@@ -113,9 +113,9 @@ macro(MatlabConfigure)
     message(STATUS "File content:")
     message(STATUS "${VERSION_INFO_TEXT}")
 
-    string(REGEX MATCH "<version>[.]+</version>" STRING_MATCH ${VERSION_INFO_TEXT})
+    string(REGEX MATCH "<version>[\S]+<\/version>" STRING_MATCH ${VERSION_INFO_TEXT})
     message(STATUS "STRING_MATCH = ${STRING_MATCH}")
-    
+
     if (NOT DEFINED MATLAB_RELEASE_VERSION)
       # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
       # find_package(Matlab) fails to derive the version from the root 
