@@ -39,9 +39,6 @@ FetchContent_MakeAvailable(
     ${LIBMEXCLASS_FETCH_CONTENT_NAME}
 )
 
-libmexclass_configure_matlab()
-libmexclass_configure_targets()
-
 # ################################
 # libmexclass Client Proxy Library
 # ################################
