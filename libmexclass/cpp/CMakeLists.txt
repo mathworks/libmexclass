@@ -157,7 +157,7 @@ set(LIBMEXCLASS_SOURCES
 )
 
 # Create libmexclass shared library target.
-set(LIBMEXCLASS_LIBRARY_NAME mexclass)
+set(LIBMEXCLASS_LIBRARY_NAME mexclass PARENT_SCOPE)
 add_library(${LIBMEXCLASS_LIBRARY_NAME} SHARED ${LIBMEXCLASS_SOURCES})
 
 macro(libmexclass_configure_targets)
