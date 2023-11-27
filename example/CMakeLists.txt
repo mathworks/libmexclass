@@ -68,7 +68,6 @@ FetchContent_MakeAvailable(
 
 # Set C++ sources and headers.
 set(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME "carproxy")
-MatlabPrintVariables()
 set(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_INCLUDE_DIRS ${CMAKE_SOURCE_DIR})
 set(LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES
     ${CMAKE_SOURCE_DIR}/CarProxyFactory.cpp
