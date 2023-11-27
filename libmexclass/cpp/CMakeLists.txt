@@ -64,10 +64,78 @@ macro(MatlabPrintVariables)
   message(STATUS "Matlab_EXTERN_BINARIES_DIR = ${Matlab_EXTERN_BINARIES_DIR}")
 endmacro()
 
-# Find MATLAB.
-find_package(Matlab REQUIRED)
+macro(MatlabSetWindowsVariables)
+  set(Matlab_VERSION_STRING "${MATLAB_RELEASE_VERSION}")
+  set(Matlab_ENGINE_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabEngine.lib")
+  set(Matlab_DATAARRAY_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabDataArray.lib")
+  set(Matlab_MEX_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libmex.lib")
+  set(Matlab_HAS_CPP_API 1)
+  set(Matlab_MX_LIBRARY "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libmx.lib")
+  set(Matlab_EXTERN_LIBRARY_DIR "${Matlab_ROOT_DIR}/extern/lib/win64")
+  set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
+  set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/win64")
+  set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/win64")
+endmacro()
 
-MatlabPrintVariables()
+macro(MatlabSetAppleVariables)
+  set(Matlab_VERSION_STRING "${MATLAB_RELEASE_VERSION}")
+  set(Matlab_ENGINE_LIBRARY "${Matlab_ROOT_DIR}/extern/bin/maci64/libMatlabEngine.dylib")
+  set(Matlab_DATAARRAY_LIBRARY "${Matlab_ROOT_DIR}/extern/bin/maci64/libMatlabDataArray.dylib")
+  set(Matlab_MEX_LIBRARY "${Matlab_ROOT_DIR}/bin/maci64/libmex.dylib")
+  set(Matlab_HAS_CPP_API 1)
+  set(Matlab_MX_LIBRARY "${Matlab_ROOT_DIR}/bin/maci64/libmx.dylib")
+  set(Matlab_EXTERN_LIBRARY_DIR "${Matlab_ROOT_DIR}/extern/lib/maci64")
+  set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
+  set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/maci64")
+  set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/maci64")
+endmacro()
+
+macro(MatlabSetUnixVariables)
+  set(Matlab_VERSION_STRING "${MATLAB_RELEASE_VERSION}")
+  set(Matlab_ENGINE_LIBRARY "${Matlab_ROOT_DIR}/extern/bin/glnxa64/libMatlabEngine.so")
+  set(Matlab_DATAARRAY_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libMatlabDataArray.so")
+  set(Matlab_MEX_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libmex.so")
+  set(Matlab_HAS_CPP_API 1)
+  set(Matlab_MX_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libmx.so")
+  set(Matlab_EXTERN_LIBRARY_DIR "${Matlab_ROOT_DIR}/extern/lib/glnxa64")
+  set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
+  set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/glnxa64")
+  set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/glnxa64")
+endmacro()
+
+macro(MatlabConfigure)
+  find_package(Matlab REQUIRED)
+  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+    message(STATUS "Matlab_VERSION_STRING is unknown")
+
+    if (NOT DEFINED MATLAB_RELEASE_VERSION)
+      # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
+      # find_package(Matlab) fails to derive the version from the root 
+      # directory. 
+      # 
+      # TODO: Add macro that derives the release version from VersionInfo.xml.
+      message(FATAL_ERROR "Must supply MATLAB_RELEASE_VERSION")
+    endif()
+    message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
+
+    if (WIN32)
+      MatlabSetWindowsVariables()
+    elseif(APPLE)
+      MatlabSetAppleVariables()
+    elseif(UNIX AND NOT CYGWIN)
+      MatlabSetUnixVariables()
+    else()
+      message(FATAL_ERROR "MatlabConfigure failed")
+    endif()
+
+    message(STATUS "###################################################")
+    MatlabPrintVariables()
+    message(STATUS "###################################################")
+  endif()
+endmacro()
+
+# Find MATLAB.
+MatlabConfigure()
 
 # ###########
 # libmexclass
@@ -137,7 +205,7 @@ macro(libmexclass_client_add_proxy_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS LINK_LIBRARIES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    find_package(Matlab REQUIRED)
+    MatlabConfigure()
 
     add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
     set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -187,7 +255,7 @@ macro(libmexclass_client_add_mex_gateway)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    find_package(Matlab REQUIRED)
+    MatlabConfigure()
 
     matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
                    SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
