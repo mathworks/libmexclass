@@ -56,7 +56,7 @@ endfunction()
 #find_package(Matlab REQUIRED)
 
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-include(cmake/MatlabConfigure)
+include(MatlabConfigure)
 MatlabConfigure()
 
 message(STATUS "Matlab_ROOT_DIR is ${Matlab_ROOT_DIR}")
