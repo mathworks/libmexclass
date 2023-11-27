@@ -113,9 +113,13 @@ macro(MatlabConfigure)
     message(STATUS "File content:")
     message(STATUS "${VERSION_INFO_TEXT}")
 
-    string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" TEST ${VERSION_INFO_TEXT})
-    message(STATUS "TEST = ${TEST}")
-    
+    string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" VERSION_XML_NODE ${VERSION_INFO_TEXT})
+    message(STATUS "VERSION_XML_NODE = ${VERSION_XML_NODE}")
+    string(REGEX MATCH "([0-9]+[.])+[0-9]+" LONG_VERSION_STRING ${VERSION_XML_NODE})
+    message(STATUS "LONG_VERSION_STRING = ${LONG_VERSION_STRING}")
+    string(REGEX MATCH "^[0-9]+[.][0-9]+" SHORT_VERSION_STRING ${LONG_VERSION_STRING})
+    message(STATUS "SHORT_VERSION_STRING = ${SHORT_VERSION_STRING}")
+
     string(FIND ${VERSION_INFO_TEXT} "<version>" START_POS)
     string(FIND ${VERSION_INFO_TEXT} "</version>" END_POS)
     message(STATUS "START_POS = ${START_POS}")
