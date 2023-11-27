@@ -150,7 +150,7 @@ target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
 target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
 
 target_set_rpath_relocatable(NAME ${LIBMEXCLASS_LIBRARY_NAME})
-
+MatlabPrintVariables()
 # TODO: Use Imported targets. This requires a newer version of CMake.
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::mex)
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::MatlabDataArray)
