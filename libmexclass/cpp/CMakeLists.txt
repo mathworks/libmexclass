@@ -106,13 +106,16 @@ endmacro()
 macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
-  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+ # if (${Matlab_VERSION_STRING} STREQUAL "unknown")
 
     set(VERSION_INFO_FILENAME "${Matlab_ROOT_DIR}/VersionInfo.xml")
     file(READ ${VERSION_INFO_FILENAME} VERSION_INFO_TEXT)
     message(STATUS "File content:")
     message(STATUS "${VERSION_INFO_TEXT}")
 
+    string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" TEST ${VERSION_INFO_TEXT})
+    message(STATUS "TEST = ${TEST}")
+    
     string(FIND ${VERSION_INFO_TEXT} "<version>" START_POS)
     string(FIND ${VERSION_INFO_TEXT} "</version>" END_POS)
     message(STATUS "START_POS = ${START_POS}")
@@ -127,6 +130,8 @@ macro(MatlabConfigure)
 
     string(REGEX MATCH "^[0-9]+[.][0-9]+" MATCHED ${VERSION_SUBSTRING})
     message(STATUS "MATCHED = ${MATCHED}")
+
+  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
 
     if (NOT DEFINED MATLAB_RELEASE_VERSION)
       # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
