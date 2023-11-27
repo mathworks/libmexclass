@@ -105,8 +105,8 @@ endmacro()
 
 macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
+  message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
-    message(STATUS "Matlab_VERSION_STRING is unknown")
 
     if (NOT DEFINED MATLAB_RELEASE_VERSION)
       # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
@@ -116,7 +116,6 @@ macro(MatlabConfigure)
       # TODO: Add macro that derives the release version from VersionInfo.xml.
       message(FATAL_ERROR "Must supply MATLAB_RELEASE_VERSION")
     endif()
-    message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
 
     if (WIN32)
       MatlabSetWindowsVariables()
@@ -125,14 +124,8 @@ macro(MatlabConfigure)
     elseif(UNIX AND NOT CYGWIN)
       MatlabSetUnixVariables()
     else()
-      message(FATAL_ERROR "libmexclass_configure_matlab failed")
+      message(FATAL_ERROR "MatlabConfigure failed")
     endif()
-
-    message(STATUS "")
-    message(STATUS "###################################################")
-    MatlabPrintVariables()
-    message(STATUS "###################################################")
-    message(STATUS "")
   endif()
 endmacro()
 
