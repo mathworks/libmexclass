@@ -95,21 +95,9 @@ macro(MatlabConfigure)
     set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
     set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/win64")
     set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/win64")
-    # Print Matlab-specific variables after set
-    MatlabPrintVariables()
   endif()
-
 endmacro()
 
-#set(MATLAB_ADDITIONAL_VERSIONS
-#    "R2023b=23.2")
-#set(Matlab_ROOT_DIR "C:/Program Files/MATLAB/R2023b")
-# Find MATLAB.
-#find_package(Matlab REQUIRED)
-
-#list(PREPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-#message(STATUS "Print ${CMAKE_SOURCE_DIR}/cmake")
-#include(MatlabConfigure)
 message(STATUS "Top level CMakeLists.txt")
 MatlabConfigure()
 
