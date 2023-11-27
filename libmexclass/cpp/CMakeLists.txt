@@ -106,45 +106,18 @@ endmacro()
 macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
- # if (${Matlab_VERSION_STRING} STREQUAL "unknown")
-
-    set(VERSION_INFO_FILENAME "${Matlab_ROOT_DIR}/VersionInfo.xml")
-    file(READ ${VERSION_INFO_FILENAME} VERSION_INFO_TEXT)
-    message(STATUS "File content:")
-    message(STATUS "${VERSION_INFO_TEXT}")
-
-    string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" VERSION_XML_NODE ${VERSION_INFO_TEXT})
-    message(STATUS "VERSION_XML_NODE = ${VERSION_XML_NODE}")
-    string(REGEX MATCH "([0-9]+[.])+[0-9]+" LONG_VERSION_STRING ${VERSION_XML_NODE})
-    message(STATUS "LONG_VERSION_STRING = ${LONG_VERSION_STRING}")
-    string(REGEX MATCH "^[0-9]+[.][0-9]+" SHORT_VERSION_STRING ${LONG_VERSION_STRING})
-    message(STATUS "SHORT_VERSION_STRING = ${SHORT_VERSION_STRING}")
-
-    string(FIND ${VERSION_INFO_TEXT} "<version>" START_POS)
-    string(FIND ${VERSION_INFO_TEXT} "</version>" END_POS)
-    message(STATUS "START_POS = ${START_POS}")
-    MATH(EXPR START_POS_ADJUSTED "${START_POS} + 9")
-    message(STATUS "START_POS_ADJUSTED = ${START_POS_ADJUSTED}")
-    message(STATUS "END_POS = ${END_POS}")
-    MATH(EXPR LENGTH "${END_POS} - ${START_POS_ADJUSTED}")
-    message(STATUS "LENGTH = ${LENGTH}")
-
-    string(SUBSTRING ${VERSION_INFO_TEXT} ${START_POS_ADJUSTED} ${LENGTH} VERSION_SUBSTRING)
-    message(STATUS "VERSION_SUBSTRING = ${VERSION_SUBSTRING}")
-
-    string(REGEX MATCH "^[0-9]+[.][0-9]+" MATCHED ${VERSION_SUBSTRING})
-    message(STATUS "MATCHED = ${MATCHED}")
-
+  
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
 
-    if (NOT DEFINED MATLAB_RELEASE_VERSION)
-      # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
-      # find_package(Matlab) fails to derive the version from the root 
-      # directory. 
-      # 
-      # TODO: Add macro that derives the release version from VersionInfo.xml.
-      message(FATAL_ERROR "Must supply MATLAB_RELEASE_VERSION")
-    endif()
+    # Derive the MATLAB Release Version Number from VersionInfo.xml.
+    # The matlab_add_mex function needs to know the MATLAB Release Version
+    # Number (i.e. Matlab_VERSION_STRING) to properly compile MEX functions
+    set(VERSION_INFO_FILENAME "${Matlab_ROOT_DIR}/VersionInfo.xml")
+    file(READ ${VERSION_INFO_FILENAME} VERSION_INFO_TEXT)
+    string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" VERSION_XML_NODE ${VERSION_INFO_TEXT})
+    string(REGEX MATCH "([0-9]+[.])+[0-9]+" LONG_VERSION_STRING ${VERSION_XML_NODE})
+    string(REGEX MATCH "^[0-9]+[.][0-9]+" MATLAB_RELEASE_VERSION ${LONG_VERSION_STRING})
+    message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
 
     if (WIN32)
       MatlabSetWindowsVariables()
