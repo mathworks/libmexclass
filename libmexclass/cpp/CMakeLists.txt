@@ -125,7 +125,7 @@ macro(libmexclass_client_add_proxy_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS LINK_LIBRARIES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    include(cmake/MatlabConfigure)
+    include(cmake/MatlabConfigure.cmake)
     MatlabConfigure()
 
     #find_package(Matlab REQUIRED)
