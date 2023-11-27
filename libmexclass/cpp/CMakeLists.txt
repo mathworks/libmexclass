@@ -49,8 +49,25 @@ function(target_set_rpath_relocatable)
     endif()
 endfunction()
 
+macro(MatlabPrintVariables)
+  message(STATUS "Matlab_ROOT_DIR = ${Matlab_ROOT_DIR}")
+  message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
+  message(STATUS "Matlab_MX_LIBRARY = ${Matlab_MX_LIBRARY}")
+  message(STATUS "Matlab_MEX_LIBRARY = ${Matlab_MEX_LIBRARY}")
+  message(STATUS "Matlab_ENGINE_LIBRARY = ${Matlab_ENGINE_LIBRARY}")
+  message(STATUS "Matlab_DATAARRAY_LIBRARY = ${Matlab_DATAARRAY_LIBRARY}")
+  message(STATUS "Matlab_HAS_CPP_API = ${Matlab_HAS_CPP_API}")
+  message(STATUS "Matlab_MEX_EXTENSION = ${Matlab_MEX_EXTENSION}")
+  message(STATUS "Matlab_INCLUDE_DIRS = ${Matlab_INCLUDE_DIRS}")
+  message(STATUS "Matlab_BINARIES_DIR = ${Matlab_BINARIES_DIR}")
+  message(STATUS "Matlab_EXTERN_LIBRARY_DIR = ${Matlab_EXTERN_LIBRARY_DIR}")
+  message(STATUS "Matlab_EXTERN_BINARIES_DIR = ${Matlab_EXTERN_BINARIES_DIR}")
+endmacro()
+
 # Find MATLAB.
 find_package(Matlab REQUIRED)
+
+MatlabPrintVariables()
 
 # ###########
 # libmexclass
