@@ -103,7 +103,7 @@ macro(MatlabSetUnixVariables)
   set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/glnxa64")
 endmacro()
 
-macro(MatlabConfigure)
+macro(libmexclass_configure_matlab)
   find_package(Matlab REQUIRED)
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
     message(STATUS "Matlab_VERSION_STRING is unknown")
@@ -125,17 +125,19 @@ macro(MatlabConfigure)
     elseif(UNIX AND NOT CYGWIN)
       MatlabSetUnixVariables()
     else()
-      message(FATAL_ERROR "MatlabConfigure failed")
+      message(FATAL_ERROR "libmexclass_configure_matlab failed")
     endif()
 
+    message(STATUS "")
     message(STATUS "###################################################")
     MatlabPrintVariables()
     message(STATUS "###################################################")
+    message(STATUS "")
   endif()
 endmacro()
 
 # Find MATLAB.
-MatlabConfigure()
+#MatlabConfigure()
 
 # ###########
 # libmexclass
@@ -157,22 +159,28 @@ set(LIBMEXCLASS_SOURCES
 # Create libmexclass shared library target.
 set(LIBMEXCLASS_LIBRARY_NAME mexclass)
 add_library(${LIBMEXCLASS_LIBRARY_NAME} SHARED ${LIBMEXCLASS_SOURCES})
-set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-# Set compiler features to require C++17.
-target_compile_features(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE cxx_std_17)
+macro(libmexclass_configure_targets)
+  message(STATUS "LIBMEXCLASS_LIBRARY_NAME = ${LIBMEXCLASS_LIBRARY_NAME}")
 
-# Include directories (i.e. header files).
-set(LIBMEXCLASS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/include)
-target_include_directories(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
-target_include_directories(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
+  set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-# Link against MEX shared library.
-target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
-# Link against MATLAB Data Array shared library.
-target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
+  # Set compiler features to require C++17.
+  target_compile_features(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE cxx_std_17)
 
-target_set_rpath_relocatable(NAME ${LIBMEXCLASS_LIBRARY_NAME})
+  # Include directories (i.e. header files).
+  set(LIBMEXCLASS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/include)
+  target_include_directories(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_INCLUDE_DIRS})
+  target_include_directories(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${LIBMEXCLASS_INCLUDE_DIR})
+
+  # Link against MEX shared library.
+  target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
+  # Link against MATLAB Data Array shared library.
+  target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
+
+  target_set_rpath_relocatable(NAME ${LIBMEXCLASS_LIBRARY_NAME})
+
+endmacro()
 
 # TODO: Use Imported targets. This requires a newer version of CMake.
 # target_link_libraries(${LIBMEXCLASS_LIBRARY_NAME} PRIVATE Matlab::mex)
@@ -205,7 +213,7 @@ macro(libmexclass_client_add_proxy_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS LINK_LIBRARIES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    MatlabConfigure()
+   # MatlabConfigure()
 
     add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
     set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -255,7 +263,7 @@ macro(libmexclass_client_add_mex_gateway)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    MatlabConfigure()
+    # MatlabConfigure()
 
     matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
                    SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
