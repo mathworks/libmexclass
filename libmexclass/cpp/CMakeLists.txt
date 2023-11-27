@@ -113,8 +113,17 @@ macro(MatlabConfigure)
     message(STATUS "File content:")
     message(STATUS "${VERSION_INFO_TEXT}")
 
-    string(REGEX MATCH "<version>[\\S]+<\/version>" STRING_MATCH ${VERSION_INFO_TEXT})
-    message(STATUS "STRING_MATCH = ${STRING_MATCH}")
+    string(FIND ${VERSION_INFO_TEXT} "<version>" START_POS)
+    string(FIND ${VERSION_INFO_TEXT} "</version>" END_POS)
+    message(STATUS "START_POS = ${START_POS}")
+    MATH(EXPR START_POS_ADJUSTED "${START_POS} + 9")
+    message(STATUS "START_POS_ADJUSTED = ${START_POS_ADJUSTED}")
+    message(STATUS "END_POS = ${END_POS}")
+    MATH(EXPR LENGTH "${END_POS} - ${START_POS_ADJUSTED}")
+    message(STATUS "LENGTH = ${LENGTH}")
+
+    string(SUBSTRING ${START_POS_ADJUSTED} ${LENGTH} VERSION_SUBSTRING)
+    message(STATUS "VERSION_SUBSTRING = ${VERSION_SUBSTRING}")
 
     if (NOT DEFINED MATLAB_RELEASE_VERSION)
       # Temporarily require users to supply MATLAB_RELEASE_VERSION if 
