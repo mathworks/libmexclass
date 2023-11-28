@@ -4,6 +4,7 @@
 #include "libmexclass/proxy/Proxy.h"
 #include "libmexclass/error/Error.h"
 
+#include <deque>
 #include <memory>
 #include <unordered_map>
 #include <variant>
@@ -41,10 +42,12 @@ class ProxyManager {
     }
 
   private:
+    ID getRecycledID();
+
     static ProxyManager singleton;
     // The internal map used to associate Proxy instances with unique IDs.
     std::unordered_map<ID, std::shared_ptr<Proxy>> proxy_map;
-
+    
     // TODO: Consider whether it makes sense to "recycle" deleted IDs:
     //
     // 1. Whenever an ID is deleted, enqueue it into an queue of recycled IDs.
@@ -53,6 +56,8 @@ class ProxyManager {
     // 3. If the queue is empty, use the value of "current_id" and then
     //    increment it.
     ID current_proxy_id = 0;
+    std::deque<ID> recycled_ids;
+
 };
 
 } // namespace libmexclass::proxy
