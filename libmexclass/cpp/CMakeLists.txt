@@ -124,10 +124,10 @@ macro(MatlabConfigureVariables)
   set(Matlab_HAS_CPP_API 1)
   set(Matlab_VERSION_STRING "${MATLAB_RELEASE_VERSION}")
   set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
-  set(Matlab_ENGINE_LIBRARY "${MATLAB_EXTERN_BIN_DIR}/libMatlabEngine${CMAKE_SHARED_LIBRARY_SUFFIX}")
-  set(Matlab_DATAARRAY_LIBRARY "${MATLAB_BIN_DIR}/libMatlabDataArray${CMAKE_SHARED_LIBRARY_SUFFIX}")
-  set(Matlab_MEX_LIBRARY "${MATLAB_BIN_DIR}/libmex${CMAKE_SHARED_LIBRARY_SUFFIX}")
-  set(Matlab_MX_LIBRARY "${MATLAB_BIN_DIR}/libmx${CMAKE_SHARED_LIBRARY_SUFFIX}")
+  set(Matlab_ENGINE_LIBRARY "${MATLAB_EXTERN_BIN_DIR}/libMatlabEngine${CMAKE_LINK_LIBRARY_SUFFIX}")
+  set(Matlab_DATAARRAY_LIBRARY "${MATLAB_BIN_DIR}/libMatlabDataArray${CMAKE_LINK_LIBRARY_SUFFIX}")
+  set(Matlab_MEX_LIBRARY "${MATLAB_BIN_DIR}/libmex${CMAKE_LINK_LIBRARY_SUFFIX}")
+  set(Matlab_MX_LIBRARY "${MATLAB_BIN_DIR}/libmx${CMAKE_LINK_LIBRARY_SUFFIX}")
 
   set(Matlab_EXTERN_LIBRARY_DIR "${MATLAB_EXTERN_LIB_DIR}")
 endmacro()
@@ -152,10 +152,10 @@ endmacro()
 macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
-  message(STATUS "CMAKE_SHARED_LIBRARY_SUFFIX = ${CMAKE_SHARED_LIBRARY_SUFFIX}")
   
   MatlabUnsetVariables()
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+    message(STATUS "CMAKE_LINK_LIBRARY_SUFFIX = ${CMAKE_LINK_LIBRARY_SUFFIX}")
 
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
     # The matlab_add_mex function needs to know the MATLAB Release Version
