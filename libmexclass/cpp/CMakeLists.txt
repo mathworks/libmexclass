@@ -139,7 +139,7 @@ set(LIBMEXCLASS_SOURCES
 
 # Create libmexclass shared library target.
 set(LIBMEXCLASS_LIBRARY_NAME mexclass)
-add_library(mexclass SHARED ${LIBMEXCLASS_SOURCES})
+add_library(${LIBMEXCLASS_LIBRARY_NAME} SHARED ${LIBMEXCLASS_SOURCES})
 
 set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
