@@ -129,7 +129,7 @@ macro(MatlabConfigureVariables)
   set(Matlab_MEX_LIBRARY "${MATLAB_BIN_DIR}/libmex${CMAKE_SHARED_LIBRARY_SUFFIX}")
   set(Matlab_MX_LIBRARY "${MATLAB_BIN_DIR}/libmx${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
-  set(Matlab_EXTERN_LIBRARY_DIR "${MATLAB_EXTERN_LIB_DIR")
+  set(Matlab_EXTERN_LIBRARY_DIR "${MATLAB_EXTERN_LIB_DIR}")
 endmacro()
 
 macro(MatlabUnsetVariables)
