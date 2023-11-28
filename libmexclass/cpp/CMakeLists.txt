@@ -49,8 +49,76 @@ function(target_set_rpath_relocatable)
     endif()
 endfunction()
 
+# Debugging utility function
+macro(MatlabPrintVariables)
+  message(STATUS "Matlab_ROOT_DIR = ${Matlab_ROOT_DIR}")
+  message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
+  message(STATUS "Matlab_MX_LIBRARY = ${Matlab_MX_LIBRARY}")
+  message(STATUS "Matlab_MEX_LIBRARY = ${Matlab_MEX_LIBRARY}")
+  message(STATUS "Matlab_ENGINE_LIBRARY = ${Matlab_ENGINE_LIBRARY}")
+  message(STATUS "Matlab_DATAARRAY_LIBRARY = ${Matlab_DATAARRAY_LIBRARY}")
+  message(STATUS "Matlab_HAS_CPP_API = ${Matlab_HAS_CPP_API}")
+  message(STATUS "Matlab_MEX_EXTENSION = ${Matlab_MEX_EXTENSION}")
+  message(STATUS "Matlab_INCLUDE_DIRS = ${Matlab_INCLUDE_DIRS}")
+  message(STATUS "Matlab_EXTERN_LIBRARY_DIR = ${Matlab_EXTERN_LIBRARY_DIR}")
+endmacro()
+
+# Sets variables required by FindMatlab's matlab_add_mex function. These 
+# variables are normally configured by FindMatlab (i.e. find_package(MATLAB REQUIRED)),
+# but FindMatlab sporadically fails to detect the MATLAB Release Version. If so, 
+# manually configure the required variables.
+macro(MatlabConfigureVariables)
+  if(WIN32)
+    set(MATLAB_BIN_DIR "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft")
+    set(MATLAB_EXTERN_BIN_DIR "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft")
+    set(MATLAB_EXTERN_LIB_DIR "${Matlab_ROOT_DIR}/extern/lib/win64")
+    set(SHARED_LIB_SUFFIX "${CMAKE_LINK_LIBRARY_SUFFIX}")
+  else()
+    set(SHARED_LIB_SUFFIX "${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    if(APPLE)
+      set(PLATFORM_FOLDER "maci64")
+    elseif(UNIX AND NOT CYGWIN)
+      set(PLATFORM_FOLDER "glnxa64")
+    else()
+      message(FATAL_ERROR "Unsupported platform")
+    endif()
+    set(MATLAB_BIN_DIR "${Matlab_ROOT_DIR}/bin/${PLATFORM_FOLDER}")
+    set(MATLAB_EXTERN_BIN_DIR "${Matlab_ROOT_DIR}/extern/bin/${PLATFORM_FOLDER}")
+    set(MATLAB_EXTERN_LIB_DIR "${Matlab_ROOT_DIR}/extern/lib/${PLATFORM_FOLDER}")
+  endif()
+
+  set(Matlab_HAS_CPP_API 1)
+  set(Matlab_VERSION_STRING "${MATLAB_RELEASE_VERSION}")
+  set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
+  set(Matlab_ENGINE_LIBRARY "${MATLAB_EXTERN_BIN_DIR}/libMatlabEngine${SHARED_LIB_SUFFIX}")
+  set(Matlab_DATAARRAY_LIBRARY "${MATLAB_BIN_DIR}/libMatlabDataArray${SHARED_LIB_SUFFIX}")
+  set(Matlab_MEX_LIBRARY "${MATLAB_BIN_DIR}/libmex${SHARED_LIB_SUFFIX}")
+  set(Matlab_MX_LIBRARY "${MATLAB_BIN_DIR}/libmx${SHARED_LIB_SUFFIX}")
+  set(Matlab_EXTERN_LIBRARY_DIR "${MATLAB_EXTERN_LIB_DIR}")
+endmacro()
+
+# Finds MATLAB and configures the variables necessary for building libmexclass,
+# client proxy libraries, and client proxy mex gateway functions.
+macro(MatlabConfigure)
+  find_package(Matlab REQUIRED)
+  message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
+
+  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+    # Derive the MATLAB Release Version Number from VersionInfo.xml.
+    # The matlab_add_mex function needs to know the MATLAB Release Version Number
+    # (i.e. Matlab_VERSION_STRING) in order to properly compile MEX functions.
+    set(VERSION_INFO_FILENAME "${Matlab_ROOT_DIR}/VersionInfo.xml")
+    file(READ ${VERSION_INFO_FILENAME} VERSION_INFO_TEXT)
+    string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" VERSION_XML_NODE ${VERSION_INFO_TEXT})
+    string(REGEX MATCH "([0-9]+[.])+[0-9]+" LONG_VERSION_STRING ${VERSION_XML_NODE})
+    string(REGEX MATCH "^[0-9]+[.][0-9]+" MATLAB_RELEASE_VERSION ${LONG_VERSION_STRING})
+    message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
+    MatlabConfigureVariables()
+  endif()
+endmacro()
+
 # Find MATLAB.
-find_package(Matlab REQUIRED)
+MatlabConfigure()
 
 # ###########
 # libmexclass
@@ -72,6 +140,7 @@ set(LIBMEXCLASS_SOURCES
 # Create libmexclass shared library target.
 set(LIBMEXCLASS_LIBRARY_NAME mexclass)
 add_library(${LIBMEXCLASS_LIBRARY_NAME} SHARED ${LIBMEXCLASS_SOURCES})
+
 set_target_properties(${LIBMEXCLASS_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # Set compiler features to require C++17.
@@ -120,7 +189,7 @@ macro(libmexclass_client_add_proxy_library)
     set(multiValueArgs SOURCES INCLUDE_DIRS LINK_LIBRARIES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_PROXY_LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    find_package(Matlab REQUIRED)
+    MatlabConfigure()
 
     add_library(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} SHARED ${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_SOURCES})
     set_target_properties(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -170,7 +239,7 @@ macro(libmexclass_client_add_mex_gateway)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(LIBMEXCLASS_CLIENT_MEX_GATEWAY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    find_package(Matlab REQUIRED)
+     MatlabConfigure()
 
     matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
                    SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
