@@ -110,7 +110,7 @@ macro(MatlabConfigureVariables)
     set(MATLAB_EXTERN_BIN_DIR "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft")
     set(MATLAB_EXTERN_LIB_DIR "${Matlab_ROOT_DIR}/extern/lib/win64")
     set(SHARED_LIB_SUFFIX "${CMAKE_LINK_LIBRARY_SUFFIX}")
-  else
+  else()
     set(SHARED_LIB_SUFFIX "${CMAKE_SHARED_LIBRARY_SUFFIX}")
     if(APPLE)
       set(PLATFORM_FOLDER "maci64")
