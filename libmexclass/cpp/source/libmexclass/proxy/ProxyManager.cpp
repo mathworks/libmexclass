@@ -11,7 +11,7 @@ ID ProxyManager::getRecycledID() {
 ID ProxyManager::manageProxy(const std::shared_ptr<Proxy> &proxy) {
     const ID proxy_id = ProxyManager::singleton.recycled_ids.empty() 
       ? ProxyManager::singleton.current_proxy_id++
-      : ProxyManager.singleton.getRecycledID();
+      : ProxyManager::singleton.getRecycledID();
     ProxyManager::singleton.proxy_map[proxy_id] = proxy;
     return proxy_id;
 }
