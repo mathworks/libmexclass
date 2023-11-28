@@ -119,11 +119,29 @@ macro(MatlabConfigureVariables)
   set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/glnxa64")
 endmacro()
 
+macro(MatlabUnsetVariables)
+  set(Matlab_VERSION_STRING "unknown")
+  unset(Matlab_INCLUDE_DIRS)
+
+  unset(Matlab_HAS_CPP_API)
+
+  unset(Matlab_ENGINE_LIBRARY)
+  unset(Matlab_DATAARRAY_LIBRARY)
+  unset(Matlab_MEX_LIBRARY)
+  unset(Matlab_MX_LIBRARY)
+
+  unset(Matlab_EXTERN_LIBRARY_DIR)
+  unset(Matlab_BINARIES_DIR)
+  unset(Matlab_EXTERN_BINARIES_DIR)
+
+endmacro()
+
 macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
   message(STATUS "CMAKE_SHARED_LIBRARY_SUFFIX = ${CMAKE_SHARED_LIBRARY_SUFFIX}")
-
+  
+  MatlabUnsetVariables()
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
 
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
