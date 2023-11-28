@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.0.0)
 
 # CMake policy CM0074 must be set explicitly by any client project 
 # that wants to use find_package with a <PACKAGE>_ROOT variable. 
@@ -49,6 +49,7 @@ function(target_set_rpath_relocatable)
     endif()
 endfunction()
 
+# Debugging utility function
 macro(MatlabPrintVariables)
   message(STATUS "Matlab_ROOT_DIR = ${Matlab_ROOT_DIR}")
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
@@ -62,6 +63,10 @@ macro(MatlabPrintVariables)
   message(STATUS "Matlab_EXTERN_LIBRARY_DIR = ${Matlab_EXTERN_LIBRARY_DIR}")
 endmacro()
 
+# Sets variables required by FindMatlab's matlab_add_mex function. These 
+# variables are normally configured by FindMatlab (i.e. find_package(MATLAB REQUIRED)),
+# but FindMatlab sporadically fails to detect the MATLAB Release Version. If so, 
+# manually configure the required variables.
 macro(MatlabConfigureVariables)
   if(WIN32)
     set(MATLAB_BIN_DIR "${Matlab_ROOT_DIR}/extern/lib/win64/microsoft")
@@ -92,14 +97,16 @@ macro(MatlabConfigureVariables)
   set(Matlab_EXTERN_LIBRARY_DIR "${MATLAB_EXTERN_LIB_DIR}")
 endmacro()
 
+# Finds MATLAB and configures the variables necessary for building libmexclass,
+# client proxy libraries, and client proxy mex gateway functions.
 macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
 
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
-    # The matlab_add_mex function needs to know the MATLAB Release Version
-    # Number (i.e. Matlab_VERSION_STRING) to properly compile MEX functions
+    # The matlab_add_mex function needs to know the MATLAB Release Version Number
+    # (i.e. Matlab_VERSION_STRING) in order to properly compile MEX functions.
     set(VERSION_INFO_FILENAME "${Matlab_ROOT_DIR}/VersionInfo.xml")
     file(READ ${VERSION_INFO_FILENAME} VERSION_INFO_TEXT)
     string(REGEX MATCH "<version>([0-9]+[.])+[0-9]+</version>" VERSION_XML_NODE ${VERSION_INFO_TEXT})
