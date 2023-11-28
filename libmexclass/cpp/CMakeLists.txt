@@ -96,7 +96,6 @@ macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
 
-  MatlabUnsetVariables()
   if (${Matlab_VERSION_STRING} STREQUAL "unknown")
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
     # The matlab_add_mex function needs to know the MATLAB Release Version
