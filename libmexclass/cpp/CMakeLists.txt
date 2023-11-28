@@ -95,11 +95,12 @@ macro(MatlabSetUnixVariables)
   set(Matlab_ENGINE_LIBRARY "${Matlab_ROOT_DIR}/extern/bin/glnxa64/libMatlabEngine.so")
   set(Matlab_DATAARRAY_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libMatlabDataArray.so")
   set(Matlab_MEX_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libmex.so")
+  
   set(Matlab_HAS_CPP_API 1)
   set(Matlab_MX_LIBRARY "${Matlab_ROOT_DIR}/bin/glnxa64/libmx.so")
   set(Matlab_EXTERN_LIBRARY_DIR "${Matlab_ROOT_DIR}/extern/lib/glnxa64")
   set(Matlab_INCLUDE_DIRS "${Matlab_ROOT_DIR}/extern/include")
-  set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/glnxa64")
+ # set(Matlab_BINARIES_DIR "${Matlab_ROOT_DIR}/bin/glnxa64")
   set(Matlab_EXTERN_BINARIES_DIR "${Matlab_ROOT_DIR}/extern/bin/glnxa64")
 endmacro()
 
