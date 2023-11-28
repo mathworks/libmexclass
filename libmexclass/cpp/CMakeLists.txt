@@ -176,7 +176,7 @@ macro(MatlabConfigure)
   #   else()
   #     message(FATAL_ERROR "MatlabConfigure failed")
   #   endif()
-  # endif()
+  endif()
 endmacro()
 
 # Find MATLAB.
