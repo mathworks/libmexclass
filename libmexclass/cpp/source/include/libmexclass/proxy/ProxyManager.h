@@ -48,14 +48,13 @@ class ProxyManager {
     // The internal map used to associate Proxy instances with unique IDs.
     std::unordered_map<ID, std::shared_ptr<Proxy>> proxy_map;
     
-    // TODO: Consider whether it makes sense to "recycle" deleted IDs:
-    //
-    // 1. Whenever an ID is deleted, enqueue it into an queue of recycled IDs.
-    // 2. The getNextId() method should first check if the queue has any
-    //    recycled IDs in it. If so, dequeue the first one and use it.
-    // 3. If the queue is empty, use the value of "current_id" and then
-    //    increment it.
+
+    // The next proxy id to hande out if recycled_ids is empty.
     ID current_proxy_id = 0;
+
+    // A list of previously managed proxy ids that can be re-used.
+    // If this deque is not empty, manageProxy removes ID at the
+    // front of the deque to use as the next proxy ID.
     std::deque<ID> recycled_ids;
 
 };
