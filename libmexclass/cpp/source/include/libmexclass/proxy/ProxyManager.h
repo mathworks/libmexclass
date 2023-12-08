@@ -52,7 +52,7 @@ class ProxyManager {
     ID current_proxy_id = 0;
 
     // A list of previously managed proxy ids that can be re-used.
-    // If this deque is not empty, manageProxy pops the ID from the
+    // If there are recycled IDs available, then manageProxy will always use those first, before creating a new ID.
     // front of the deque and uses it the next proxy ID.
     std::deque<ID> recycled_ids;
 
