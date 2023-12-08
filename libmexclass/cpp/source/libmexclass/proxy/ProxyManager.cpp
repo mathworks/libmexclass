@@ -4,6 +4,7 @@ namespace libmexclass::proxy {
 
 ID ProxyManager::getRecycledID() {
   auto proxy_id = ProxyManager::singleton.recycled_ids.front();
+  // Remove the first recycled ID (which will be returned by getRecycledID) from the deque of recycled IDs.
   ProxyManager::singleton.recycled_ids.pop_front();
   return proxy_id;
 }
