@@ -105,7 +105,7 @@ macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
 
-  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+  #if (${Matlab_VERSION_STRING} STREQUAL "unknown")
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
     # The matlab_add_mex function needs to know the MATLAB Release Version Number
     # (i.e. Matlab_VERSION_STRING) in order to properly compile MEX functions.
@@ -116,7 +116,7 @@ macro(MatlabConfigure)
     string(REGEX MATCH "^[0-9]+[.][0-9]+" MATLAB_RELEASE_VERSION ${LONG_VERSION_STRING})
     message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
     MatlabConfigureVariables()
-  endif()
+  #endif()
   MatlabPrintVariables()
 endmacro()
 
