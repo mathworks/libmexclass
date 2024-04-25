@@ -43,7 +43,6 @@ function(target_set_rpath_relocatable)
     cmake_parse_arguments(LIBMEXCLASS_TARGET_SET_RPATH "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     
     if(APPLE)
-        message(STATUS "APPLE HERE")
         set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "@loader_path")
     else()
         set_target_properties(${LIBMEXCLASS_TARGET_SET_RPATH_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
@@ -108,7 +107,7 @@ macro(MatlabConfigure)
   find_package(Matlab REQUIRED)
   message(STATUS "Matlab_VERSION_STRING = ${Matlab_VERSION_STRING}")
 
-  #if (${Matlab_VERSION_STRING} STREQUAL "unknown")
+  if (${Matlab_VERSION_STRING} STREQUAL "unknown")
     # Derive the MATLAB Release Version Number from VersionInfo.xml.
     # The matlab_add_mex function needs to know the MATLAB Release Version Number
     # (i.e. Matlab_VERSION_STRING) in order to properly compile MEX functions.
@@ -119,9 +118,7 @@ macro(MatlabConfigure)
     string(REGEX MATCH "^[0-9]+[.][0-9]+" MATLAB_RELEASE_VERSION ${LONG_VERSION_STRING})
     message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
     MatlabConfigureVariables()
-  #endif()
-  message(STATUS "PRINT HERE")
-  MatlabPrintVariables()
+  endif()
 endmacro()
 
 # Find MATLAB.
