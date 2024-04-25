@@ -15,7 +15,7 @@ jobs:
               run: |
                   cd example
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
-                  cmake --build build --config Release --target install
+                  cmake --build build --config Release --target install --verbose
             - name: Run Example
               uses: matlab-actions/run-command@v2
               env:
