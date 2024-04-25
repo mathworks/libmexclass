@@ -117,6 +117,7 @@ macro(MatlabConfigure)
     message(STATUS "MATLAB_RELEASE_VERSION = ${MATLAB_RELEASE_VERSION}")
     MatlabConfigureVariables()
   #endif()
+  message(STATUS "PRINT HERE")
   MatlabPrintVariables()
 endmacro()
 
