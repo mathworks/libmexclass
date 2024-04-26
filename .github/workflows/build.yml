@@ -10,14 +10,14 @@ jobs:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
             - name: Install MATLAB
-              uses: matlab-actions/setup-matlab@v2
+              uses: v2@v2
             - name: Build Example
               run: |
                   cd example
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
                   cmake --build build --config Release --target install
             - name: Run Example
-              uses: matlab-actions/run-command@v1
+              uses: matlab-actions/run-command@v2
               env:
                   # The version of libstdc++ that is bundled with MATLAB is used when building MEX files.
                   # This version of libstdc++ is incompatible with the system version of libstdc++.
@@ -33,14 +33,14 @@ jobs:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
             - name: Install MATLAB
-              uses: matlab-actions/setup-matlab@v2
+              uses: v2@v2
             - name: Build Example
               run: |
                   cd example
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
                   cmake --build build --config Release --target install
             - name: Run Example
-              uses: matlab-actions/run-command@v1
+              uses: matlab-actions/run-command@v2
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
     windows:
@@ -53,7 +53,7 @@ jobs:
             - name: Download libmexclass source code
               uses: actions/checkout@v3
             - name: Install MATLAB
-              uses: matlab-actions/setup-matlab@v2
+              uses: v2@v2
             - name: Build Example
               run: |
                   cd example
@@ -61,6 +61,6 @@ jobs:
                   cmake -S . -B build -D CMAKE_INSTALL_PREFIX=${{ env.LIBMEXCLASS_INSTALL_PREFIX }} -D LIBMEXCLASS_FETCH_CONTENT_GIT_TAG=${{ github.sha }}
                   cmake --build build --config Release --target install
             - name: Run Example
-              uses: matlab-actions/run-command@v1
+              uses: matlab-actions/run-command@v2
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
