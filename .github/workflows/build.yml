@@ -12,7 +12,7 @@ jobs:
             - name: Install MATLAB
               uses: matlab-actions/setup-matlab@v2
               with:
-                release: R2024
+                release: R2024a
             - name: Build Example
               run: |
                   cd example
@@ -37,7 +37,7 @@ jobs:
             - name: Install MATLAB
               uses: matlab-actions/setup-matlab@v2
               with:
-                release: R2024
+                release: R2024a
             - name: Build Example
               run: |
                   cd example
@@ -59,7 +59,7 @@ jobs:
             - name: Install MATLAB
               uses: matlab-actions/setup-matlab@v2
               with:
-                release: R2024
+                release: R2024a
             - name: Build Example
               run: |
                   cd example
