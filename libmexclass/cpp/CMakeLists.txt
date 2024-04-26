@@ -241,6 +241,22 @@ macro(libmexclass_client_add_mex_gateway)
 
      MatlabConfigure()
 
+    # By default matlab_add_mex automatically links the output MEX function
+    # against all MEX-related libraries.
+    #
+    # These include: 
+    #  - libmx
+    #  - libmex
+    #  - libMatlabDataArray
+    #  - libMatlabEngine
+    #
+    # However, libMatlabEngine is only required for standalone C++ programs 
+    # that utilize the MATLAB Engine.
+    #
+    # Avoid linking against libMatlabEngine by supplying the
+    #  NO_IMPLICIT_LINK_TO_MATLAB_LIBRARIES flag and manually passing
+    # the required mex-related libraries as arguments for the LINK_TO parameter.
+    #
     matlab_add_mex(NAME ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_NAME}
                    SRC ${LIBMEXCLASS_CLIENT_MEX_GATEWAY_SOURCES}
                    OUTPUT_NAME "gateway"
