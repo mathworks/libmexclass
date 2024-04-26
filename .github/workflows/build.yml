@@ -13,6 +13,7 @@ jobs:
               uses: matlab-actions/setup-matlab@v2
               with:
                 release: R2024a
+                cache: true
             - name: Build Example
               run: |
                   cd example
@@ -38,6 +39,7 @@ jobs:
               uses: matlab-actions/setup-matlab@v2
               with:
                 release: R2024a
+                cache: true
             - name: Build Example
               run: |
                   cd example
@@ -60,6 +62,7 @@ jobs:
               uses: matlab-actions/setup-matlab@v2
               with:
                 release: R2024a
+                cache: true
             - name: Build Example
               run: |
                   cd example

@@ -80,5 +80,3 @@ We welcome external contributions! Feel free to open a pull request!
 For more information, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Copyright &copy; 2022, The MathWorks, Inc.
-
-
