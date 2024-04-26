@@ -10,7 +10,7 @@ jobs:
             - name: Download libmexclass source code
               uses: actions/checkout@v4
             - name: Install MATLAB
-              uses: v2@v2
+              uses: matlab-actions/setup-matlab@v2
             - name: Build Example
               run: |
                   cd example
@@ -33,7 +33,7 @@ jobs:
             - name: Download libmexclass source code
               uses: actions/checkout@v4
             - name: Install MATLAB
-              uses: v2@v2
+              uses: matlab-actions/setup-matlab@v2
             - name: Build Example
               run: |
                   cd example
@@ -53,7 +53,7 @@ jobs:
             - name: Download libmexclass source code
               uses: actions/checkout@v4
             - name: Install MATLAB
-              uses: v2@v2
+              uses: matlab-actions/setup-matlab@v2
             - name: Build Example
               run: |
                   cd example
