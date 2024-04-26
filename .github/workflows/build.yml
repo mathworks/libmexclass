@@ -2,7 +2,7 @@ name: "libmexclass"
 on: [push]
 jobs:
     linux:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-22.04
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
             SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
@@ -26,7 +26,7 @@ jobs:
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
     mac:
-        runs-on: macos-12
+        runs-on: macos-14
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "~/install"
         steps:
@@ -44,7 +44,7 @@ jobs:
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
     windows:
-        runs-on: windows-latest
+        runs-on: windows-2022
         env:
             LIBMEXCLASS_INSTALL_PREFIX: ${{ vars.RUNNER_TEMP }}/install
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
