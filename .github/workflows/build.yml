@@ -8,7 +8,7 @@ jobs:
             SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
         steps:
             - name: Download libmexclass source code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Install MATLAB
               uses: v2@v2
             - name: Build Example
@@ -31,7 +31,7 @@ jobs:
             LIBMEXCLASS_INSTALL_PREFIX: "~/install"
         steps:
             - name: Download libmexclass source code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Install MATLAB
               uses: v2@v2
             - name: Build Example
@@ -51,7 +51,7 @@ jobs:
             LIBMEXCLASS_GIT_TAG: ${{ vars.GITHUB_SHA }}
         steps:
             - name: Download libmexclass source code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Install MATLAB
               uses: v2@v2
             - name: Build Example
