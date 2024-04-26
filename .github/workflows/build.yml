@@ -2,7 +2,7 @@ name: "libmexclass"
 on: [push]
 jobs:
     linux:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-22.04
         env:
             LIBMEXCLASS_INSTALL_PREFIX: "/home/runner/work/install"
             SYSTEM_LIBSTDCPP_PATH: "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
