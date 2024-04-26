@@ -44,7 +44,7 @@ jobs:
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
     windows:
-        runs-on: windows-latest
+        runs-on: windows-2022
         env:
             LIBMEXCLASS_INSTALL_PREFIX: ${{ vars.RUNNER_TEMP }}/install
             # Use the commit SHA that triggered the workflow to run the example on latest changes.
