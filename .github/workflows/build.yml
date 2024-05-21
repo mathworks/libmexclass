@@ -1,5 +1,8 @@
 name: "libmexclass"
-on: [push]
+on: 
+  push:
+  schedule: 
+    - cron: 0 23 * * *
 jobs:
     linux:
         runs-on: ubuntu-22.04
