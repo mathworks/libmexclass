@@ -208,6 +208,9 @@ macro(libmexclass_client_add_proxy_library)
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE mexclass)
     # Link against MATLAB Data Array shared library.
     target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_DATAARRAY_LIBRARY})
+    # Link against MEX shared library.
+    target_link_libraries(${LIBMEXCLASS_CLIENT_PROXY_LIBRARY_NAME} PRIVATE ${Matlab_MEX_LIBRARY})
+
     
     define_property(
         TARGET
