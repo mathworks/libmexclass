@@ -2,7 +2,7 @@ name: "libmexclass"
 on: 
   push:
   schedule: 
-    - cron: '0 23 * * *'
+    - cron: '*/5 * * *'
 jobs:
     linux:
         runs-on: ubuntu-22.04
