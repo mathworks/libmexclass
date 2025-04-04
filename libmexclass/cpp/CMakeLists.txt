@@ -1,3 +1,4 @@
+# Required for CMake version 4.0.0
 cmake_minimum_required(VERSION 3.6.0)
 
 # CMake policy CM0074 must be set explicitly by any client project 
