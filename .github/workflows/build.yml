@@ -76,4 +76,3 @@ jobs:
               uses: matlab-actions/run-command@v2
               with:
                   command: addpath(fullfile("${{ env.LIBMEXCLASS_INSTALL_PREFIX }}")), addpath(fullfile("example", "matlab")), c = example.Car("A", "B", "C")
-
